@@ -1,0 +1,94 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+.dataTables_length  {
+    @apply   mt-5 mb-5 dark:text-white text-gray-600 text-sm;
+}
+
+.dataTables_length > label {
+    @apply dark:text-white text-gray-600 text-sm;
+    @apply  max-md:hidden;
+    
+}
+
+.dataTables_length > label > select {
+    @apply min-w-[55px] !mx-0 text-sm
+}
+
+.dataTables_length > label > select > option {
+    @apply dark:bg-gray-900 bg-white text-sm
+} 
+
+.dataTables_filter{
+    @apply mt-5 mb-5 text-sm;
+    @apply max-md:!float-start;
+}
+
+.dataTables_filter > label{
+    @apply dark:text-white text-gray-600 text-sm
+}
+
+
+.dataTables_wrapper .dataTables_filter input {
+     margin-left: 10px !important;
+     @apply text-sm;
+}
+
+
+.dataTables_wrapper .dataTables_length select {
+    margin-left: 2px !important;
+    margin-right: 2px !important;
+    @apply text-sm;
+}
+
+.table-container {
+    overflow-y: auto; 
+    overflow-x: auto; 
+}
+
+
+.dataTables_info {
+    @apply mt-5 dark:!text-white !text-gray-600 text-sm;
+    @apply max-md:!hidden;
+}
+
+.dataTables_paginate{
+    @apply mt-5 dark:!text-white !text-gray-600 !mt-5  !p-0 text-sm rounded-lg !px-1;  
+    @apply max-sm:!px-1  max-md:!float-start
+}
+
+#table_previous, #table_next{
+    @apply dark:!text-white  !text-gray-600 text-sm px-3 border-none;
+    @apply !text-center max-sm:!px-1 max-sm:!py-1 ;
+    margin-right: 0px !important;
+}
+
+#table_first, #table_last{
+    @apply dark:!text-white  !text-gray-600 text-sm px-0 border-none;
+    @apply !text-center ;
+    margin-right: 0px !important;
+}
+
+.paginate_button {
+    background: none !important;
+    margin-left: 0px !important;
+   
+    @apply !rounded-none !border-none !text-gray-500 bg-gray-700;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button.current, 
+.dataTables_wrapper .dataTables_paginate .paginate_button.current:hover{
+    color:white !important;
+    
+    @apply !bg-gray-500 max-w-[20px] !p-1 !px-2 !text-center !aspect-square !text-white text-sm;
+}
+
+
+table.dataTable thead th, table.dataTable thead td , table.dataTable.no-footer {
+    @apply border-gray-300;
+}
+
+
+
