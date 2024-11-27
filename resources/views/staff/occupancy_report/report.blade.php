@@ -14,27 +14,29 @@
        
        
     </div>
-    
-
-
-
-    <script>
 
             @if ($hour_error)
 
-            document.getElementById('hour_error').innerHTML = '{{$hour_error}}';
+            <script> document.getElementById('hour_error').innerHTML = '{{$hour_error}}'; </script>
             
             @else
-
+            <script>
+           
+           
             const hours = @json($hours);
             const counts = @json($counts);
-
+               
+             console.log(e)
+                
+               
+               
+            </script>
             <script src="{{url('js/graphic.js')}}"></script>
 
             @endif
 
 
-    </script>
+
   
 </x-staff-app-layout>
 

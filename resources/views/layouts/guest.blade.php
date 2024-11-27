@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html class="h-dvh w-full" lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -14,8 +14,9 @@
         <!-- Scripts -->
         
          @vite(['resources/css/app.css', 'resources/js/app.js'])
+         <script src="https://kit.fontawesome.com/ff3606fe13.js" crossorigin="anonymous"></script>
     </head>
-    <body style="margin:0px" class="font-sanstext-gray-900 ">
+    <body style="margin:0px" class="dark font-sanstext-gray-900 h-full w-full">
        
            
            

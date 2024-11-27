@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 use Carbon\Carbon;
 use App\Models\Occupancy;
+use App\Models\Person_enter;
+use App\Models\Person_exit;
 use Illuminate\Http\Request;
 
 class OccupancyController extends Controller
@@ -48,38 +50,24 @@ class OccupancyController extends Controller
     }
 
    
-    public function create()
-    {
-        //
+    public function occupancy(){
+
+        $person = Person_enter::whereBetween('timestamp', [Carbon::today('Asia/Kuala_Lumpur')->startOfDay(), Carbon::today('Asia/Kuala_Lumpur')->endOfDay()])->get();
+        $person_exit = Person_exit::all(); 
+
+        $person_at_library = $person->filter(function ($item) {
+           
+            return $item->person_id_exit === null;
+        });
+
+
+        return view('staff.occupancy.occupancy', [
+            'person' => $person,
+            'person_at_library' => $person_at_library,
+            'person_exit' => $person_exit,
+        ]);
+
+
     }
 
-   
-    public function store(Request $request)
-    {
-        //
-    }
-
-   
-    public function show(Occupancy $occupancy)
-    {
-        //
-    }
-
-    
-    public function edit(Occupancy $occupancy)
-    {
-        //
-    }
-
-    
-    public function update(Request $request, Occupancy $occupancy)
-    {
-        //
-    }
-
-    
-    public function destroy(Occupancy $occupancy)
-    {
-        //
-    }
 }

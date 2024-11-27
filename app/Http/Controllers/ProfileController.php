@@ -14,9 +14,13 @@ class ProfileController extends Controller
     /**
      * Display the user's profile form.
      */
+    
+
     public function edit(Request $request): View
     {
-        return view('profile.edit', [
+        $path = $this->toRedirect();
+
+        return view($path.'.profile.edit', [
             'user' => $request->user(),
         ]);
     }
@@ -26,6 +30,8 @@ class ProfileController extends Controller
      */
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
+        $path = $this->toRedirect();
+
         $request->user()->fill($request->validated());
 
         if ($request->user()->isDirty('email')) {
@@ -34,7 +40,7 @@ class ProfileController extends Controller
 
         $request->user()->save();
 
-        return Redirect::route('profile.edit')->with('status', 'profile-updated');
+        return Redirect::route($path.'.profile.edit')->with('status', 'profile-updated');
     }
 
     /**
@@ -56,5 +62,11 @@ class ProfileController extends Controller
         $request->session()->regenerateToken();
 
         return Redirect::to('/');
+    }
+
+
+    public function toRedirect(){
+        $role = auth()->user()->role;
+        return $path = $role == 1 ?  'staff' : 'student'; 
     }
 }

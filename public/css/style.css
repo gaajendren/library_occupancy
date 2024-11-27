@@ -1,0 +1,22 @@
+body,html{
+ min-height: 100vh;
+ min-width: 100%;
+ width: 100%;
+ box-sizing: border-box;
+ padding: 0;
+ margin: 0;
+}
+
+body{
+    height: auto;
+}
+
+
+
+#sidebar-header{
+    width: calc(100% - 10px);
+}
+
+.contains{
+    min-height: calc(100vh - 68px);
+}
