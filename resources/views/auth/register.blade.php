@@ -24,7 +24,7 @@
 
     </style>
 
-    <section class="bg-gray-50 h-full dark:bg-gray-900">
+    <section class="bg-gray-50 min-h-screen dark:bg-gray-900">
         <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto h-full lg:py-0  w-full">
           
             <div class="w-full bg-white rounded-lg shadow dark:border mt-16 mb-16  max-w-[600px] xl:p-0 dark:bg-gray-800 dark:border-gray-700">

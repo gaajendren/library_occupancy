@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\OccupancyController;
+use App\Http\Controllers\RoomController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['guest','verified'])->get('/', function () {
@@ -43,7 +44,22 @@ Route::prefix('staff')->name('staff.')->middleware(['auth', 'verified', 'role:1'
 
     Route::get('/occupancy', [OccupancyController::class, 'occupancy'])->name('occupancy');
 
+    Route::get('/room', [RoomController::class, 'index'])->name('room');
+
+    Route::get('/room/add', [RoomController::class, 'create'])->name('add.room');
+    Route::post('/room/store', [RoomController::class, 'store'])->name('store.room');
+    Route::get('/room/edit/{id}', [RoomController::class, 'edit'])->name('edit.room');
+    Route::patch('/room/update/{id}', [RoomController::class, 'update'])->name('update.room');
+    Route::get('/room/show/{id}', [RoomController::class, 'show'])->name('show.room');
+    
+    Route::delete('/room/show/{id}', [RoomController::class, 'destroy'])->name('delete.room');
+
+
 });
+
+
+Route::get('/api/occupancy/{date?}/{sort?}', [OccupancyController::class, 'occupancy_api'])->name('occupancy');
+
 
 Route::prefix('student')->name('student.')->middleware(['auth', 'verified', 'role:0'])->group(function () {
 
