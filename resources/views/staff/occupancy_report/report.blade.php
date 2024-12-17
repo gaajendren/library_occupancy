@@ -15,7 +15,7 @@
        
     </div>
 
-            @if ($hour_error)
+            @if ($hour_error ?? false )
 
             <script> document.getElementById('hour_error').innerHTML = '{{$hour_error}}'; </script>
             

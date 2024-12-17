@@ -13,9 +13,11 @@ class OccupancyController extends Controller
     public function index()
     {
         $yesterdayDate = Carbon::now('Asia/Kuala_Lumpur')->subDay()->toDateString();
+        $today = Carbon::now('Asia/Kuala_Lumpur')->startOfDay()->toDateString();
 
+        
 
-        [$hours, $counts] = $this->hour($yesterdayDate);
+        [$hours, $counts] = $this->hour($today);
 
         if(collect($hours)->isEmpty()){
            
