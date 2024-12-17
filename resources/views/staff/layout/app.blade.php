@@ -21,7 +21,7 @@
         
     </head>
     @if (request()->routeIs('staff.occupancy'))
-    <body class="relative">
+    <body class="relative bg-slate-50">
     @else
     <body>
     @endif
@@ -40,7 +40,7 @@
     
 
 
-    <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js"></script>
       
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
