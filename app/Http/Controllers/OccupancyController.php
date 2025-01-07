@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 use Carbon\Carbon;
 use App\Models\Occupancy;
+use App\Models\User;
+use App\Models\Room;
 use App\Models\Person_enter;
 use App\Models\Person_exit;
 use Illuminate\Database\Eloquent\Casts\Json;
@@ -16,17 +18,21 @@ class OccupancyController extends Controller
         $yesterdayDate = Carbon::now('Asia/Kuala_Lumpur')->subDay()->toDateString();
         $today = Carbon::now('Asia/Kuala_Lumpur')->startOfDay()->toDateString();
 
-        
+        $userCount = User::where('role', 0)->count();
+        $roomCount = Room::count();
 
         [$hours, $counts] = $this->hour($today);
 
         if(collect($hours)->isEmpty()){
            
-            return view('staff.occupancy_report.report')->with('hour_error', 'no data available');
+            return view('staff.occupancy_report.report')->with('hour_error', 'No Data Available')->with('userCount', $userCount)->with('roomCount', $roomCount);
         }
 
-        return view('staff.occupancy_report.report') ->with('hours', $hours)->with('counts', $counts);;
+        return view('staff.occupancy_report.report') ->with('hours', $hours)->with('counts', $counts)->with('userCount', $userCount)->with('roomCount', $roomCount);
     }
+
+
+
 
     public function hour($date){
 
@@ -49,7 +55,133 @@ class OccupancyController extends Controller
         $hours = $hour_count->keys()->toArray();
         $counts = $hour_count->values()->toArray();
 
-        return [$hours,$counts] ;
+        return [$hours,$counts];
+    }
+
+
+    public function date($month){
+
+        $records = Occupancy::whereMonth('Date', $month)->get();
+
+        if(! $records){
+            return [[],[]];
+        }
+
+        $date = [];
+        $counts = [];
+
+    foreach ($records as $record) {
+      
+        $countData = json_decode($record->Count, true);
+
+       
+        $totalCount = 0;
+
+        
+        foreach ($countData as $entry) {
+            $totalCount += $entry['Count'];  
+        }
+
+        $counts[] = $totalCount;
+        $date[] = $record->Date;
+       
+    }
+
+        return [$date,$counts];
+
+    }
+
+
+    public function month($year){
+
+        $records = Occupancy::whereYear('Date', $year)->get();
+
+        if(! $records){
+            return [[],[]];
+        }
+
+       
+        $groupedByMonth = collect($records)->groupBy(function($item){
+            return Carbon::parse($item['Date'])->format('m'); 
+        });
+
+
+        $months = [];
+        $counts = [];
+    
+        
+        foreach ($groupedByMonth as $month => $items) {
+            $months[] = Carbon::createFromFormat('m', $month)->format('F'); 
+
+            $totalCount = $items->reduce(function($carry, $item) {
+                $countJson = json_decode($item['Count'], true); 
+                $dailyCount = array_sum(array_column($countJson, 'Count'));
+                return $carry + $dailyCount;
+            }, 0);
+    
+            $counts[] = $totalCount; 
+        }
+
+        return [$months,$counts];
+
+    }
+
+
+
+
+    public function chart(Request $request){
+
+        $range = $request->query('range');
+
+        if ($range === 'date') {
+            $date = $request->query('value');
+        
+            try {
+                $formattedDate = Carbon::createFromFormat('m/d/Y', $date)->toDateString();
+            } catch (\Exception $e) {
+                return response()->json(['error' => 'Invalid date format'], 400);
+            }
+            
+           
+            [$hours, $counts] = $this->hour($formattedDate);
+    
+            return response()->json([$hours, $counts]);
+        }
+
+
+        else if($range === 'month'){
+            $month = $request->query('value');
+            
+            try {
+                $monthNumber = Carbon::parse($month)->month;
+            } catch (\Exception $e) {
+                return response()->json(['error' => 'Invalid date format'], 400);
+            }
+            
+           
+            [$date, $counts] = $this->date($monthNumber);
+    
+            return response()->json([$date, $counts]);
+        }
+
+        else if($range === 'year'){
+            $year = $request->query('value');
+
+            try {
+                $year = Carbon::parse($year)->year;
+            } catch (\Exception $e) {
+                return response()->json(['error' => 'Invalid date format'], 400);
+            }
+
+            [$month, $counts] = $this->month($year);
+    
+            return response()->json([$month, $counts]);
+            
+        }
+
+       
+    
+        return response()->json(['error' => 'Invalid range'], 400);
     }
 
    

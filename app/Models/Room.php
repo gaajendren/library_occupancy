@@ -12,10 +12,9 @@ class Room extends Model
     protected $fillable = [
         'img',
         'title', 
-        'quantity',
         'description',
-        'seat',
-        'location',
-       
+        'min_seat',
+        'max_seat',
+        'location'
     ];
 }

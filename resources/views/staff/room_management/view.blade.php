@@ -1,5 +1,5 @@
 <x-staff-app-layout>
-    <div class='dark flex flex-col min-h-screen bg-slate-200'>
+    <div class='dark flex flex-col min-h-screen h-full bg-slate-200'>
         <div class="mx-auto  montserrat-regular text-2xl tracking-wider text-slate-700" >
             <h1 class="text-center pt-[50px]">Show Room</h1>
         </div>
@@ -30,32 +30,18 @@
                       
                         <div class="pt-8 flex flex-col items-start justify-center text-slate-600 mb-3"> 
                             <label for="title" class="mb-3 ">Title: {{$room->title}}</label>
-                          
-                        </div>
-                    
-                       
+                        </div>           
                         <div class="flex flex-col text-slate-600 mb-3"> 
-                            <label for="quantity" class="mb-3 ">Quantity:{{$room->quantity}}</label>
-                            
-                          
+                            <label for="seat" class="mb-3 ">Min Seat:{{$room->min_seat}}</label>
                         </div>
-
                         <div class="flex flex-col text-slate-600 mb-3"> 
-                            <label for="seat" class="mb-3 ">Seat:{{$room->seat}}</label>
-                           
-                          
+                            <label for="seat" class="mb-3 ">Max Seat:{{$room->max_seat}}</label>
                         </div>
-
                         <div class="flex flex-col text-slate-600 mb-3"> 
                             <label for="location" class="mb-3 ">Location:{{$room->location}}</label>
-                           
-                           
                         </div>
-
                         <div class="flex flex-col text-slate-600 mb-3"> 
-                            <label for="desc" class="mb-3 ">Description:{{$room->description}}</label>
-                            
-                         
+                            <label for="desc" class="mb-3 ">Description:{{$room->description}}</label>     
                         </div>
                 </div>
             </div>

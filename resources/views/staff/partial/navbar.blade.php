@@ -39,7 +39,7 @@
       </div>
 </nav>
 
-<div class="ml-56 transition-all  duration-500" id='content'>
+<div class="ml-56 transition-all flex flex-col min-h-full items-stretch justify-stretch duration-500" id='content' >
     {{ $slot }}
 </div>
 

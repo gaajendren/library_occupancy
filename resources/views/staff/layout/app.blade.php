@@ -17,10 +17,11 @@
         <link rel="stylesheet" href="{{asset('css/style.css')}}">
         <script src="https://kit.fontawesome.com/ff3606fe13.js" crossorigin="anonymous"></script>
        
+        <link href="https://fonts.googleapis.com/css2?family=Cabin:ital,wght@0,400..700;1,400..700&family=Fredoka:wght@300..700&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Lora:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
       
         
     </head>
-    @if (request()->routeIs('staff.occupancy'))
+    @if (request()->routeIs('staff.occupancy') || request()->routeIs('staff.report'))
     <body class="relative bg-slate-50">
     @else
     <body>

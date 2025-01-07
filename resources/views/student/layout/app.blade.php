@@ -13,9 +13,27 @@
 
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
-        <link href="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.css" rel="stylesheet" />
+      
         <link rel="stylesheet" href="{{asset('css/style.css')}}">
         <script src="https://kit.fontawesome.com/ff3606fe13.js" crossorigin="anonymous"></script>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Cabin:ital,wght@0,400..700;1,400..700&family=Fredoka:wght@300..700&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Lora:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
+        <style>
+      
+            nav {
+                transition: background-color 0.3s ease, backdrop-filter 0.3s ease;
+            }
+            
+            
+            nav.scrolled {
+                background-color: rgba(255, 255, 255, 0.1); 
+                backdrop-filter: blur(30px);
+               
+            }
+            </style>
     </head>
     <body >
        
@@ -24,6 +42,19 @@
                 
                 {{ $slot }}
           
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const header = document.querySelector("nav");
         
+            window.addEventListener("scroll", () => {
+                if (window.scrollY > 55) { 
+                    header.classList.add("scrolled");
+                } else {
+                    header.classList.remove("scrolled");
+                }
+            });
+        });
+    </script>
     </body>
+    <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js"></script>
 </html>

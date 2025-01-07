@@ -1,5 +1,5 @@
 <x-staff-app-layout>
-    <div class='dark h-screen bg-slate-200'>
+    <div class='dark min-h-screen bg-slate-200'>
         <div class="mx-auto  montserrat-regular text-2xl tracking-wider text-slate-700" >
             <h1 class="text-center pt-[50px]">Add Room</h1>
         </div>
@@ -42,20 +42,19 @@
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror
                         </div>
-                    
-                       
+
                         <div class="flex flex-col text-slate-600 mb-3"> 
-                            <label for="quantity" class="mb-3 ">Quantity</label>
-                            <input type="number"   value="{{ old('quantity') }}" class="rounded-lg bg-gray-200 border-gray-300 text-slate-600 h-10 p-4" name="quantity" id="quantity">
-                            @error('quantity')
+                            <label for="min_seat" class="mb-3 ">Min Seat</label>
+                            <input type="number"  value="{{ old('min_seat') }}"  class="rounded-lg bg-gray-200 border-gray-300 text-slate-600 h-10 p-4" name="min_seat" id="min_seat">
+                            @error('min_seat')
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror
                         </div>
 
                         <div class="flex flex-col text-slate-600 mb-3"> 
-                            <label for="seat" class="mb-3 ">Seat</label>
-                            <input type="number"  value="{{ old('seat') }}"  class="rounded-lg bg-gray-200 border-gray-300 text-slate-600 h-10 p-4" name="seat" id="seat">
-                            @error('seat')
+                            <label for="max_seat" class="mb-3 ">Max Seat</label>
+                            <input type="number"  value="{{ old('max_seat') }}"  class="rounded-lg bg-gray-200 border-gray-300 text-slate-600 h-10 p-4" name="max_seat" id="max_seat">
+                            @error('max_seat')
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror
                         </div>

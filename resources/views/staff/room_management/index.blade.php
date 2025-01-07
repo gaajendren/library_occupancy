@@ -1,10 +1,10 @@
 <x-staff-app-layout>
 
-    <main class="min-h-screen h-fit bg-slate-200 py-14 max-sm: px-5" > 
-        <div class="flex flex-col max-w-screen-xl w-full p-4 mx-auto bg-white shadow-[0px_5px_30px_20px_rgba(0,0,0,0.1)] rounded-lg mb-10">
+    <main class="h-screen bg-slate-200 py-14 max-sm: px-5" > 
+        <div class="flex flex-col  p-4 mx-8 bg-white shadow-[0px_5px_30px_20px_rgba(0,0,0,0.1)] rounded-lg mb-10">
             <a id='addRoom' href='{{route('staff.add.room')}}'  class="bg-blue-500 self-end rounded-lg shadow-md float-end p-3 py-2 text-white hover:bg-blue-700">Add Room</a>
     
-            <div class=" p-1 mx-2  bg-white dark:bg-gray-800 dark:text-white ">
+            <div class=" p-1 mx-2 table-container bg-white dark:bg-gray-800 dark:text-white ">
                 <table id='table' class="w-full  mt-10 text-sm text-left border-collapse border border-1 border-gray-300 rtl:text-right text-gray-500 dark:text-gray-400">
                     <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                         <tr>
@@ -15,10 +15,11 @@
                             <th scope="col" class="px-6 py-3 border  border-gray-300">
                                 Title
                             </th>
+                           <th scope="col" class="px-6 py-3 border  border-gray-300">
+                                Min Seat
+                            </th>
                             <th scope="col" class="px-6 py-3 border  border-gray-300">
-                                Quantity
-                            </th><th scope="col" class="px-6 py-3 border  border-gray-300">
-                                Seat
+                                Max Seat
                             </th>
                             <th scope="col" class="px-6 py-3 border  border-gray-300">
                                 Action
@@ -44,10 +45,10 @@
                                 {{$room->title}}
                             </td>
                             <td class="px-6  py-4 border  border-gray-300">
-                                {{$room->quantity}}
+                                {{$room->min_seat}}
                             </td>
                             <td class=" px-6  py-4 border  border-gray-300">
-                                {{$room->seat}}
+                                {{$room->max_seat}}
                             </td>
                       
 

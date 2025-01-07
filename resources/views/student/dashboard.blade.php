@@ -1,71 +1,108 @@
 <x-app-layout >
 
-    <style>
-      
-        nav {
-            transition: background-color 0.3s ease, backdrop-filter 0.3s ease;
-        }
-        
-        
-        nav.scrolled {
-            background-color: rgba(255, 255, 255, 0.1); 
-            backdrop-filter: blur(30px);
-           
-        }
-        </style>
+
 
 <div class="w-full min-h-screen bg-[#0c0f16]">
    
    @include('student.partials.nav_bar')
+   @include('staff.message.success')
    @include('student.partials.top_into')
-   @include('student.partials.filter')
    @include('student.partials.banner')
+   @include('student.partials.filter')
 
 
+   <main class="max-w-screen-xl mx-auto  dark md:p-[2rem] sm:p-[1rem] p-[1rem] pt-[10px]">    
+        <div class="grid xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-3 grid-cols-2 md:gap-10 sm:gap-6 gap-4 " id='room_catalog'>
+           
+        </div>
+   </main>
 
-
-   {{-- <main class="max-w-[1500px] mx-auto">
-      <div class="grid xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-3 grid-cols-2 md:gap-10 sm:gap-6 gap-4 md:m-[5rem] sm:m-[2rem] m-[1rem]" id="innovations-container">
-         <!-- Dynamic content will be inserted here -->
-      </div>
-   </main> --}}
+  
 
 </div>
 
 <script>
+
+    let room_list = [];
+
+
    document.addEventListener("DOMContentLoaded", async () => {
-       const innovationsContainer = document.getElementById("innovations-container");
+       const roomContainer = document.getElementById("room_catalog");
 
        try {
-           const response = await axios.get('http://127.0.0.1:8000/room');
-           const innovations = response.data;
+           const response = await axios.get('http://library_occupancy.test/student/api/rooms');
+           room_list = response.data;
 
-           innovations.forEach(innovation => {
-               const card = document.createElement("div");
-               card.className = "bg-slate-900 cursor-pointer hover:bg-slate-700 relative rounded-lg shadow-lg";
+           room_catalog(room_list, roomContainer)
 
-               card.innerHTML = `
-                   <div class="p-0">
-                       <img src="${innovation.img}" class="h-[150px] rounded-t-lg mb-3 object-cover w-full" alt="Prototype Image Showcase">
-                       <h4 class="m-3 mb-0 max-sm:text-xs max-md:text-sm text-lg text-slate-300 leading-relaxed">${innovation.title}</h4>
-                       <p class="ml-3 mb-0.5 text-red-500 font-semibold text-lg">
-                           <span class="font-normal text-xs">RM </span>${innovation.price}
-                       </p>
-                   </div>
-                   <div class="flex flex-row items-center justify-between p-3 pt-0">
-                       <i class="fa-solid fa-fire-flame-curved fa-sm text-teal-500">
-                           <p class="text-gray-200 text-sm ml-2 inline-block">${innovation.score}</p>
-                       </i>
-                       <p class="text-gray-200 text-sm">${innovation.sold}<span class="text-xs"> sold</span></p>
-                   </div>
-               `;
-
-               innovationsContainer.appendChild(card);
-           });
+  
        } catch (e) {
            console.error("Error fetching data:", e);
        }
    });
+
+
+   function room_catalog(room_list ,roomContainer){
+
+        room_list.forEach(room => {
+            const img = JSON.parse(room.img)
+            
+               const card = document.createElement("div");
+               card.className = "";
+
+               card.innerHTML = `
+                   <div class="py-1 pb-2 ">
+                       <a href="http://library_occupancy.test/student/room_detail/${room.id}"><img src="http://library_occupancy.test/storage/room_image/${img[0]}" onmouseover="textRoomShow(this)" onmouseout="textRoomHide(this)" class="h-[150px] rounded-xl object-cover w-full cursor-pointer " alt="Prototype Image Showcase"></a>
+                        <div  class="opacity-0 translate-y-0 transition-transform duration-300 ease-out text-teal-200 max-sm:text-xs max-md:text-sm text-md viewDetail " >View Details</div>
+                       <h4 class="opacity-100 transition-opacity duration-400 ease-out w-fit max-sm:text-xs max-md:text-sm text-md text-slate-300 leading-relaxed font-semibold room_desc">${room.title}</h4>
+                       <p class="opacity-100 transition-opacity duration-400 ease-out w-fit  text-xs text-slate-300 font-reqular room_desc">Seat : ${room.min_seat} - ${room.max_seat}</p>
+                
+                   </div>    
+               `;
+
+               roomContainer.appendChild(card);
+           });
+   }
+
+   function textRoomShow(x) {
+        const parentContainer = x.closest('div');
+        const roomTitle = parentContainer.querySelectorAll('.room_desc');
+        const overlay_text = parentContainer.querySelector('.viewDetail');
+
+        overlay_text.classList.add('translate-y-6')
+        overlay_text.classList.remove('opacity-0');
+
+        roomTitle.forEach(b=>{
+            b.classList.add('opacity-0');
+            b.classList.remove('opacity-100'); 
+        });
+
+        
+       
+    }
+
+    function textRoomHide(x) {
+        const parentContainer = x.closest('div');
+        const roomTitle = parentContainer.querySelectorAll('.room_desc');
+        const overlay_text = parentContainer.querySelector('.viewDetail');
+
+        
+      
+        overlay_text.classList.remove('translate-y-6');
+        overlay_text.classList.add('translate-y-0');
+
+
+        setTimeout(() => {
+            overlay_text.classList.add('opacity-0');
+        }, 200);
+
+        setTimeout(()=>{
+            roomTitle.forEach(b=>{
+                b.classList.remove('opacity-0'); 
+                b.classList.add('opacity-100'); 
+            });
+        }, 300)
+    }
 </script>
 
 
@@ -79,19 +116,11 @@
    </div>
 </div> --}}
 
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const header = document.querySelector("nav");
-    
-        window.addEventListener("scroll", () => {
-            if (window.scrollY > 55) { 
-                header.classList.add("scrolled");
-            } else {
-                header.classList.remove("scrolled");
-            }
-        });
-    });
-    </script>
+
+
+
+
+
 
 <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js"></script>
 </x-app-layout>

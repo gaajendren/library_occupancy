@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\OccupancyController;
+use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\RoomController;
 use Illuminate\Support\Facades\Route;
 
@@ -45,7 +46,7 @@ Route::prefix('staff')->name('staff.')->middleware(['auth', 'verified', 'role:1'
     Route::get('/occupancy', [OccupancyController::class, 'occupancy'])->name('occupancy');
 
     Route::get('/room', [RoomController::class, 'index'])->name('room');
-
+   
     Route::get('/room/add', [RoomController::class, 'create'])->name('add.room');
     Route::post('/room/store', [RoomController::class, 'store'])->name('store.room');
     Route::get('/room/edit/{id}', [RoomController::class, 'edit'])->name('edit.room');
@@ -54,7 +55,7 @@ Route::prefix('staff')->name('staff.')->middleware(['auth', 'verified', 'role:1'
     
     Route::delete('/room/show/{id}', [RoomController::class, 'destroy'])->name('delete.room');
 
-
+    Route::get('/api/chart', [OccupancyController::class, 'chart'])->name('chart');
 });
 
 
@@ -63,9 +64,21 @@ Route::get('/api/occupancy/{date?}/{sort?}', [OccupancyController::class, 'occup
 
 Route::prefix('student')->name('student.')->middleware(['auth', 'verified', 'role:0'])->group(function () {
 
+
+    Route::get('/api/rooms', [RoomController::class, 'index_api'])->name('api_room');
+    Route::get('/room_detail/{id}', [RoomController::class, 'student_show'])->name('room.detail');
+
     Route::get('/dashboard', function () {
         return view('student.dashboard');
     })->name('dashboard');
+
+    Route::post('/reservation/{id}', [ReservationController::class, 'store'])->name('reservation');
+
+    Route::get('/api/reservation_slot/{id}/{date}', [ReservationController::class, 'api_slot'])->name('slot');
+
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     
 });
 

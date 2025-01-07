@@ -16,6 +16,21 @@ class RoomController extends Controller
         return view('staff.room_management.index')->with('rooms' , $rooms);
     }
 
+
+    public function index_api()
+    {
+        $rooms = Room::all();
+
+        if ($rooms->isEmpty()) {
+            return response()->json([
+                'message' => 'No rooms found.',
+                'rooms' => [],
+            ], 404);
+        }
+    
+        return response()->json($rooms, 200);
+    }
+
    
     public function create()
     {
@@ -34,7 +49,8 @@ class RoomController extends Controller
         'title' => 'required|string|max:255',
         'quantity' => 'required|integer',
         'description' => 'required|string',
-        'seat' => 'required|integer',
+        'max_seat' => 'required|string',
+        'min_seat' => 'required|string',
         'location' => 'required|string',
        ];
 
@@ -44,8 +60,8 @@ class RoomController extends Controller
             'quantity.required' => 'The quantity field is required.',
             'quantity.integer' => 'The quantity must be an integer.',
             'description.required' => 'The description field is required.',
-            'seat.required' => 'The seat field is required.',
-            'seat.integer' => 'The seat value must be an integer.',
+            'min_seat.required' => 'The seat field is required.',
+            'max_seat.required' => 'The seat field is required.',
             'location.required' => 'The location field is required.',
         ];
 
@@ -109,7 +125,8 @@ class RoomController extends Controller
          'title' => 'required|string|max:255',
          'quantity' => 'required|integer',
          'description' => 'required|string',
-         'seat' => 'required|integer',
+         'max_seat' => 'required|string',
+         'min_seat' => 'required|string',
          'location' => 'required|string',
         ];
  
@@ -119,8 +136,8 @@ class RoomController extends Controller
              'quantity.required' => 'The quantity field is required.',
              'quantity.integer' => 'The quantity must be an integer.',
              'description.required' => 'The description field is required.',
-             'seat.required' => 'The seat field is required.',
-             'seat.integer' => 'The seat value must be an integer.',
+             'min_seat.required' => 'The seat field is required.',
+             'max_seat.required' => 'The seat field is required.',
              'location.required' => 'The location field is required.',
          ];
  
@@ -150,9 +167,7 @@ class RoomController extends Controller
 
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
+   
     public function destroy(Room $room, $id)
     {
         $room = Room::find($id);
@@ -161,4 +176,12 @@ class RoomController extends Controller
 
         return redirect()->route('staff.room')->with('success', 'Data and images deleted successfully!');
     }
+
+    function student_show($id){
+        $room = Room::find($id);
+
+        return view('student.room.view_room')->with('room', $room);
+    }
+
+
 }

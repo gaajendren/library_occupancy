@@ -1,4 +1,4 @@
-<main class="max-w-screen-xl mx-auto  dark md:p-[2rem] sm:p-[1rem] p-[1rem] pt-[10px]">       
+<main class="max-w-screen-xl mx-auto  dark md:p-[2rem] sm:p-[1rem] p-[1rem] pt-[10px] mt-[3.5rem]">       
     <div class="banner w-full flex flex-row justify-center items-stretch gap-2">
        <div id="default-carousel" class="relative w-[60%] items-stretch" data-carousel="slide">
           <!-- Carousel wrapper -->

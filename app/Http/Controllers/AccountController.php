@@ -78,7 +78,6 @@ class AccountController extends Controller
         if($status == Password::RESET_LINK_SENT){
             return redirect()->route('staff.account')->with('success', 'Successfuly Added ! ');
         }else{
-            dd('failed');
             return redirect()->route('staff.account')->withInput($request->only('email'))->withErrors(['email' => __($status)]);
         } 
     }

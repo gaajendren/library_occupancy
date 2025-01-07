@@ -63,20 +63,21 @@
                     
                        
                         <div class="flex flex-col text-slate-600 mb-3"> 
-                            <label for="quantity" class="mb-3 ">Quantity</label>
-                            <input type="number"   value="{{$room->quantity}}" class="rounded-lg bg-gray-200 border-gray-300 text-slate-600 h-10 p-4" name="quantity" id="quantity">
-                            @error('quantity')
+                            <label for="min_seat" class="mb-3 ">Min Seat</label>
+                            <input type="number"  class="rounded-lg bg-gray-200 border-gray-300 text-slate-600 h-10 p-4" name="min_seat" id="min_seat">
+                            @error('min_seat')
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror
                         </div>
 
                         <div class="flex flex-col text-slate-600 mb-3"> 
-                            <label for="seat" class="mb-3 ">Seat</label>
-                            <input type="number"  value="{{$room->seat}}"  class="rounded-lg bg-gray-200 border-gray-300 text-slate-600 h-10 p-4" name="seat" id="seat">
-                            @error('seat')
+                            <label for="max_seat" class="mb-3 ">Max Seat</label>
+                            <input type="number"  class="rounded-lg bg-gray-200 border-gray-300 text-slate-600 h-10 p-4" name="max_seat" id="max_seat">
+                            @error('max_seat')
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror
                         </div>
+
 
                         <div class="flex flex-col text-slate-600 mb-3"> 
                             <label for="location" class="mb-3 ">Location</label>

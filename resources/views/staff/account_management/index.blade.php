@@ -1,10 +1,21 @@
 <x-staff-app-layout>
 
+    <style>
+        *{
+            box-sizing: border-box;
+            font-family: "Lora", serif;
+            font-optical-sizing: auto;
+            font-weight: 400;
+            font-style: normal;
+        }
+    </style>
+
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/intl-tel-input@24.7.0/build/css/intlTelInput.css">
 
 
-<main class="h-screen bg-slate-200 py-14 max-sm: px-5" > 
-    <div class="flex flex-col  p-4 mx-8 bg-white shadow-[0px_5px_30px_20px_rgba(0,0,0,0.1)] rounded-lg mb-10">
+<main class="h-screen bg-slate-200 py-14 max-sm:px-5" > 
+    @include('staff.message.success')
+    <div class="flex flex-col  p-4 mx-8 bg-white shadow-[0px_5px_30px_15px_rgba(0,0,0,0.05)] rounded-lg mb-10">
         <button id='addUser'  data-modal-target="default-modal" data-modal-toggle="default-modal" data-action="add" class="bg-blue-500 self-end rounded-lg shadow-md float-end p-3 py-2 text-white hover:bg-blue-700">Add User</button>
 
         <div class="relative z-1 table-container  p-1 mx-2 overflow-x-hidden bg-white dark:bg-gray-800 dark:text-white ">
@@ -40,25 +51,25 @@
                     @foreach ( $users as $user)
                     <tr class="bg-white h-full dark:bg-gray-800 dark:border-gray-300 hover:bg-gray-50 dark:hover:bg-gray-600">
                         
-                        <th  class="name px-6 py-4 font-medium border border-gray-300 ">
+                        <th  class="name px-6 py-4 text-gray-600 font-medium border border-gray-300 ">
                             {{$user->name}}
                         </th>
-                        <td class="email px-6 py-4 border  border-gray-300">
+                        <td class="email px-6 py-4 border text-gray-600 font-medium border-gray-300">
                             {{$user->email}}
                         </td>
-                        <td class="contact px-6 py-4 border  border-gray-300">
+                        <td class="contact px-6 py-4 border text-gray-600 font-medium border-gray-300">
                             {{$user->contact}}
                         </td>
-                        <td class="ic px-6 py-4 border  border-gray-300">
+                        <td class="ic px-6 py-4 border text-gray-600 font-medium border-gray-300">
                             {{$user->ic}}
                         </td>
 
                         <input type="hidden" class='address' name="address" value="{{$user->address}}">
 
-                        <td class="role px-6 py-4 border  border-gray-300">
+                        <td class="role px-6 py-4 border font-medium text-gray-600 border-gray-300">
                             {{ $user->role == 0 ?  'Student' : 'Staff' }}
                         </td>
-                        <td class="role px-6 py-4 border text-center  border-gray-300">
+                        <td class="role px-6 py-4 border text-center font-medium border-gray-300">
                             <i class="fa-solid fa-circle-{{$user->email_verified_at == null ? 'xmark' : 'check'}} fa-lg" style="color: {{$user->email_verified_at == null ? 'red' : 'green'}}" ></i>
                         </td>   
                     
@@ -181,6 +192,10 @@ function submitForm(action_type, userId = null){
         form.requestSubmit()
      })
 }
+
+
+
+
     
 </script>
 
