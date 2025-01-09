@@ -56,6 +56,11 @@ Route::prefix('staff')->name('staff.')->middleware(['auth', 'verified', 'role:1'
     Route::delete('/room/show/{id}', [RoomController::class, 'destroy'])->name('delete.room');
 
     Route::get('/api/chart', [OccupancyController::class, 'chart'])->name('chart');
+
+    Route::get('/reservation', [ReservationController::class, 'index'])->name('reservation');
+
+    Route::patch('/reservation/update/{id}', [ReservationController::class, 'update'])->name('update.reservation');
+   
 });
 
 
