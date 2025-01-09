@@ -25,8 +25,8 @@
         </div>
 
         <div class="w-full flex flex-row gap-4 justify-center items-center">
-            <img id="video-stream-exit" class="" src="http://127.0.0.1:5000/video_feed_exit" alt="Video Stream">
-            <img id="video-stream" class="" src="http://127.0.0.1:5000/video_feed" alt="Video Stream">
+            <img id="video-stream-exit" class="w-1/2" src="http://127.0.0.1:5000/video_feed_exit" alt="Video Stream">
+            <img id="video-stream" class="w-1/2" src="http://127.0.0.1:5000/video_feed" alt="Video Stream">
         </div>
     </main>
    
