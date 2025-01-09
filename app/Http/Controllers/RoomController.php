@@ -47,7 +47,7 @@ class RoomController extends Controller
         'img' => 'required', 
         'img.*' => 'mimes:png,jpg,jpeg,gif,svg|max:2048',
         'title' => 'required|string|max:255',
-        'quantity' => 'required|integer',
+       
         'description' => 'required|string',
         'max_seat' => 'required|string',
         'min_seat' => 'required|string',
@@ -57,8 +57,7 @@ class RoomController extends Controller
         $messages = [
             'title.required' => 'The title field is required.',
             'img.required' => 'An image file is required.',
-            'quantity.required' => 'The quantity field is required.',
-            'quantity.integer' => 'The quantity must be an integer.',
+           
             'description.required' => 'The description field is required.',
             'min_seat.required' => 'The seat field is required.',
             'max_seat.required' => 'The seat field is required.',
@@ -112,7 +111,7 @@ class RoomController extends Controller
     }
 
  
-    public function update(Request $request, Room $room, $id)
+    public function update(Request $request, $id)
     {
         $room = Room::find($id);
 
@@ -123,7 +122,7 @@ class RoomController extends Controller
          'img' => 'required', 
          'img.*' => 'mimes:png,jpg,jpeg,gif,svg|max:2048',
          'title' => 'required|string|max:255',
-         'quantity' => 'required|integer',
+         
          'description' => 'required|string',
          'max_seat' => 'required|string',
          'min_seat' => 'required|string',
@@ -133,8 +132,7 @@ class RoomController extends Controller
          $messages = [
              'title.required' => 'The title field is required.',
              'img.required' => 'An image file is required.',
-             'quantity.required' => 'The quantity field is required.',
-             'quantity.integer' => 'The quantity must be an integer.',
+            
              'description.required' => 'The description field is required.',
              'min_seat.required' => 'The seat field is required.',
              'max_seat.required' => 'The seat field is required.',
@@ -144,7 +142,7 @@ class RoomController extends Controller
          
          $request->validate($rules, $messages);
  
-        
+         try{ 
          $filenames = array();
  
          if ($request->hasFile('img')) {
@@ -159,6 +157,10 @@ class RoomController extends Controller
 
              $input['img'] = json_encode($filenames);
          } 
+
+        }catch(Exception $e){
+            return redirect()->route('staff.room')->with('error', $e);
+         }
  
         $room->update($input);
 

@@ -64,7 +64,7 @@
                        
                         <div class="flex flex-col text-slate-600 mb-3"> 
                             <label for="min_seat" class="mb-3 ">Min Seat</label>
-                            <input type="number"  class="rounded-lg bg-gray-200 border-gray-300 text-slate-600 h-10 p-4" name="min_seat" id="min_seat">
+                            <input type="number" value="{{$room->min_seat}}"  class="rounded-lg bg-gray-200 border-gray-300 text-slate-600 h-10 p-4" name="min_seat" id="min_seat">
                             @error('min_seat')
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror
@@ -72,7 +72,7 @@
 
                         <div class="flex flex-col text-slate-600 mb-3"> 
                             <label for="max_seat" class="mb-3 ">Max Seat</label>
-                            <input type="number"  class="rounded-lg bg-gray-200 border-gray-300 text-slate-600 h-10 p-4" name="max_seat" id="max_seat">
+                            <input type="number" value="{{$room->max_seat}}"  class="rounded-lg bg-gray-200 border-gray-300 text-slate-600 h-10 p-4" name="max_seat" id="max_seat">
                             @error('max_seat')
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror
@@ -128,7 +128,8 @@
             const updatedFileList = createFileList(allFiles);
             imageInput.files = updatedFileList
            
-
+            console.log(imageInput.files);
+            
             const imgElements = imageContainer.querySelectorAll('img');
             imgElements.forEach(img => img.remove());
                         
