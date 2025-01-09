@@ -12,7 +12,9 @@ class ReservationController extends Controller
   
     public function index()
     {
-        
+        $reservations = Reservation::orderBy('created_at', 'desc')->get();
+
+        return view('staff.reservation_management.index')->with('reservations', $reservations);
     }
 
   
@@ -128,9 +130,33 @@ class ReservationController extends Controller
     }
 
     
-    public function update(Request $request, Reservation $reservation)
+    public function update(Request $request, $id)
     {
-        //
+        $input = $request->all();
+
+        $rules =[       
+            'status' => 'required',     
+           ];
+    
+        $messages = [
+            'status.required' => 'Status is required.',
+        ];
+
+        $request->validate($rules, $messages);
+
+        try{
+
+          $reservation =  Reservation::find($id);
+
+          $reservation->update($input);
+         
+
+          return redirect()->route('staff.reservation')->with('success', 'Status has successfully updated!!!');
+
+        }catch(Exception $e){
+            return redirect()->route('staff.reservation')->with('error', 'Try again later');
+        }
+
     }
 
    
