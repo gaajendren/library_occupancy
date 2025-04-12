@@ -38,8 +38,30 @@
                             <label for="seat" class="mb-3 ">Max Seat:{{$room->max_seat}}</label>
                         </div>
                         <div class="flex flex-col text-slate-600 mb-3"> 
-                            <label for="location" class="mb-3 ">Location:{{$room->location}}</label>
+                            <label for="seat" class="mb-3 ">Quantity:{{$room->qty}}</label>
                         </div>
+
+                        <label  class="mb-3 text-slate-600">Room Names:</label>
+
+                        <div class="rounded-b-md shadow-sm w-full border-[1px] border-none bg-gray-100 p-4 h-18 mb-6">
+                            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 w-full ">
+                                @php 
+                                $roomNames = json_decode($room->room_names, true) ?? []; 
+                                @endphp
+                            
+                                @if (!empty($roomNames))
+                                    @foreach ($roomNames as $index => $name)
+                                        <div class="flex flex-row items-center gap-2">
+                                            <p class="text-sm text-slate-700">{{ $index + 1 }}.</p>
+                                            <p id="room_{{ $index + 1 }}"
+                                                class=" text-slate-600  text-sm w-full"> {{ $name }}</p>
+                                        </div>
+                                    @endforeach
+                                @endif
+                             </div>
+                        </div>
+
+                      
                         <div class="flex flex-col text-slate-600 mb-3"> 
                             <label for="desc" class="mb-3 ">Description:{{$room->description}}</label>     
                         </div>

@@ -15,14 +15,20 @@
                                Img
                             </th>
                             <th scope="col" class="px-6 py-3 border  border-gray-300">
-                                Title
+                                Room Name
                             </th>
                            <th scope="col" class="px-6 py-3 border  border-gray-300">
-                                Min Seat
+                                Seat
                             </th>
                             <th scope="col" class="px-6 py-3 border  border-gray-300">
-                                Max Seat
+                               Slot
                             </th>
+                            <th scope="col" class="px-6 py-3 border  border-gray-300">
+                                Max Slot
+                             </th>
+                             <th scope="col" class="px-6 py-3 border  border-gray-300">
+                                Quantity
+                             </th>
                             <th scope="col" class="px-6 py-3 border  border-gray-300">
                                 Action
                             </th>
@@ -37,7 +43,6 @@
                                 @php
                                    $img_array = json_decode($room->img, true); 
 
-                                   
                                    if($img_array) {                            
                                        echo  '<img class="max-w-[200px]   mx-auto object-cover border-none" src="' . asset('storage/room_image/' . $img_array[0]) . '" alt="Room Image">';
                                    }
@@ -47,18 +52,26 @@
                                 {{$room->title}}
                             </td>
                             <td class="px-6  py-4 border  border-gray-300">
-                                {{$room->min_seat}}
+                                {{$room->min_seat}} - {{$room->max_seat}}
                             </td>
-                            <td class=" px-6  py-4 border  border-gray-300">
-                                {{$room->max_seat}}
+                            <td class="px-6  py-4 border  border-gray-300">
+                                {{Str::title($room->slot)}} 
                             </td>
-                      
+                            <td class="px-6  py-4 border  border-gray-300">
+                                {{$room->max_slot}}
+                            </td>
+                            <td class="px-6  py-4 border  border-gray-300">
+                                {{$room->qty}}
+                            </td>
 
                             <td class="px-6 py-4  border border-gray-300 ">
                                 <div class="flex flex-row justify-center items-center gap-2">
                                     <a href="{{route('staff.show.room', $room->id)}}" class="block text-white bg-blue-500 hover:bg-blue-800 focus:ring-2 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-3 py-2 text-center " type="button">
                                         <i class="fa-solid fa-eye fa-sm"></i>
-                                    </button>
+                                    </a>
+                                    <a  data-modal-target="edit-room" id="editRoom" onclick="load_roomNames({{$room->id}})" data-id="{{$room->id}}" data-modal-toggle="edit-room" class="block text-white bg-yellow-500 hover:bg-yellow-800 focus:ring-2 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-3 py-2 text-center cursor-pointer" type="button">
+                                        <i class="fa-solid fa-file-contract fa-sm"></i>
+                                    </a>
                                     <a href="{{route('staff.edit.room', $room->id)}}"   class="block text-white bg-green-500 hover:bg-green-800 focus:ring-2 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-3 py-2 text-center " type="button">
                                         <i class="fa-solid fa-pen-to-square fa-sm"></i>
                                     </a>
@@ -81,4 +94,5 @@
         </div>
     </main>  
 
+    @include('staff.room_management.modal');
 </x-staff-app-layout>

@@ -16,7 +16,7 @@
 
   <div id="slot-modal" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full dark">
     <div class="absolute top-0 left-0 w-full h-screen bg-gray-500 opacity-60"></div>
-    <div class="relative p-4 w-full max-w-xl max-h-full">
+    <div class="relative p-4 w-full max-w-3xl max-h-full">
           
           <div class="relative bg-white rounded-lg shadow dark:bg-[#11151f]">
               
@@ -41,21 +41,37 @@
                                
                         </div>
 
-                        <div class="flex flex-col max-h-[400px]" >
+                        <div class="flex flex-col " >
                             <label for="" class="text-white text-sm mb-4 w-full text-start">Select available time slot</label>
-                            <div class='overflow-y-auto w-full flex justify-start flex-row items-center' style="scrollbar-color: #565c5b #0e0f0f">
-                                <div class="max-w-[200px] flex flex-row gap-4 mt-4 mb-4 hidden" id='timeSlotContainer'>
-                                    <a class="cursor-pointer px-3 py-2 bg-sky-400 rounded-md hover:bg-sky-700 text-gray-800 text-bold text-md text-center min-w-[100px]" data-slot-id='8'>8.00 a.m</a>
-                                    <a class="cursor-pointer px-3 py-2 bg-sky-400 rounded-md hover:bg-sky-700 text-gray-800 text-bold text-md text-center min-w-[100px]" data-slot-id='9'>9.00 a.m</a>
-                                    <a class="cursor-pointer px-3 py-2 bg-sky-400 rounded-md hover:bg-sky-700 text-gray-800 text-bold text-md text-center min-w-[100px]" data-slot-id='10'>10.00 a.m</a>
-                                    <a class="cursor-pointer px-3 py-2 bg-sky-400 rounded-md hover:bg-sky-700 text-gray-800 text-bold text-md text-center min-w-[100px]" data-slot-id='11'>11.00 a.m</a>
-                                    <a class="cursor-pointer px-3 py-2 bg-sky-400 rounded-md hover:bg-sky-700 text-gray-800 text-bold text-md text-center min-w-[100px]" data-slot-id='12'>12.00 p.m</a>
-                                    <a class="cursor-pointer px-3 py-2 bg-sky-400 rounded-md hover:bg-sky-700 text-gray-800 text-bold text-md text-center min-w-[100px]" data-slot-id='13'>1.00 p.m</a>
-                                    <a class="cursor-pointer px-3 py-2 bg-sky-400 rounded-md hover:bg-sky-700 text-gray-800 text-bold text-md text-center min-w-[100px]" data-slot-id='14'>2.00 p.m</a>
-                                    <a class="cursor-pointer px-3 py-2 bg-sky-400 rounded-md hover:bg-sky-700 text-gray-800 text-bold text-md text-center min-w-[100px]" data-slot-id='15'>3.00 p.m</a>
-                                    <a class="cursor-pointer px-3 py-2 bg-sky-400 rounded-md hover:bg-sky-700 text-gray-800 text-bold text-md text-center min-w-[100px]" data-slot-id='16'>4.00 p.m</a>
+                            <div class='overflow-y-auto w-full flex justify-center flex-col items-start' style="scrollbar-color: #565c5b #0e0f0f">
+                                <div class="max-w-[200px] flex flex-row gap-4 mt-4 hidden" id='timeSlotContainer'>
+                                    <a class="cursor-pointer px-3 py-2 bg-sky-400 rounded-md hover:bg-sky-700 text-gray-800 text-bold text-md text-center min-w-[100px]" data-available-id="" data-slot-id='8'>8.00 a.m</a>
+                                    <a class="cursor-pointer px-3 py-2 bg-sky-400 rounded-md hover:bg-sky-700 text-gray-800 text-bold text-md text-center min-w-[100px]" data-available-id='' data-slot-id='9'>9.00 a.m</a>
+                                    <a class="cursor-pointer px-3 py-2 bg-sky-400 rounded-md hover:bg-sky-700 text-gray-800 text-bold text-md text-center min-w-[100px]" data-available-id='' data-slot-id='10'>10.00 a.m</a>
+                                    <a class="cursor-pointer px-3 py-2 bg-sky-400 rounded-md hover:bg-sky-700 text-gray-800 text-bold text-md text-center min-w-[100px]" data-available-id='' data-slot-id='11'>11.00 a.m</a>
+                                    <a class="cursor-pointer px-3 py-2 bg-sky-400 rounded-md hover:bg-sky-700 text-gray-800 text-bold text-md text-center min-w-[100px]" data-available-id='' data-slot-id='12'>12.00 p.m</a>
+                                    <a class="cursor-pointer px-3 py-2 bg-sky-400 rounded-md hover:bg-sky-700 text-gray-800 text-bold text-md text-center min-w-[100px]" data-available-id='' data-slot-id='13'>1.00 p.m</a>
+                                    <a class="cursor-pointer px-3 py-2 bg-sky-400 rounded-md hover:bg-sky-700 text-gray-800 text-bold text-md text-center min-w-[100px]" data-available-id='' data-slot-id='14'>2.00 p.m</a>
+                                    <a class="cursor-pointer px-3 py-2 bg-sky-400 rounded-md hover:bg-sky-700 text-gray-800 text-bold text-md text-center min-w-[100px]" data-available-id='' data-slot-id='15'>3.00 p.m</a>
+                                    <a class="cursor-pointer px-3 py-2 bg-sky-400 rounded-md hover:bg-sky-700 text-gray-800 text-bold text-md text-center min-w-[100px]" data-available-id='' data-slot-id='16'>4.00 p.m</a>
+                                    <a class="cursor-pointer px-3 py-2 bg-sky-400 rounded-md hover:bg-sky-700 text-gray-800 text-bold text-md text-center min-w-[100px]" data-available-id='' data-slot-id='17'>5.00 p.m</a>
+                                </div>
+                                <div class="max-w-[200px] flex flex-row gap-4  mb-4 hidden" id="timeRoomContainer">
+                                    <a class="px-3 py-2 text-teal-300 text-bold text-sm text-center min-w-[100px] invisible" data-room-id='8'></a>
+                                    <a class="px-3 py-2 text-teal-300 text-bold text-sm text-center min-w-[100px] invisible" data-room-id='9'></a>
+                                    <a class="px-3 py-2 text-teal-300 text-bold text-sm text-center min-w-[100px] invisible" data-room-id='10'></a>
+                                    <a class="px-3 py-2 text-teal-300 text-bold text-sm text-center min-w-[100px] invisible" data-room-id='11'></a>
+                                    <a class="px-3 py-2 text-teal-300 text-bold text-sm text-center min-w-[100px] invisible" data-room-id='12'></a>
+                                    <a class="px-3 py-2 text-teal-300 text-bold text-sm text-center min-w-[100px] invisible" data-room-id='13'></a>
+                                    <a class="px-3 py-2 text-teal-300 text-bold text-sm text-center min-w-[100px] invisible" data-room-id='14'></a>
+                                    <a class="px-3 py-2 text-teal-300 text-bold text-sm text-center min-w-[100px] invisible" data-room-id='15'></a>
+                                    <a class="px-3 py-2 text-teal-300 text-bold text-sm text-center min-w-[100px] invisible" data-room-id='16'></a>
+                                    <a class="px-3 py-2 text-teal-300 text-bold text-sm text-center min-w-[100px] invisible" data-room-id='17'></a>
                                 </div>
                             </div>
+
+                          
+
                         </div>
                     </div>
                 </div>
@@ -72,39 +88,91 @@
   
 
     const timeSlotContainer = document.getElementById('timeSlotContainer');
-    const timeSlots = timeSlotContainer.querySelectorAll('a');
-    let selectedTime = []
-  
+    const timeRoomContainer = document.getElementById('timeRoomContainer');
 
+    const timeSlots = timeSlotContainer.querySelectorAll('a');
+    const timeRoom = timeRoomContainer.querySelectorAll('a');
+
+    let selectedTime = []
+
+    let reservationTime = []
+
+    let max_slot ;
+
+
+
+       
     async function getAvailableTime(event) {
+
+        timeRoom.forEach((e)=>{
+            e.classList.add('invisible')
+            e.textContent = ''
+        })
+
+        timeSlots.forEach((e)=>{
+            e.classList.remove('bg-teal-300', 'bg-sky-900' , '!bg-red-500');
+            e.style.pointerEvents ='auto';
+            e.classList.add('bg-sky-400');
+            e.setAttribute('data-available-id', '');
+        })
+
 
         if(event.value){
             timeSlotContainer.classList.remove('hidden')
+            timeRoomContainer.classList.remove('hidden')
         }else{
             timeSlotContainer.classList.add('hidden')
+            timeRoomContainer.classList.add('hidden')
         }
 
         try {
           
             const response = await axios.get(`/student/api/reservation_slot/{{$room->id}}/${event.value}`);
 
-            timeSlots.forEach((e)=>{
-                console.log(e.getAttribute('data-slot-id'));
-                console.log(response.data);
-                if(response.data.includes(parseInt(e.getAttribute('data-slot-id')))){
-                    console.log('yes')
-                    e.classList.add('!bg-red-500')
-                    e.classList.remove('bg-teal-300', 'bg-sky-400')
-                    e.style.pointerEvents = 'none';
-                }else{
-                    e.style.pointerEvents = 'auto';
-                    e.classList.remove('!bg-red-500')
-                    e.classList.add('bg-sky-400')
-                }
-            });
+            max_slot = response.data[1];
 
+            const today = new Date().toISOString().split('T')[0]; 
+
+            let date = new Date()
+ 
+            test1 = parseInt(date.getHours())
+
+            console.log(test1);
+
+            console.log(response.data);
+
+     
+
+      
+
+        response.data[0].forEach((res)=>{
+            const slotElement = document.querySelector(`[data-slot-id="${res.hour}"]`);
+            const RoomElement = document.querySelector(`[data-room-id="${res.hour}"]`);
+
+            if(slotElement && event.value == today && test1 >= parseInt(slotElement.getAttribute('data-slot-id'))){      
+                slotElement.classList.remove('bg-teal-300', 'bg-sky-400' , '!bg-red-500')
+                slotElement.classList.add('bg-sky-900')
+                slotElement.style.pointerEvents = 'none';
+                return;
+            }
+
+            if(!res.available){
+                console.log('yes')      
+                slotElement.classList.add('!bg-red-500')
+                slotElement.classList.remove('bg-teal-300', 'bg-sky-400' , 'bg-teal-800')
+                slotElement.style.pointerEvents ='none'
+               
+            } else{
+               
+                RoomElement.textContent = 'Room ' + res.room_id; 
+                slotElement.setAttribute('data-available-id', `${res.room_id}`)
+                RoomElement.classList.remove('invisible');
+            }
             
+        
            
+        });
+          
         } catch (error) {
             console.error(error);
         }
@@ -116,11 +184,20 @@
     timeSlotContainer.querySelectorAll('a').forEach((b)=>{
         b.addEventListener('click', ()=>{
 
+            const slotId = parseInt(b.getAttribute('data-slot-id'));
+
+          
+
+            if(selectedTime.length >= max_slot && !selectedTime.includes(slotId)){
+                 alert('Reached Maksimim allowed slot for this room. Thank You');
+                return;
+             }
+
          
-           const slotId = parseInt(b.getAttribute('data-slot-id'));
            if(selectedTime.includes(slotId)){
               selectedTime = selectedTime.filter((id) => id !== slotId);
-           }else{
+           }
+           else{
              selectedTime.push(slotId);
            }
            slotChecker(b)
@@ -129,6 +206,8 @@
 
     function slotChecker(b){
         let passTimeSlot = []
+       
+       
         if(selectedTime.length > 1){
             selectedTime.sort((a, b) => a - b); 
 
@@ -176,6 +255,7 @@
     function data_store(){
         const date = document.getElementById('date');
         const time = document.getElementById('time');
+        const room_id = document.getElementById('roomID');
 
         const i_date = document.querySelector('[name="date"]');
         const i_time = document.querySelector('[name="time"]');
@@ -185,14 +265,80 @@
         date.textContent = model_date.value;
         i_date.value = model_date.value;
 
-        const formattedTimes = formatTimeSlots(selectedTime);
-        time.textContent = formattedTimes.join(', ');
-        i_time.value = JSON.stringify(formattedTimes);
+    
+       let roomIdJson = [];
+
+        selectedTime.forEach((time)=>{
+            const roomEle = document.querySelector(`[data-slot-id="${time}"]`);
+
+            
+            if (roomEle) {
+                const roomId = roomEle.getAttribute('data-available-id'); 
+                reservationTime.push({ [roomId]: time }); 
+            }
+        });
+
+        let firstRoomId = null;
+        let hasDifferentRooms = false;
+
+        reservationTime.forEach((reservation) => {
+            const roomId = Object.keys(reservation)[0]; 
+
+            if (firstRoomId === null) {
+                firstRoomId = roomId; 
+            } else if (firstRoomId !== roomId) {
+                hasDifferentRooms = true; 
+            }
+        });
+
+        if (hasDifferentRooms) {
+           const status = confirm("You have selected different rooms. U need to change room after certain time period. Choose Wisely!!!");
+
+           if(status){
+                room_id.value = JSON.stringify(reservationTime);
+
+                const formattedTimes = formatTimeSlots(selectedTime);
+                time.textContent = formattedTimes.join(', ');
+                i_time.value = JSON.stringify(formattedTimes);
+
+           }else{
+                date.textContent = " ";
+                time.textContent = " ";
+                i_date.value =" ";
+                i_time.value = ' ';
+           }
+        } else{
+                
+                room_id.value = JSON.stringify(reservationTime);
+
+                console.log(room_id.value);
+
+                const formattedTimes = formatTimeSlots(selectedTime);
+                time.textContent = formattedTimes.join(', ');
+                i_time.value = JSON.stringify(formattedTimes);
+
+        }
+
+      
     }
 
 function close_model(){
     document.getElementById('model_date').value = "";
     timeSlotContainer.classList.add('hidden');
+    timeRoomContainer.classList.add('hidden');
+
+    timeRoom.forEach((e)=>{
+            e.classList.add('invisible')
+            e.textContent = ''
+        })
+
+        timeSlots.forEach((e)=>{
+            e.classList.remove('bg-teal-300', 'bg-sky-900' , '!bg-red-500');
+            e.style.pointerEvents ='auto';
+            e.classList.add('bg-sky-400');
+            e.setAttribute('data-available-id', '');
+        })
+
 }
 </script>
   

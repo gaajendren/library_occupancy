@@ -40,3 +40,11 @@ body,html{
     font-weight: 400;
     font-style: normal;
   }
+
+  
+.inter{
+    font-family: "Inter", sans-serif;
+    font-optical-sizing: auto;
+    font-style: normal;
+   
+  }

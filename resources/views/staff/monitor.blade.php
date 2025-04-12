@@ -25,8 +25,8 @@
         </div>
 
         <div class="w-full flex flex-row gap-4 justify-center items-center">
-            <img id="video-stream-exit" class="w-1/2" src="http://127.0.0.1:5000/video_feed_exit" alt="Video Stream">
-            <img id="video-stream" class="w-1/2" src="http://127.0.0.1:5000/video_feed" alt="Video Stream">
+            <img id="video-stream" class="w-1/2" src="" alt="Video Stream">
+            <img id="video-stream-exit" class="w-1/2" src="" alt="Video Stream">
         </div>
     </main>
    
@@ -35,12 +35,57 @@
         
         const socket = io('http://127.0.0.1:5000', {transports: ['websocket', 'polling', 'flashsocket']});
 
-        // Listen for person count updates
+        
         socket.on('person_count', function(data) {
             console.log(data)
             document.getElementById('person-count').innerText = data.count;
         });
 
+
+     
+        const streamCache = {
+            enter: null,
+            exit: null
+        };
+
+        function setupStream(way) {
+            const imgElement = way === 'enter' 
+                ? document.getElementById('video-stream') 
+                : document.getElementById('video-stream-exit');
+            
+          
+            const img = new Image();
+          
+           
+            if (imgElement.parentNode) {
+                imgElement.parentNode.replaceChild(img, imgElement);
+                if (way === 'enter') {
+                    videoStream = img;
+                } else {
+                    videoStreamExit = img;
+                }
+            }
+            
+          
+            let lastUpdate = 0;
+            const updateInterval = 1000 / 10; 
+            
+            socket.on(`video_frame_${way}`, (data) => {
+                const now = performance.now();
+                if (now - lastUpdate >= updateInterval) {
+                    img.src = 'data:image/jpeg;base64,' + data.frame;
+                    lastUpdate = now;
+                }
+            });
+        }
+
+     
+        setupStream('enter');
+        setupStream('exit');
+
+        
+        socket.emit('request_video_feed', { way: 'enter' });
+        socket.emit('request_video_feed', { way: 'exit' });
        
         function load_status(){
             axios.get('http://127.0.0.1:5000/current_status')
@@ -82,6 +127,8 @@
                 }
             }, 60000)
             });
+
+
 
     </script>
 </x-staff-app-layout>

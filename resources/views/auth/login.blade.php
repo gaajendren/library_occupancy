@@ -1,8 +1,8 @@
 <x-guest-layout>
     <!-- Session Status -->
     <x-auth-session-status class="mb-4" :status="session('status')" />
-
-   
+     @include('staff.message.success')
+     @include('staff.message.error')
         <section class="bg-gray-50 h-full min-w-full dark:bg-gray-900">
             <div class="flex flex-col w-full items-center justify-center px-6 py-8 mx-auto h-full lg:py-0">
             

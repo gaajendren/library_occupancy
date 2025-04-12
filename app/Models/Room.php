@@ -8,6 +8,9 @@ class Room extends Model
 {
     use HasFactory;
 
+
+    protected $table = "room_type";
+
    
     protected $fillable = [
         'img',
@@ -15,6 +18,12 @@ class Room extends Model
         'description',
         'min_seat',
         'max_seat',
-        'location'
+        'location',
+        'slot',
+        'max_slot',
+        'qty'
     ];
+
+  
+    
 }

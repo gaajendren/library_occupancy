@@ -1,8 +1,119 @@
 <x-app-layout >
 
+    <style>
+@keyframes wave-horizontal {
+    0% { transform: translateX(0) translateY(0); }
+    50% { transform: translateX(-25%) translateY(-12px); }
+    100% { transform: translateX(-50%) translateY(0); }
+}
 
+@keyframes wave-vertical {
+    0%, 100% { transform: translateY(0); opacity: 0.15; }
+    50% { transform: translateY(-15px); opacity: 0.22; } 
+}
 
-<div class="w-full min-h-screen bg-[#0c0f16]">
+/* Base Wave Style */
+.wave {
+    position: absolute;
+    width: 250%;
+    height: 18rem;
+    background-repeat: repeat-x;
+    transform: translate3d(0, 0, 0);
+    opacity: 0.18;
+    border-radius: 50%; /* Makes the waves rounded */
+}
+
+/* First Layer - Smooth & Light */
+.wave-1 {
+    background: radial-gradient(circle, rgba(50, 180, 170, 0.22) 10%, rgba(10, 90, 85, 0.1) 80%);
+    bottom: 8%;
+    filter: blur(30px);
+    animation: wave-horizontal 9s linear infinite, wave-vertical 11s ease-in-out infinite;
+}
+
+/* Second Layer - Stronger Contrast */
+.wave-2 {
+    background: radial-gradient(circle, rgba(30, 140, 130, 0.25) 15%, rgba(5, 70, 65, 0.08) 85%);
+    bottom: 18%;
+    filter: blur(40px);
+    animation: wave-horizontal 13s linear infinite, wave-vertical 16s ease-in-out infinite;
+}
+
+/* Third Layer - More Rounded & Faint */
+.wave-3 {
+    background: radial-gradient(circle, rgba(20, 120, 110, 0.28) 20%, rgba(0, 50, 45, 0.05) 90%);
+    bottom: 28%;
+    filter: blur(60px);
+    animation: wave-horizontal 17s linear infinite, wave-vertical 20s ease-in-out infinite;
+}
+
+        .wave-wrapper {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+         /* New Particle Effects */
+         @keyframes wave-motion {
+        0%, 100% { transform: translateY(0) translateX(0); }
+        50% { transform: translateY(-15px) translateX(10px); }
+    }
+
+    @keyframes wave-motion-delayed {
+        0%, 100% { transform: translateY(0) translateX(0); }
+        50% { transform: translateY(-20px) translateX(-10px); }
+    }
+
+    @keyframes pulse {
+        0%, 100% { opacity: 0.3; transform: scale(1); }
+        50% { opacity: 0.1; transform: scale(0.95); }
+    }
+
+    .animate-wave {
+        animation: wave-motion 6s ease-in-out infinite;
+    }
+
+    .animate-wave-delayed {
+        animation: wave-motion-delayed 8s ease-in-out infinite;
+    }
+
+    .animate-pulse {
+        animation: pulse 4s ease-in-out infinite;
+    }
+
+    /* Particle Animation */
+    .particle {
+        position: absolute;
+        width: 10px;
+        height: 10px;
+        background-color: rgba(0, 255, 255, 0.3);
+        border-radius: 50%;
+        opacity: 0.5;
+        animation: wave-motion 10s ease-in-out infinite;
+    }
+    
+</style>
+    </style>
+
+<div class="w-full min-h-screen bg-[#0c0f16] relative overflow-hidden">
+
+    <div class="wave-wrapper">
+        <div class="wave wave-1"></div>
+        <div class="wave wave-2"></div>
+        <div class="wave wave-3"></div>
+    </div>
+
+    <div class="absolute inset-0 pointer-events-none">
+        <div class="particle absolute w-1 h-1 bg-teal-400/30 rounded-full animate-pulse"></div>
+        <div class="particle absolute w-1 h-1 bg-teal-400/30 rounded-full animate-pulse"></div>
+        <div class="particle absolute w-1 h-1 bg-teal-400/30 rounded-full animate-pulse"></div>
+    </div>
+
+    <div class="relative z-10">
    
    @include('student.partials.nav_bar')
    @include('staff.message.success')
@@ -16,10 +127,12 @@
            
         </div>
    </main>
+</div>
 
   
 
 </div>
+
 
 <script>
 
@@ -39,6 +152,25 @@
        } catch (e) {
            console.error("Error fetching data:", e);
        }
+
+       const particleContainer = document.body; // Use body for full-page effect
+        for (let i = 0; i < 6; i++) { // Reduced number of particles
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.cssText = `
+                left: ${Math.random() * 100}vw;
+                top: ${Math.random() * 100}vh;
+                animation-delay: ${Math.random() * 5}s;
+                animation-duration: ${6 + Math.random() * 4}s;
+            `;
+            if (i % 2 === 0) {
+                particle.classList.add('animate-wave');
+            } else {
+                particle.classList.add('animate-wave-delayed');
+            }
+            particleContainer.appendChild(particle);
+        }
+     
    });
 
 
@@ -104,20 +236,6 @@
         }, 300)
     }
 </script>
-
-
-
-<div class="rounded-full blur-[120px] opacity-60 bg-teal-300 w-[10%] h-[140px] absolute top-[25%] left-[20%]"></div>
-
-<div class="absolute top-[35%] left-[80%]  rounded-full blur-[120px] opacity-60 bg-teal-300 w-[10%] h-[140px]"></div>
-
-{{-- <div class="absolute top-0 left-0 w-full h-screen bg-gradient-to-b from-teal-100 to-transparent opacity-5">
-   <div class="w-full h-screen bg-teal-100 opacity-5 absolute top-0 left-0" style="background: linear-gradient(to bottom, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 1) 100%); backdrop-filter: blur(5px);">
-   </div>
-</div> --}}
-
-
-
 
 
 

@@ -1,54 +1,106 @@
-<main class="max-w-screen-xl mx-auto  dark md:p-[2rem] sm:p-[1rem] p-[1rem] pt-[10px] mt-[3.5rem]">       
-    <div class="banner w-full flex flex-row justify-center items-stretch gap-2">
-       <div id="default-carousel" class="relative w-[60%] items-stretch" data-carousel="slide">
-          <!-- Carousel wrapper -->
-          <div class="relative h-full  overflow-hidden rounded-lg">
-             <!-- Item 1 -->
-             <div class="hidden duration-700 ease-in-out bg-white" data-carousel-item>
-                <img src="{{asset('img/slide1.webp')}}" class="absolute block w-full h-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
-             </div>
-             <!-- Item 2 -->
-             <div class="hidden duration-700 ease-in-out bg-white" data-carousel-item>
-                <img src="{{asset('img/slide2.webp')}}" class="absolute block w-full h-full  -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
-             </div>
-             <!-- Item 3 -->
-             <div class="hidden duration-700 ease-in-out bg-white" data-carousel-item>
-                <img src="{{asset('img/slide3.webp')}}" class="absolute block w-full h-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
-             </div>
-          
-          </div>
-          <!-- Slider indicators -->
-          <div class="absolute z-30 flex -translate-x-1/2 bottom-5 left-1/2 space-x-3 rtl:space-x-reverse">
-             <button type="button" class="w-3 h-3 rounded-full" aria-current="true" aria-label="Slide 1" data-carousel-slide-to="0"></button>
-             <button type="button" class="w-3 h-3 rounded-full" aria-current="false" aria-label="Slide 2" data-carousel-slide-to="1"></button>
-             <button type="button" class="w-3 h-3 rounded-full" aria-current="false" aria-label="Slide 3" data-carousel-slide-to="2"></button>
-          </div>
-          <!-- Slider controls -->
-          <button type="button" class="absolute top-0 start-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none" data-carousel-prev>
-             <span class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 dark:bg-gray-800/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none">
-                <svg class="w-4 h-4 text-white dark:text-gray-800 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
-                      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 1 1 5l4 4"/>
-                </svg>
-                <span class="sr-only">Previous</span>
-             </span>
-          </button>
-          <button type="button" class="absolute top-0 end-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none" data-carousel-next>
-             <span class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 dark:bg-gray-800/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none">
-                <svg class="w-4 h-4 text-white dark:text-gray-800 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
-                      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4"/>
-                </svg>
-                <span class="sr-only">Next</span>
-             </span>
-          </button>
-       </div> 
- 
-       <div class="w-[40%]  gap-2 flex flex-col">
-          <div class="rounded-lg w-full bg-white">
-             <img src="{{asset('img/slide4.webp')}}" class="w-full h-[150px] object-cover bg-no-repeat " alt="...">
-          </div>
-          <div class="rounded-lg w-full bg-white">
-             <img src="{{asset('img/slide5.webp')}}" class="w-full h-[150px] object-cover bg-no-repeat" alt="...">
-          </div>  
-       </div> 
-    </div>    
- </main>
+<main class="max-w-screen-xl mx-auto dark:bg-gray-800 p-4 md:p-8 mt-[3.5rem]">
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+   
+   <div class="banner w-full flex flex-col md:flex-row gap-4 h-[300px] md:h-[300px]">
+       <!-- Main Carousel -->
+       <div class="w-full md:w-[60%] flex flex-col h-full">
+           <div class="swiper-container relative rounded-xl overflow-hidden shadow-xl h-full">
+               <div class="swiper-wrapper h-full">
+                  <div class="swiper-slide">
+                     <img src="{{asset('img/slide1.webp')}}" 
+                          class="w-full h-full object-cover object-center"
+                          alt="Slide 1">
+                 </div>
+                 <div class="swiper-slide">
+                     <img src="{{asset('img/slide2.webp')}}" 
+                          class="w-full h-full object-cover object-center"
+                          alt="Slide 2">
+                 </div>
+                 <div class="swiper-slide">
+                     <img src="{{asset('img/slide3.webp')}}" 
+                          class="w-full h-full object-cover object-center"
+                          alt="Slide 3">
+                 </div>
+            
+               </div>
+
+               <!-- Dark Navigation Buttons -->
+               <div class="swiper-button-next !w-10 !h-10 bg-gray-800/30 hover:bg-gray-800/50 rounded-full backdrop-blur-sm">
+                   <svg class="w-5 h-5 text-gray-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M9 5l7 7-7 7"/>
+                   </svg>
+               </div>
+               <div class="swiper-button-prev !w-10 !h-10 bg-gray-800/30 hover:bg-gray-800/50 rounded-full backdrop-blur-sm">
+                   <svg class="w-5 h-5 text-gray-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M15 19l-7-7 7-7"/>
+                   </svg>
+               </div>
+
+               <!-- Dark Pagination -->
+               <div class="swiper-pagination !bottom-4"></div>
+           </div>
+       </div>
+
+       <div class="w-full md:w-[40%] flex flex-col gap-4 h-full">
+         <div class="relative group h-[calc(50%)] overflow-hidden rounded-xl shadow-lg hover:shadow-xl transition-all">
+             <img src="{{asset('img/slide4.webp')}}" 
+                  class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                  alt="Banner 1">
+         </div>
+         <div class="relative group h-[calc(50%)] overflow-hidden rounded-xl shadow-lg hover:shadow-xl transition-all">
+             <img src="{{asset('img/slide5.webp')}}" 
+                  class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                  alt="Banner 2">
+         </div>
+   </div>
+
+   <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+   <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+   <script>
+       const swiper = new Swiper('.swiper-container', {
+           loop: true,
+           speed: 800,
+           autoplay: {
+               delay: 3000,
+           },
+           pagination: {
+               el: '.swiper-pagination',
+               clickable: true,
+               renderBullet: function (index, className) {
+                   return `<span class="${className} w-3 h-3 bg-white/50 hover:bg-white/80 rounded-full transition-colors"></span>`;
+               },
+           },
+           navigation: {
+               nextEl: '.swiper-button-next',
+               prevEl: '.swiper-button-prev',
+           },
+       });
+   </script>
+
+   <style>
+       .swiper-button-next::after,
+       .swiper-button-prev::after {
+           content: '';
+           display: none;
+       }
+       
+       .swiper-button-next svg,
+       .swiper-button-prev svg {
+           width: 1.5rem;
+           height: 1.5rem;
+           color: rgba(31, 41, 55, 0.8); /* Gray-800 with opacity */
+       }
+       
+       .swiper-pagination-bullet {
+           background: rgba(31, 41, 55, 0.5) !important; /* Gray-800 with 50% opacity */
+       }
+       
+       .swiper-pagination-bullet-active {
+           background: rgba(31, 41, 55, 0.8) !important; /* Gray-800 with 80% opacity */
+       }
+       
+       .swiper-pagination-bullet:hover {
+           background: rgba(31, 41, 55, 0.7) !important;
+       }
+   </style>
+</main>

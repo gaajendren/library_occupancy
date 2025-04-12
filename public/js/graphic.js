@@ -3,7 +3,11 @@
 const ctx = document.getElementById('hourly_by_day').getContext('2d')
 
 
- new Chart(ctx, {
+if(chart){
+    chart.destroy(); 
+  }
+
+  chart = new Chart(ctx, {
     type: 'bar',
     data: {
         labels: hours,

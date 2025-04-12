@@ -52,6 +52,12 @@
                   <h1 class="text-gray-900 text-lg text-bold">{{$userCount}}</h1>
               </div>
             </div>
+            <div class="rounded-lg bg-white shadow-md min-w-[100px] overflow-hidden ">
+              <div class='border-l-[3px] border-l-teal-400 flex flex-col justify-center items-start p-5'>
+                  <p class="text-sm text-gray-600 font-regular">Total Reservation</p>
+                  <h1 class="text-gray-900 text-lg text-bold">{{$totalReservation}}</h1>
+              </div>
+            </div>
           </div>
 
         
@@ -131,6 +137,9 @@
             </div>
           </div>
       </div>
+      <script>
+       let chart;
+      </script>
                 @if ($hour_error ?? false )
 
                 <script> 
@@ -146,7 +155,7 @@
                 const hours = @json($hours);
                 const counts = @json($counts);
                 
-                console.log(e)
+               
                     
                 
                 document.getElementById('hour_error').classList.add('hidden')
@@ -163,8 +172,16 @@
 
     <script>
 
+    function destroyAllCharts() {
+       
+        Object.keys(Chart.instances).forEach((chartId) => {
+            Chart.instances[chartId].destroy();
+        });
+    }
+
+
       const date = document.getElementById('date')
-      let chart;
+     
       const month = document.getElementById('month')
       const year = document.getElementById('year')
 
@@ -172,27 +189,27 @@
         
 
          const dateContainer = document.getElementById('dateContainer')
-         const range = document.getElementById('date_range').value
+         let range = document.getElementById('date_range').value
          let queryParams = ''
        
         if (range === 'not') {     
          
         } else if (range === 'date') {
-          const date_value = document.getElementById('default-datepicker').value;
+          let date_value = document.getElementById('default-datepicker').value;
           queryParams = `?range=date&value=${date_value}`;
 
           get_chart_data(queryParams , 'Hourly Count of People')
 
         } else if (range === 'month') {
-          const month_value = document.getElementById('monthpicker').value;
+          let month_value = document.getElementById('monthpicker').value;
           queryParams = `?range=month&value=${encodeURIComponent(month_value)}`;
 
           get_chart_data(queryParams , 'Montly Count of People')
 
         } else if (range === 'year') {
-          const year_value = document.getElementById('yearpicker').value;
+          let year_value = document.getElementById('yearpicker').value;
           queryParams = `?range=year&value=${encodeURIComponent(year_value)}`;
-
+          console.log(queryParams);
           get_chart_data(queryParams , 'Yearly Count of People')
 
         } 
@@ -208,12 +225,13 @@
           const response = await axios.get(`/staff/api/chart${queryParams}`);
           const [x, counts] = response.data;
 
+         
+         
+
           if(x.length == 0 || counts.length == 0){
             document.getElementById('hour_error').innerHTML = 'No Data Available'; 
             document.getElementById('hour_error').classList.remove('hidden')
-                if(chart){
-                  chart.destroy(); 
-                 }
+            destroyAllCharts()
             return
           }
 
@@ -299,10 +317,8 @@
 
       function graph(x,counts, label, chart_type){
 
-        if(chart){
-          chart.destroy(); 
-        }
-      
+        destroyAllCharts()
+
         const ctx = document.getElementById('hourly_by_day').getContext('2d')
 
 

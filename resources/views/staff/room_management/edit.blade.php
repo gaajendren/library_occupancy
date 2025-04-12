@@ -43,49 +43,67 @@
                              
                             </div>
     
-                            @error('img.*')
-                                <span class="text-danger">{{ $message }}</span>
-                            @enderror
-                            @error('img')
-                             <span class="text-danger">{{ $message }}</span>
-                            @enderror
     
                         </div>
     
-                      
-                        <div class="flex flex-col text-slate-600 mb-3"> 
-                            <label for="title" class="mb-3 ">Title</label>
-                            <input type="text" value="{{$room->title}}"  class="rounded-lg bg-gray-200  border-gray-300 text-slate-600 h-10 p-4" name="title" id="title">
-                            @error('title')
-                                <span class="text-danger">{{ $message }}</span>
-                            @enderror
+                        <div class="flex flex-row flex-1 mb-8 gap-8 justify-start"> 
+                            <div class="flex flex-col "> 
+                                <label for="title" class="mb-3 ">Room Type</label>
+                                <input type="text" value="{{$room->title}}"  class="rounded-lg bg-gray-200  border-gray-300 text-slate-600 h-10 p-4" name="title" id="title">
+                                @error('title')
+                                    <span class="text-danger">{{ $message }}</span>
+                                @enderror
+                            </div>
+                            <div class="flex flex-col">
+                                <label for="min_seat" class="mb-3 ">Total Seat</label>
+                                <div class="flex flex-row gap-2 items-center">
+                                    <div class="flex flex-col">
+                                        <input type="number" value="{{$room->min_seat}}"  class="rounded-lg bg-gray-200 border-gray-300 text-slate-600 h-10 p-4" name="min_seat" id="min_seat">
+                                        @error('min_seat')
+                                            <span class="text-danger">{{ $message }}</span>
+                                        @enderror
+                                    </div>
+                                    <p><i class="fa-solid fa-minus fa-sm"></i></p>
+                                    <div class="flex flex-col">
+                                        <input type="number" value="{{$room->max_seat}}"  class="rounded-lg bg-gray-200 border-gray-300 text-slate-600 h-10 p-4" name="max_seat" id="max_seat">
+                                        @error('max_seat')
+                                            <span class="text-danger">{{ $message }}</span>
+                                        @enderror
+                                    </div>
+                                </div>                           
+                            </div> 
                         </div>
                     
                        
-                        <div class="flex flex-col text-slate-600 mb-3"> 
-                            <label for="min_seat" class="mb-3 ">Min Seat</label>
-                            <input type="number" value="{{$room->min_seat}}"  class="rounded-lg bg-gray-200 border-gray-300 text-slate-600 h-10 p-4" name="min_seat" id="min_seat">
-                            @error('min_seat')
+                    
+                        <div class="flex flex-row text-slate-600 mb-8 gap-8 justify-start"> 
+                            <div class="flex flex-col "> 
+                                <label for="slot" class="mb-3 ">Slot Duration</label>
+                                <select name="slot" onchange="update_maxSlot(this)" id="slot" class="bg-white border-gray-300 focus:ring-0 rounded-lg w-full dark:bg-gray-200 dark:text-slate-600">
+                                    <option {{$room->slot == 'hour' ? 'selected' : ''}} value="hour">1 Hour</option>
+                                    <option {{$room->slot == 'day' ? 'selected' : ''}} value="day">1 Day</option>
+                                    <option {{$room->slot == 'month' ? 'selected' : ''}} value="month">1 Month</option>
+                                </select>
+                                @error('slot')
                                 <span class="text-danger">{{ $message }}</span>
-                            @enderror
+                                @enderror
+                            </div>
+
+                            <div id="container_slot" class="flex flex-col"> 
+                                <label for="max_slot" class="mb-3 ">Max Reserve Slots</label>
+                                <input type="number" value="{{$room->max_slot}}"  class="rounded-lg bg-gray-200 border-gray-300 text-slate-600 h-10 p-4" name="max_slot" id="max_slot">
+                                @error('max_slot')
+                                    <span class="text-danger">{{ $message }}</span>
+                                @enderror
+                            </div>
+
+                        
+                       
                         </div>
 
-                        <div class="flex flex-col text-slate-600 mb-3"> 
-                            <label for="max_seat" class="mb-3 ">Max Seat</label>
-                            <input type="number" value="{{$room->max_seat}}"  class="rounded-lg bg-gray-200 border-gray-300 text-slate-600 h-10 p-4" name="max_seat" id="max_seat">
-                            @error('max_seat')
-                                <span class="text-danger">{{ $message }}</span>
-                            @enderror
-                        </div>
 
 
-                        <div class="flex flex-col text-slate-600 mb-3"> 
-                            <label for="location" class="mb-3 ">Location</label>
-                            <input type="text"  value="{{$room->location}}" class="rounded-lg bg-gray-200  border-gray-300 text-slate-600 h-10 p-4" name="location" id="location">
-                            @error('location')
-                                <span class="text-danger">{{ $message }}</span>
-                            @enderror
-                        </div>
+                        
 
                         <div class="flex flex-col text-slate-600 mb-3"> 
                             <label for="desc" class="mb-3 ">Description</label>
@@ -155,6 +173,15 @@
            
         });
 
+        function update_maxSlot(e){
+           if (e.value != 'hour'){
+             document.getElementById('container_slot').classList.add('hidden');
+             document.getElementById('max_slot').value = 1;
+           }else{
+            document.getElementById('container_slot').classList.remove('hidden');
+           }
+        }
+
 
         // function edit_image(element){
         
@@ -186,6 +213,28 @@
         // tempInput.click();
         // }
 
+
+        function card_expand(e){
+            document.getElementById('sub_child').classList.toggle('hidden');
+
+            if( document.getElementById('sub_child').classList.contains('hidden')){
+
+                document.getElementById('expand').classList.remove('fa-chevron-up',);
+                document.getElementById('expand').classList.add('fa-chevron-down');
+                e.classList.remove('rounded-t-md');
+                e.classList.add('rounded-md');
+
+            }else{
+
+                document.getElementById('expand').classList.add('fa-chevron-up',);
+                document.getElementById('expand').classList.remove('fa-chevron-down');
+                e.classList.add('rounded-t-md');
+                e.classList.remove('rounded-md');
+            }
+        }
+
+
+      
         
     </script>
 

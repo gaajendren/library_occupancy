@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\Room;
 use App\Models\Person_enter;
 use App\Models\Person_exit;
+use App\Models\Reservation;
 use Illuminate\Database\Eloquent\Casts\Json;
 use Illuminate\Http\Request;
 
@@ -18,6 +19,8 @@ class OccupancyController extends Controller
         $yesterdayDate = Carbon::now('Asia/Kuala_Lumpur')->subDay()->toDateString();
         $today = Carbon::now('Asia/Kuala_Lumpur')->startOfDay()->toDateString();
 
+        $total_reservation = Reservation::where('date', $today)->count();
+
         $userCount = User::where('role', 0)->count();
         $roomCount = Room::count();
 
@@ -28,7 +31,7 @@ class OccupancyController extends Controller
             return view('staff.occupancy_report.report')->with('hour_error', 'No Data Available')->with('userCount', $userCount)->with('roomCount', $roomCount);
         }
 
-        return view('staff.occupancy_report.report') ->with('hours', $hours)->with('counts', $counts)->with('userCount', $userCount)->with('roomCount', $roomCount);
+        return view('staff.occupancy_report.report')->with('hours', $hours)->with('counts', $counts)->with('userCount', $userCount)->with('roomCount', $roomCount)->with('totalReservation', $total_reservation);
     }
 
 
@@ -49,7 +52,7 @@ class OccupancyController extends Controller
                     return Carbon::parse($item['Time'])->format('H:00');
                 })
                 ->map(function($items){
-                    return $items->sum('Count'); 
+                    return $items->sum('Count')/60; 
                 });
 
         $hours = $hour_count->keys()->toArray();
@@ -100,6 +103,7 @@ class OccupancyController extends Controller
             return [[],[]];
         }
 
+        
        
         $groupedByMonth = collect($records)->groupBy(function($item){
             return Carbon::parse($item['Date'])->format('m'); 
@@ -167,11 +171,7 @@ class OccupancyController extends Controller
         else if($range === 'year'){
             $year = $request->query('value');
 
-            try {
-                $year = Carbon::parse($year)->year;
-            } catch (\Exception $e) {
-                return response()->json(['error' => 'Invalid date format'], 400);
-            }
+            $year = intval($year);
 
             [$month, $counts] = $this->month($year);
     
@@ -321,6 +321,11 @@ class OccupancyController extends Controller
             'sum_no_detect' => $sum_no_detect
             
         ], 200); 
+
+    }
+
+
+    public function crowd_hour(){
 
     }
     

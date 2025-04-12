@@ -44,14 +44,16 @@
 
             <div class="mt-[20px] w-[40%] flex flex-row justify-center items-center">
                 <div class="flex flex-col w-1/2 gap-4">
-                    <p class="text-gray-300 text-md self-start cabin">Min Student:</p>
-                    <p class="text-gray-300 text-md self-start cabin">Max Student:</p>
-                    <p class="text-gray-300 text-md self-start cabin">Location:</p>
+                    <p class="text-gray-300 text-md self-start cabin">Seat :</p>
+                    <p class="text-gray-300 text-md self-start cabin">Duration</p>
+                    <p class="text-gray-300 text-md self-start cabin">Max Slot :</p>
+                   
                 </div>
                 <div class="flex flex-col w-1/2 gap-4">
-                    <p class="text-white text-md self-start cabin">{{$room->min_seat}}</p>
-                    <p class="text-white text-md self-start cabin">{{$room->max_seat}}</p>
-                    <p class="text-white text-md self-start cabin">{{$room->location}}</p>
+                    <p class="text-white text-md self-start cabin">{{$room->min_seat}} - {{$room->max_seat}}</p>
+                    <p class="text-white text-md self-start cabin">{{ Str::title($room->slot)}}</p>
+                    <p class="text-white text-md self-start cabin">{{$room->max_slot}}</p>
+                  
                 </div>
             </div>
 
@@ -62,7 +64,18 @@
 
 
         <div class="flex justify-center item-center flex-col w-1/2 gap-4" >
-            <form action="{{route('student.reservation', $room->id)}}" id="form" method ='post' enctype="multipart/form-data">
+            @php
+                $route = '';
+
+                if($room->slot == 'day'){
+                    $route = route('student.reservation.day', $room->id);
+                }else if($room->slot == 'month'){
+                    $route = route('student.reservation.month', $room->id);
+                }else if($room->slot == 'hour'){
+                    $route = route('student.reservation', $room->id);
+                }
+            @endphp
+            <form action="{{$route}}" id="form" method ='post' enctype="multipart/form-data">
              @csrf
             <div class='w-full flex flex-col justify-start items-start h-fit gap-3'>
                 <p class="leading-none  text-[32px] text-white text-regular align-top self-start mb-8">Your Reservation</p>
@@ -74,21 +87,46 @@
                 <div class="text-red-400" >{{ $message }}</div>
                 @enderror
 
-                <button type="button" data-modal-target="slot-modal" data-modal-toggle="slot-modal" class='bg-teal-200 rounded-sm text-bg-[#0c0f16] text-md text-semibold py-2 px-3 hover:bg-teal-600 cabin w-[70%] my-4'>Choose Date & Time</button>
-
-                <label  class='text-white text-sm '>Date: <span id='date'></span></label>
-                <label  class='text-white text-sm '>Slot time: <span id='time'></span></label>
                 
-                <input type="date" name="date" class="hidden">
+                 <button type="button" id="slot_open" data-modal-target="slot-modal" data-modal-toggle="slot-modal" class='bg-teal-200 rounded-sm text-bg-[#0c0f16] text-md text-semibold py-2 px-3 hover:bg-teal-600 cabin w-[70%] my-4'>Choose Date & Time</button> 
+                
+
+                 @if ($room->slot == 'hour' || $room->slot == 'day')
+
+                    <label  class='text-white text-sm '>Date: <span id='date'></span></label>
+                
+                    <input type="date" name="date" class="hidden">
+                    <input type="hidden" name="room_id" id="roomID" >
+                    @error('date')
+                    <div class="text-red-400" >{{ $message }}</div>
+                    @enderror
+                
+                @endif
+
+                @if ($room->slot == 'hour')
+                    <label  class='text-white text-sm '>Slot time: <span id='time'></span></label>
+               
+                    <input type="hidden" name="time">
+                    
+                    @error('time')
+                    <div class="text-red-400" >{{ $message }}</div>
+                    @enderror
+
+                @endif
+
+                @if ($room->slot == 'month')
+
+                <label  class='text-white text-sm '>Month: <span id='month'></span></label>
+            
+                <input type="text" name="date" class="hidden">
+                <input type="hidden" name="room_id" id="roomID" >
                 @error('date')
                 <div class="text-red-400" >{{ $message }}</div>
                 @enderror
-               
-                <input type="hidden" name="time">
-                @error('time')
-                <div class="text-red-400" >{{ $message }}</div>
-                @enderror
-               
+            
+            @endif
+
+                
                 
                 <label for="" class='text-white text-sm '>Matrix card screenshot: <sup class='text-teal-200 text-xs'> * front side only</sup> </label>
                 <div class="flex flex-col w-[70%] text-slate-300 mb-3">
@@ -245,16 +283,36 @@ const current_tImage = document.getElementById('uploaded_img');
         }else if(event.target.id == 'form_submit'){
            const form = document.getElementById('form')
            event.preventDefault();
-           
-           if(form.querySelector('#countStudent').value == '' || form.querySelector('[name="date"]').value == '' || form.querySelector('[name="time"]').value == '' ){
-             document.getElementById('full_error').textContent = 'Please fill up all input'
-             document.getElementById('full_error').classList.remove('hidden')
-             return false
-           }else{
-            document.getElementById('full_error').textContent = ''
-            document.getElementById('full_error').classList.add('hidden')
-           }
+
+            const countStudent = form.querySelector('#countStudent')?.value?.trim();
+            const date = form.querySelector('[name="date"]')?.value?.trim();
+            const time = form.querySelector('[name="time"]')?.value?.trim();
+
+
+            let checker = @json(in_array($room->slot, ['day', 'month']))  == true ? true : false
+
             
+            if(checker){
+                if (!countStudent || !date) {
+                    alert('Please fill in all required fields: Student Count, Date.');
+                    return false;
+                }else{
+                    document.getElementById('full_error').textContent = ''
+                    document.getElementById('full_error').classList.add('hidden')
+                 }
+            }else{
+
+                if (!countStudent || !date || !time) {
+                    alert('Please fill in all required fields: Student Count, Date, and Time.');
+                    return false;
+                }else{
+                    document.getElementById('full_error').textContent = ''
+                    document.getElementById('full_error').classList.add('hidden')
+                 }
+            
+            }
+           
+           
            if(allFiles.length != parseInt(form.querySelector('#countStudent').value)){
              document.getElementById('img_eror').textContent = `Please send all ${form.querySelector('#countStudent').value} student matrix card image.`
              document.getElementById('img_eror').classList.remove('hidden')
@@ -264,11 +322,30 @@ const current_tImage = document.getElementById('uploaded_img');
              document.getElementById('img_eror').classList.add('hidden')
            }
 
+          
+
            form.submit();
             
         }
     }
 </script>
 
+
+@if ($room->slot == "day")
+
+@include('student.room.slot_day')
+    
+@elseif ($room->slot == "hour")
+
 @include('student.room.slot')
+
+@elseif ($room->slot == "month")
+
+@include('student.room.slot_month')
+    
+@endif
+
+
+
+
 </x-app-layout>
