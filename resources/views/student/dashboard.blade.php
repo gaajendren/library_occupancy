@@ -137,8 +137,8 @@
 <script>
 
     let room_list = [];
-
-
+    const setting = [];
+   
    document.addEventListener("DOMContentLoaded", async () => {
        const roomContainer = document.getElementById("room_catalog");
 
@@ -170,7 +170,7 @@
             }
             particleContainer.appendChild(particle);
         }
-     
+       
    });
 
 
@@ -235,6 +235,11 @@
             });
         }, 300)
     }
+
+
+   
+         
+     
 </script>
 
 

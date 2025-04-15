@@ -5,6 +5,7 @@ use Carbon\Carbon;
 use App\Models\Occupancy;
 use App\Models\User;
 use App\Models\Room;
+use App\Models\Room_name;
 use App\Models\Person_enter;
 use App\Models\Person_exit;
 use App\Models\Reservation;
@@ -13,6 +14,12 @@ use Illuminate\Http\Request;
 
 class OccupancyController extends Controller
 {
+
+    protected $reservation_report;
+
+    public function __construct(Reservation_report $reservation_report) {
+        $this->reservation_report = $reservation_report;
+    }
     
     public function index()
     {
@@ -28,13 +35,11 @@ class OccupancyController extends Controller
 
         if(collect($hours)->isEmpty()){
            
-            return view('staff.occupancy_report.report')->with('hour_error', 'No Data Available')->with('userCount', $userCount)->with('roomCount', $roomCount);
+            return view('staff.occupancy_report.report')->with('hour_error', 'No Data Available')->with('userCount', $userCount)->with('roomCount', $roomCount)->with('totalReservation', $total_reservation);
         }
 
         return view('staff.occupancy_report.report')->with('hours', $hours)->with('counts', $counts)->with('userCount', $userCount)->with('roomCount', $roomCount)->with('totalReservation', $total_reservation);
     }
-
-
 
 
     public function hour($date){
@@ -328,6 +333,28 @@ class OccupancyController extends Controller
     public function crowd_hour(){
 
     }
+
+
+
+    
+    public function room_utilize($type){
+
+        try {
+            if ($type == 'hour') {
+                $result = $this->reservation_report->utilize_by_hour();
+            } elseif ($type == 'day') {
+                $result = $this->reservation_report->utilize_by_day();
+            } else {
+                $result = $this->reservation_report->utilize_by_month();
+            }
+    
+            return response()->json($result);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+       
+     }
+ 
     
 
 }

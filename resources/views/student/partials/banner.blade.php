@@ -6,21 +6,22 @@
        <div class="w-full md:w-[60%] flex flex-col h-full">
            <div class="swiper-container relative rounded-xl overflow-hidden shadow-xl h-full">
                <div class="swiper-wrapper h-full">
-                  <div class="swiper-slide">
-                     <img src="{{asset('img/slide1.webp')}}" 
-                          class="w-full h-full object-cover object-center"
-                          alt="Slide 1">
-                 </div>
-                 <div class="swiper-slide">
-                     <img src="{{asset('img/slide2.webp')}}" 
-                          class="w-full h-full object-cover object-center"
-                          alt="Slide 2">
-                 </div>
-                 <div class="swiper-slide">
-                     <img src="{{asset('img/slide3.webp')}}" 
-                          class="w-full h-full object-cover object-center"
-                          alt="Slide 3">
-                 </div>
+                @php
+                    $banners = json_decode($setting->banner, true);
+                @endphp
+
+                @if(isset($banners['slider_image']))
+                    @foreach ($banners['slider_image'] as $slider)
+
+                    <div class="swiper-slide">
+                        <img src="{{ asset('img/' . $slider) }}"
+                                class="w-full h-full object-cover object-center"
+                                alt="Slide 1">
+                    </div>
+                    
+                    @endforeach
+                @endif
+                
             
                </div>
 
@@ -43,12 +44,12 @@
 
        <div class="w-full md:w-[40%] flex flex-col gap-4 h-full">
          <div class="relative group h-[calc(50%)] overflow-hidden rounded-xl shadow-lg hover:shadow-xl transition-all">
-             <img src="{{asset('img/slide4.webp')}}" 
+             <img src="{{ asset('img/' . $banners['banner_2']) }}" 
                   class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                   alt="Banner 1">
          </div>
          <div class="relative group h-[calc(50%)] overflow-hidden rounded-xl shadow-lg hover:shadow-xl transition-all">
-             <img src="{{asset('img/slide5.webp')}}" 
+             <img src="{{ asset('img/' . $banners['banner_3']) }}" 
                   class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                   alt="Banner 2">
          </div>
@@ -75,6 +76,8 @@
                prevEl: '.swiper-button-prev',
            },
        });
+
+      
    </script>
 
    <style>

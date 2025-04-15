@@ -98,7 +98,8 @@
                     <input type="date" name="date" class="hidden">
                     <input type="hidden" name="room_id" id="roomID" >
                     @error('date')
-                    <div class="text-red-400" >{{ $message }}</div>
+                 
+                    <div class="text-red-400" >{{ $message ?? '' }}</div>
                     @enderror
                 
                 @endif
@@ -109,7 +110,8 @@
                     <input type="hidden" name="time">
                     
                     @error('time')
-                    <div class="text-red-400" >{{ $message }}</div>
+                    
+                    <div class="text-red-400" >{{ $message ?? '' }}</div>
                     @enderror
 
                 @endif
@@ -121,7 +123,8 @@
                 <input type="text" name="date" class="hidden">
                 <input type="hidden" name="room_id" id="roomID" >
                 @error('date')
-                <div class="text-red-400" >{{ $message }}</div>
+               
+                <div class="text-red-400" >{{ $message ?? ''}}</div>
                 @enderror
             
             @endif

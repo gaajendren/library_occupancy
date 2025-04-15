@@ -25,8 +25,8 @@
         </div>
 
         <div class="w-full flex flex-row gap-4 justify-center items-center">
-            <img id="video-stream" class="w-1/2" src="" alt="Video Stream">
-            <img id="video-stream-exit" class="w-1/2" src="" alt="Video Stream">
+            <div id="video-enter" class="w-1/2"></div>
+            <div id="video-exit"  class="w-1/2"></div>
         </div>
     </main>
    
@@ -41,58 +41,32 @@
             document.getElementById('person-count').innerText = data.count;
         });
 
-
-     
-        const streamCache = {
-            enter: null,
-            exit: null
-        };
-
         function setupStream(way) {
-            const imgElement = way === 'enter' 
-                ? document.getElementById('video-stream') 
-                : document.getElementById('video-stream-exit');
-            
-          
+            const container = document.getElementById(`video-${way}`);
             const img = new Image();
-          
-           
-            if (imgElement.parentNode) {
-                imgElement.parentNode.replaceChild(img, imgElement);
-                if (way === 'enter') {
-                    videoStream = img;
-                } else {
-                    videoStreamExit = img;
-                }
-            }
+            container.appendChild(img);
             
-          
             let lastUpdate = 0;
-            const updateInterval = 1000 / 10; 
+            const targetFps = 60;
             
             socket.on(`video_frame_${way}`, (data) => {
                 const now = performance.now();
-                if (now - lastUpdate >= updateInterval) {
-                    img.src = 'data:image/jpeg;base64,' + data.frame;
+                if (now - lastUpdate >= 1000/targetFps) {
+                    img.src = `data:image/jpeg;base64,${data.frame}`;
                     lastUpdate = now;
                 }
             });
         }
 
-     
+      
         setupStream('enter');
         setupStream('exit');
-
-        
-        socket.emit('request_video_feed', { way: 'enter' });
-        socket.emit('request_video_feed', { way: 'exit' });
+        socket.emit('request_video_feeds', {ways: ['enter', 'exit']});
        
         function load_status(){
             axios.get('http://127.0.0.1:5000/current_status')
                 .then(function (response) {
 
-
-                    
                     if(response.data == 'success'){
                         $('#status').addClass('hidden')
                         

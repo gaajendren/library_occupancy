@@ -2,7 +2,11 @@
     <nav class="p-[1rem]  bg-transparent border-gray-200 dark:white flex  items-center justify-center w-full">
       <div class="relative max-w-screen-xl w-full flex flex-wrap items-center justify-between mx-auto ">
        <a href="" class="flex items-center space-x-3 rtl:space-x-reverse z-10">
-           <img src="{{asset('img/UTHM_Logo.png')}}" class="h-8" alt="PTTA Logo" />
+          @use('App\Models\Setting');
+          @php
+              $setting_logo = Setting::first();
+          @endphp
+           <img src="{{  url($setting_logo->logo)}}" class="h-8" alt="PTTA Logo" />
            <div class="flex flex-col">
              <span class="self-center text-l font-[400] whitespace-nowrap dark:text-white">Perpustakaan Tunku </span>
              <span class="self-center text-l font-[400] whitespace-nowrap dark:text-white">Tun Aminah</span>

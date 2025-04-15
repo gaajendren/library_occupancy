@@ -70,7 +70,7 @@
             <div class="flex flex-row w-full items-center gap-3">
                 <p class="w-[40%] max-w-[250px] text-sm font-semibold text-black  inter">Description</p>
                 <div class=" w-[60%]">
-                    <div id="editor" class="bg-white text-sm shadow-sm text-slate-700">{{$setting->description}}</div>
+                    <div id="editor" class="bg-white text-sm shadow-sm text-slate-700">{!! $setting->description !!}</div>
                     <input type="hidden" name="description" id="description">
                 </div>
             </div>

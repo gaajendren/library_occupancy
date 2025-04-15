@@ -136,9 +136,32 @@
               </div>   
             </div>
           </div>
+
+          <div class="w-full flex flex-row">
+            <div class="mx-4 rounded-lg border border-gray-300 shadow-sm bg-white my-4 flex flex-wrap flex-col  h-fit w-1/3">
+              <div class="self-end rounded-t-lg p-2 px-4 text-gray-600 content-end w-full bg-gray-50  border-b border-gray-300">Utilization</div>
+              <div class="w-full relative "> 
+                <select id="p_type"  class="bg-gray-100 p-2 m-2 border border-none  focus:ring-0  text-gray-800 text-sm rounded-lg block w-fit  dark:bg-gray-700 dark:text-white ml-auto">
+                  <option class="text-gray-800" disabled>Slot Type</option>
+                  <option value="hour" class="text-gray-800" selected>Hour</option> 
+                  <option value="day" class="text-gray-800">Day</option> 
+                  <option value="month" class="text-gray-800">Month</option>
+                </select>
+
+                <div id='utilization_error' class="hidden p-3 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-red-100 border border-red-400 rounded-lg font-regular text-red-700 text-lg  ">
+                 
+                </div>
+                <canvas id="utilization" class=" h-[300px] mx-auto" role="img"></canvas>
+              
+              </div>   
+            </div>
+          </div>
+
+
       </div>
       <script>
        let chart;
+      
       </script>
                 @if ($hour_error ?? false )
 
@@ -294,14 +317,7 @@
             startView: 2,
         });
 
-        
-
-
-
-
-
-
-
+      
         // monthPicker.addEventListener('changeDate', (event) => {
             
         // datepicker.setDate('05/31/2024');
@@ -313,7 +329,10 @@
 
 
     <script>
-     
+
+      let utilize_chart = null;
+
+      
 
       function graph(x,counts, label, chart_type){
 
@@ -321,8 +340,9 @@
 
         const ctx = document.getElementById('hourly_by_day').getContext('2d')
 
+       
 
-        chart =  new Chart(ctx, {
+        new Chart(ctx, {
           type: chart_type,
           data: {
               labels: x,
@@ -364,6 +384,89 @@
         })
 
       }
+
+
+      document.addEventListener('DOMContentLoaded', ()=>{    
+         get_data('hour')
+      })
+
+      document.getElementById('p_type').addEventListener('input', ()=>{
+         let type_choice = document.getElementById('p_type').value;
+         get_data(type_choice)
+      });
+
+
+      async function get_data(type){          
+        const res = await axios.get(`/staff/utilize/${type}`);
+
+        if(res){
+          console.log(res)
+          utilize_graph(res.data, type)
+        }
+      }
+
+
+      function utilize_graph(data, type) {
+
+          if (utilize_chart !== null) {
+            utilize_chart.destroy();
+            utilize_chart = null;
+          }
+          const ctx = document.getElementById('utilization').getContext('2d');
+
+
+          const labels = ['Available', 'Inavailable']
+          let utilizationData
+          
+          if(type == 'month'){
+             utilizationData = data[0].monthly_utilization;
+
+            const totalUtilization = utilizationData.reduce((sum, item) => sum + item.utilization_percent, 0);
+
+            const averageUtilization = utilizationData.length > 0 ? totalUtilization / utilizationData.length : 0;
+
+            utilizationData = averageUtilization / 100;
+
+            console.log(utilizationData)
+            
+          }else{
+             utilizationData = data.map(item => item.utilization_percent/ 100);
+          }
+
+          const backgroundColors = [
+              '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0',
+              '#9966FF', '#FF9F40', '#C9CBCF', '#FF6384'
+          ];
+
+          utilize_chart = new Chart(ctx, {
+              type: 'pie',
+              data: {
+                  labels: labels,
+                  datasets: [{
+                      label: 'Utilization Percent',
+                      data: [utilizationData, 1-utilizationData],
+                      backgroundColor: backgroundColors,
+                     
+                  }]
+              },
+              options: {
+                  responsive: true,
+                  plugins: {
+                      legend: {
+                          position: 'right',
+                      },
+                      tooltip: {
+                          callbacks: {
+                              label: function(context) {
+                                  return context.label+ ': ' + context.parsed*100 + '%';
+                              }
+                          }
+                      }
+                  }
+              }
+          });
+      }
+
     </script>
 
 

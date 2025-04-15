@@ -10,6 +10,7 @@ use App\Http\Controllers\RoomNameController;
 use App\Http\Controllers\ReservationFilteration;
 use App\Http\Controllers\HolidayController;
 use Illuminate\Support\Facades\Route;
+use App\Models\Setting;
 
 Route::middleware(['guest','verified'])->get('/', function () {
     return view('auth.login');
@@ -18,9 +19,11 @@ Route::middleware(['guest','verified'])->get('/', function () {
 Route::middleware(['auth','verified'])->get('/', function () {
    $role = auth()->user()->role;
    if( $role == 1){
+  
      return view('staff.dashboard');
    }else if($role == 0){
-    return view('student.dashboard');
+        $setting = Setting::first();
+        return view('student.dashboard')->with('setting', $setting);
    }
 });
 
@@ -100,11 +103,13 @@ Route::prefix('staff')->name('staff.')->middleware(['auth', 'verified', 'role:1'
      Route::delete('/delete_holiday/{holiday}', [HolidayController::class, 'destroy']);
 
      
+     Route::get('/utilize/{type}', [OccupancyController::class, 'room_utilize']);
+
+     
 });
 
 
 Route::get('/api/occupancy/{date?}/{sort?}', [OccupancyController::class, 'occupancy_api'])->name('occupancy');
-
 
 Route::prefix('student')->name('student.')->middleware(['auth', 'verified', 'role:0'])->group(function () {
 
@@ -113,7 +118,8 @@ Route::prefix('student')->name('student.')->middleware(['auth', 'verified', 'rol
     Route::get('/room_detail/{id}', [RoomController::class, 'student_show'])->name('room.detail');
 
     Route::get('/dashboard', function () {
-        return view('student.dashboard');
+        $setting = Setting::first();
+        return view('student.dashboard')->with('setting', $setting);
     })->name('dashboard');
 
     Route::post('/reservation/{id}', [ReservationController::class, 'store'])->name('reservation');
@@ -143,7 +149,9 @@ Route::prefix('student')->name('student.')->middleware(['auth', 'verified', 'rol
      Route::get('/api/reservation_slot/date/{id}/{month}', [RoomController::class, 'api_dateSlot']);
 
      Route::get('/print/{ticket_no}', [ReservationController::class, 'print'])->name('print');
-   
+
+    
+
     
 });
    

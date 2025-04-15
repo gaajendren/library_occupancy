@@ -24,7 +24,7 @@
               <div class="p-4 md:p-5">
                   <div id="date_container" class="mb-4">
                     <label for="date" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Date</label>
-                    <input type="date" min="{{ date("Y-m-d"); }}" name="date" id="date" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"  required />
+                    <input type="date" min="{{ date("Y-m-d") }}" name="date" id="date" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"  required />
                   </div>
                   <div class="grid gap-4 mb-4 grid-cols-2">    
                       <div class="col-span-2">
