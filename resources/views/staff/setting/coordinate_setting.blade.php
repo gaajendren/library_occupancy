@@ -31,7 +31,7 @@
                             </svg>
 
                             <svg class="absolute inset-0 w-full h-full pointer-events-none">
-                                <!-- The polygon connects A → B → D → C -->
+                                
                                 <polygon id="polygon" fill="none" stroke="purple" stroke-width="2" />
                             </svg>
                             <p id="coordinates" class="absolute top-0 left-0 bg-black bg-opacity-50 px-2 py-1 text-sm rounded-md">

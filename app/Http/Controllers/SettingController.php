@@ -35,7 +35,7 @@ class SettingController extends Controller
 
         $setting->start_time = $request->start_time;
         $setting->end_time = $request->end_time;
-        $setting->is_manual = $request->has('is_manual') ? 1 : 0;
+        $setting->is_manual = $request->is_manual;
 
         if ($request->hasFile('logo')) {
             $image = $request->file('logo');
@@ -84,10 +84,17 @@ class SettingController extends Controller
             
             $setting->save();
 
+            try {
+                Http::timeout(5)->get('http://127.0.0.1:5000/setting_update');
+                \Log::info('✅ Flask setting update triggered');
+            }catch(\Exception $e) {
+                \Log::error('❌ Failed to call Flask: ' . $e->getMessage());
+            }
+
         
             return redirect()->route('staff.setting')->with('success', 'Setting updated successfully!');
 
-        }catch(Exception $e){
+        }catch(\Exception $e){
             return redirect()->route('staff.setting')->with('error', $e->getMessage());
 
          }
@@ -137,8 +144,8 @@ class SettingController extends Controller
 
         
         $setting->frame = [
-            'enter_frame' => 'img/enter_1741790285.jpg',
-            'exit_frame' => 'img/exit_1741790285.jpg'
+            'enter_frame' => $enterPath,
+            'exit_frame' =>  $exitPath
         ];
 
         $setting->save();
@@ -157,7 +164,7 @@ class SettingController extends Controller
             $setting->save();
 
             return response()->json(['message' => 'Succesfully Updated']);
-        }catch(Exception $e){
+        }catch(\Exception $e){
             return response()->json(['message' => $e]);
         } 
     }
@@ -172,7 +179,7 @@ class SettingController extends Controller
             $setting->save();
 
             return response()->json(['message' => 'Succesfully Updated']);
-        }catch(Exception $e){
+        }catch(\Exception $e){
             return response()->json(['message' => $e]);
         } 
 

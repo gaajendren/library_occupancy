@@ -236,8 +236,8 @@
                         </div>
 
                         <div class="flex items-center justify-center ml-4">
-                            <input  id="manual" {{$setting->is_manual == 1 ? 'checked' : '' }} type="checkbox"  class="w-4 h-4 text-gray-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-0 dark:focus:ring-0 dark:ring-offset-gray-800 focus:ring-0 dark:bg-gray-700 dark:border-gray-600">
-                            <label for="default-checkbox" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Manual</label>
+                            <input  id="manual" name="manual" {{$setting->is_manual == 1 ? 'checked' : '' }} type="checkbox"  class="w-4 h-4 text-gray-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-0 dark:focus:ring-0 dark:ring-offset-gray-800 focus:ring-0 dark:bg-gray-700 dark:border-gray-600">
+                            <label for="default-checkbox" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Auto</label>
                         </div>
                       
                     </div>
@@ -249,7 +249,7 @@
             
             <div class="flex flex-row items-center justify-end mt-6  gap-4 px-10">
                 <button type="button"  class="border-none p-3 text-sm text-black bg-white rounded-lg shadow-sm cursor-pointer hover:bg-gray-300">Cancel</button>
-                <button type="button" onclick="form_submit(this)" class="border-none p-3 text-sm text-white bg-blue-500 rounded-lg shadow-sm cursor-pointer hover:bg-blue-700">Save Changes</button>
+                <button type="button" onclick="form_submit(event)" class="border-none p-3 text-sm text-white bg-blue-500 rounded-lg shadow-sm cursor-pointer hover:bg-blue-700">Save Changes</button>
             </div>
 
             </form>
@@ -270,7 +270,7 @@
 
 
 <script src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.js"></script>
-<script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
+
 
 
 <!-- Initialize Quill editor -->
@@ -291,13 +291,14 @@
 
 
 function form_submit(e) {
-    e.preventDefault;
+    e.preventDefault();
     const form = document.getElementById('main_form');
     document.getElementById('description').value = quill.root.innerHTML;
     document.getElementById('start_time').value = document.getElementById('start-time').value
     document.getElementById('end_time').value = document.getElementById('end-time').value
     document.getElementById('is_manual').value = document.getElementById('manual').checked ? "1" : "0"
-    form.submit()
+    console.log( document.getElementById('is_manual').value)
+    form.submit();    
 }
 
 
@@ -570,8 +571,6 @@ function form_submit(e) {
         }
 
 
-       const socket = io('http://127.0.0.1:5000', {transports: ['websocket', 'polling', 'flashsocket']});
-
        async function update_roi(way){
         try {
           
@@ -589,7 +588,7 @@ function form_submit(e) {
 
                 if(response.data.message == 'Succesfully Updated'){
 
-                  const res =  await axios.post('http://127.0.0.1:5000/setting_update')
+                  const res =  await axios.get('http://127.0.0.1:5000/setting_update')
 
                 }
 

@@ -6,7 +6,6 @@ use App\Models\Reservation;
 use App\Models;
 use App\Models\Room_name;
 use App\Models\Room;
-use Exception;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\ReservationFilteration;
@@ -79,7 +78,7 @@ class ReservationController extends Controller
 
             }
 
-            }catch(Exception $e){
+            }catch(\Exception $e){
                dd($e->getMessage());
             }
 
@@ -123,7 +122,7 @@ class ReservationController extends Controller
              return redirect()->route('student.dashboard')->with('success', 'Successfully Reserved !!!');
  
 
-         }catch(Exception $e){
+         }catch(\Exception $e){
             return redirect()->back()->with('error', $e->getMessage());
 
          }
@@ -167,7 +166,7 @@ class ReservationController extends Controller
 
             }
 
-            }catch(Exception $e){
+            }catch(\Exception $e){
                dd($e->getMessage());
             }
 
@@ -212,7 +211,7 @@ class ReservationController extends Controller
              return redirect()->route('student.dashboard')->with('success', 'Successfully Reserved !!!');
  
 
-         }catch(Exception $e){
+         }catch(\Exception $e){
             return redirect()->back()->with('error', $e->getMessage());
 
          }
@@ -307,7 +306,7 @@ class ReservationController extends Controller
             $room_reservations = $roomReservations;
         }
 
-        }catch(Exception $e){
+        }catch(\Exception $e){
             dd($e);
         }
 
@@ -373,7 +372,7 @@ class ReservationController extends Controller
         return redirect()->route('student.dashboard')->with('success', 'Successfully Reserved !!!');
 
 
-       }catch(Exception $e){
+       }catch(\Exception $e){
 
         return redirect()->back()->with('error', 'Error on reservation. Try again !!!'.$e);
        }
@@ -484,7 +483,7 @@ class ReservationController extends Controller
 
           return redirect()->route('staff.reservation')->with('success', 'Status has successfully updated!!!');
 
-        }catch(Exception $e){
+        }catch(\Exception $e){
             return redirect()->route('staff.reservation')->with('error', 'Try again later');
         }
 
@@ -563,7 +562,7 @@ class ReservationController extends Controller
                 ]);
                    
     
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             return response()->json($e->getMessage());
         }
     }

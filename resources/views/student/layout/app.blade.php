@@ -35,7 +35,7 @@
             }
             </style>
     </head>
-    <body >
+    <body class="overflow-y-auto scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100 hover:scrollbar-thumb-gray-500">
        
            
             <!-- Page Content -->
