@@ -33,12 +33,31 @@
                 backdrop-filter: blur(30px);
                
             }
+
+            ::-webkit-scrollbar {
+                width: 6px; 
+                height: 8px; 
+            }
+
+            ::-webkit-scrollbar-track {
+                background-color: #0c0f16;
+                border-top: 30px solid transparent;
+                box-sizing: content-box;
+            
+            }
+            
+            ::-webkit-scrollbar-thumb {
+                background-color: oklch(0.953 0.051 180.801);
+                border-radius: 4px; 
+              
+            }
+        
+          
+         
             </style>
     </head>
-    <body class="overflow-y-auto scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100 hover:scrollbar-thumb-gray-500">
+    <body >
        
-           
-            <!-- Page Content -->
                 
                 {{ $slot }}
           

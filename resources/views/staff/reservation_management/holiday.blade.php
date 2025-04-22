@@ -64,7 +64,7 @@
                 <!-- Card Header -->
                 <div class="px-6 py-4 border-b border-gray-400 bg-gray-100 flex justify-between items-center">
                     <h2 class="text-lg font-semibold text-gray-900">Closing Time</h2>
-                    <button onclick="document.getElementById('add_model').click()" class="bg-gray-800 text-white px-4 py-2 text-sm rounded-md hover:bg-gray-900 transition-colors shadow-sm">
+                    <button onclick="document.getElementById('add_model').click()" class="bg-gray-800 text-white px-4 py-2 text-sm rounded-md hover:bg-gray-900 transition-colors shadow-xs">
                         + Add
                     </button>
                 </div>

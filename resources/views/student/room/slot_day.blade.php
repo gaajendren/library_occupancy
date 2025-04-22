@@ -16,7 +16,7 @@
     <div id="slot-modal" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full dark">
         <div class="absolute top-0 left-0 w-full h-screen bg-gray-500 opacity-60"></div>
         <div class="relative p-4 w-full max-w-xl max-h-full"> 
-              <div class="relative bg-white rounded-lg shadow dark:bg-[#11151f]">
+              <div class="relative bg-white rounded-lg shadow-sm dark:bg-[#11151f]">
                   <div class="flex items-center justify-betwen p-4 md:p-5 border-b rounded-t dark:border-gray-600">
                       <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
                           Select Day Slot
@@ -36,9 +36,9 @@
                                 <label for="" class='text-white text-md mb-4 '>Select Date: </label>  
                                 <div class="flex flex-col justify-center items-center w-full">
                                     <div class="flex justify-between gap-2 items-center text-lg font-semibold text-gray-800 mb-4">
-                                        <button id="prevMonthBtn" class="px-2 py-0! bg-gray-300 text-gray-500 rounded cursor-not-allowed" disabled><i class="fa-solid fa-arrow-left fa-sm"></i></button>
+                                        <button id="prevMonthBtn" class="px-2 py-0! bg-gray-300 text-gray-500 rounded-sm cursor-not-allowed" disabled><i class="fa-solid fa-arrow-left fa-sm"></i></button>
                                         <span class="text-white" id="monthDisplay"></span>
-                                        <button id="nextMonthBtn" class="px-2 py-0! bg-blue-500 text-white rounded hover:bg-blue-700"><i class="fa-solid fa-arrow-right fa-sm"></i></button>
+                                        <button id="nextMonthBtn" class="px-2 py-0! bg-blue-500 text-white rounded-sm hover:bg-blue-700"><i class="fa-solid fa-arrow-right fa-sm"></i></button>
                                     </div>
                                     <div class="grid grid-cols-7 gap-1 mb-2 text-center text-white font-bold w-fit">
                                         <div class=" w-7">S</div><div class=" w-7">M</div><div class=" w-7">T</div><div class="w-7">W</div><div class="w-7">T</div><div class=" w-7">F</div><div class="w-7">S</div>
@@ -48,7 +48,7 @@
                             </div>
                         </div>
                     </div>
-                    <button type="button" onclick="data_store()" data-modal-toggle="slot-modal" class="text-slate-700 inline-flex items-center mt-6  bg-teal-200 hover:bg-teal-700 focus:outline-none  font-medium rounded-lg text-sm px-5 py-2 text-center dark:bg-teal-200 dark:hover:bg-teal-700  mx-auto">
+                    <button type="button" onclick="data_store()" data-modal-toggle="slot-modal" class="text-slate-700 inline-flex items-center mt-6  bg-teal-200 hover:bg-teal-700 focus:outline-hidden  font-medium rounded-lg text-sm px-5 py-2 text-center dark:bg-teal-200 dark:hover:bg-teal-700  mx-auto">
                         Save
                     </button>
                 </div>      
@@ -95,19 +95,19 @@
                 dayCell.textContent = day;
                 dayCell.id = day;
                 dayCell.setAttribute('data-room-id', '');
-                dayCell.className = "p-1 w-7 bg-blue-500 btn_day text-white text-center rounded cursor-pointer hover:bg-blue-700";
+                dayCell.className = "p-1 w-7 bg-blue-500 btn_day text-white text-center rounded-sm cursor-pointer hover:bg-blue-700";
                 calendar.appendChild(dayCell);
             }
 
             prevMonthBtn.disabled = selectedMonth === currentMonth;
             prevMonthBtn.className = selectedMonth === currentMonth
-                ? "px-2 py-0 bg-gray-300 text-gray-500 rounded cursor-not-allowed"
-                : "px-2 py-0 bg-blue-500 text-white rounded hover:bg-blue-700";
+                ? "px-2 py-0 bg-gray-300 text-gray-500 rounded-sm cursor-not-allowed"
+                : "px-2 py-0 bg-blue-500 text-white rounded-sm hover:bg-blue-700";
 
             nextMonthBtn.disabled = selectedMonth === currentMonth + 1;
             nextMonthBtn.className = selectedMonth === currentMonth + 1
-                ? "px-2 py-0 bg-gray-300 text-gray-500 rounded cursor-not-allowed"
-                : "px-2 py-0 bg-blue-500 text-white rounded hover:bg-blue-700";
+                ? "px-2 py-0 bg-gray-300 text-gray-500 rounded-sm cursor-not-allowed"
+                : "px-2 py-0 bg-blue-500 text-white rounded-sm hover:bg-blue-700";
         }
 
         

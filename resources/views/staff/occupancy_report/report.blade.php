@@ -62,7 +62,7 @@
 
         
 
-          <div class="p-4 rounded-lg mx-4 shadow-sm bg-white h-fit my-4 "> 
+          <div class="p-4 rounded-lg mx-4 shadow-xs bg-white h-fit my-4 "> 
             <div class="flex w-full justify-start gap-5  items-center">   
               <div class="form-group group ">
                 <div class='p-2.5 py-0.5 flex flex-row w-fit items-center rounded-lg justify-center border border-1 border-gray-300'>
@@ -118,14 +118,19 @@
               </div>
           
               <div class="form-group group flex ">
-                <button type="button" class="text-white bg-gray-700 hover:bg-gray-900 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-1.5   dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" onclick='set_date(event)'><i class="fa-solid fa-filter mr-2"></i>Apply</button>
+                <button type="button" class="text-white bg-gray-700 hover:bg-gray-900 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-1.5   dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-hidden dark:focus:ring-blue-800 cursor-pointer" onclick='set_date(event)'><i class="fa-solid fa-filter mr-2"></i>Apply</button>
               </div>
+
+              <div class="flex ml-auto justify-self-end">
+                <button type="button" class="self-end text-white bg-gray-700 hover:bg-gray-900 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-1.5   dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-hidden dark:focus:ring-blue-800 cursor-pointer" onclick='downloadPDF()'><i class="fa-solid fa-download mr-2"></i>Pdf</button>
+              </div>
+
             </div>
           </div>
       
 
           <div class="w-full flex flex-row">
-            <div class="mx-4 rounded-lg border border-gray-300 shadow-sm bg-white my-4 flex flex-wrap flex-col  w-full h-fit">
+            <div class="mx-4 rounded-lg border border-gray-300 shadow-xs bg-white my-4 flex flex-wrap flex-col  w-full h-fit">
               <div class="self-end rounded-t-lg p-2 px-4 text-gray-600 content-end w-full bg-gray-50  border-b border-gray-300">Graph of library occupancy</div>
               <div class="w-full relative"> 
                 <div id='hour_error' class="hidden p-3 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-red-100 border border-red-400 rounded-lg font-regular text-red-700 text-lg  ">
@@ -137,16 +142,22 @@
             </div>
           </div>
 
+          <div class="p-[2px] rounded-lg mx-4 shadow-xs bg-teal-300 h-fit my-4 w-fit ">
+            <select id="p_type"  class="bg-gray-100 p-2 m-2 border border-none  focus:ring-0  text-gray-800 text-sm rounded-lg block w-fit  dark:bg-gray-700 dark:text-white m-auto">
+              <option class="text-gray-800" disabled>Slot Type</option>
+              <option value="hour" class="text-gray-800" selected>Hour</option> 
+              <option value="day" class="text-gray-800">Day</option> 
+              <option value="month" class="text-gray-800">Month</option>
+            </select>
+          </div>
+        
+
           <div class="w-full flex flex-row">
-            <div class="mx-4 rounded-lg border border-gray-300 shadow-sm bg-white my-4 flex flex-wrap flex-col  h-fit w-1/3">
+          
+            <div class="mx-4 rounded-lg border border-gray-300 shadow-xs bg-white my-4 flex flex-wrap flex-col  h-fit w-1/3">
               <div class="self-end rounded-t-lg p-2 px-4 text-gray-600 content-end w-full bg-gray-50  border-b border-gray-300">Utilization</div>
               <div class="w-full relative "> 
-                <select id="p_type"  class="bg-gray-100 p-2 m-2 border border-none  focus:ring-0  text-gray-800 text-sm rounded-lg block w-fit  dark:bg-gray-700 dark:text-white ml-auto">
-                  <option class="text-gray-800" disabled>Slot Type</option>
-                  <option value="hour" class="text-gray-800" selected>Hour</option> 
-                  <option value="day" class="text-gray-800">Day</option> 
-                  <option value="month" class="text-gray-800">Month</option>
-                </select>
+              
 
                 <div id='utilization_error' class="hidden p-3 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-red-100 border border-red-400 rounded-lg font-regular text-red-700 text-lg  ">
                  
@@ -155,37 +166,50 @@
               
               </div>   
             </div>
+            <div class="mx-4 rounded-lg border border-gray-300 shadow-xs bg-white my-4 flex flex-wrap flex-col  h-fit w-2/3">
+              <div class="self-end rounded-t-lg p-2 px-4 text-gray-600 content-end w-full bg-gray-50  border-b border-gray-300">Peak Count</div>
+              <div class="w-full relative "> 
+                <canvas id="peak_graph" class=" h-[300px] mx-auto" role="img"></canvas>
+              
+              </div>
+
+
           </div>
 
 
       </div>
+      
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+      <script src="
+      https://cdn.jsdelivr.net/npm/html2canvas-pro@1.5.8/dist/html2canvas-pro.min.js
+      "></script>
       <script>
        let chart;
-      
+
       </script>
-                @if ($hour_error ?? false )
+                @if ($hour_error ?? false)
 
-                <script> 
-                
-                document.getElementById('hour_error').innerHTML = '{{$hour_error}}'; 
-                document.getElementById('hour_error').classList.remove('hidden')
-                </script>
-                
-                @else
-                <script>
-            
-            
-                const hours = @json($hours);
-                const counts = @json($counts);
-                
-               
-                    
-                
-                document.getElementById('hour_error').classList.add('hidden')
-                </script>
-                <script src="{{url('js/graphic.js')}}"></script>
+          <script> 
 
-                @endif
+          document.getElementById('hour_error').innerHTML = '{{$hour_error}}'; 
+          document.getElementById('hour_error').classList.remove('hidden')
+          </script>
+
+        @else
+      <script>
+
+
+      const hours = @json($hours);
+      const counts = @json($counts);
+
+
+
+
+      document.getElementById('hour_error').classList.add('hidden')
+      </script>
+      <script src="{{url('js/graphic.js')}}"></script>
+
+    @endif
 
 
 
@@ -331,6 +355,7 @@
     <script>
 
       let utilize_chart = null;
+      let peak_chart = null;
 
       
 
@@ -414,8 +439,7 @@
           }
           const ctx = document.getElementById('utilization').getContext('2d');
 
-
-          const labels = ['Available', 'Inavailable']
+          const labels = ['Utilized', 'Unutilized'];
           let utilizationData
           
           if(type == 'month'){
@@ -465,7 +489,127 @@
                   }
               }
           });
+
+          draw_peak_chart(data, type)
       }
+
+
+      function draw_peak_chart(data, type){
+        const peak_ctx = document.getElementById('peak_graph').getContext('2d');
+
+        if ( peak_chart !== null) {
+              peak_chart.destroy();
+              peak_chart = null;
+          }
+
+        let labels = []
+        let dataset =[]
+
+        const backgroundColors = [
+              '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0',
+              '#9966FF', '#FF9F40', '#C9CBCF', '#FF6384'
+          ];
+
+        if(type == 'day'){
+           const peak_days = data[0]['top_peak_days'];
+
+           labels = peak_days.map((peak_day)=>{
+               return peak_day['date'];
+           });
+
+          dataset = peak_days.map((peak_day)=>{
+               return peak_day['reservations'];
+           }); 
+
+        }else if(type == 'month'){
+          const peak_days = data[0]['top_peak_months'];
+
+          labels = peak_days.map((peak_day)=>{
+               return peak_day['month'];
+           });
+
+          dataset = peak_days.map((peak_day)=>{
+               return peak_day['reservations'];
+           }); 
+
+        }else if(type == 'hour'){
+          const peak_days = data[0]['peak_time_counts'];
+
+           labels = Object.keys(peak_days).map(hour => formatHour(hour));
+           dataset = Object.values(peak_days);
+
+        }
+
+        peak_chart = new Chart(peak_ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Reservations',
+                        data: dataset,
+                        backgroundColor: backgroundColors
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: `Top 3 ${type.charAt(0).toUpperCase() + type.slice(1)}`
+                        }
+                    }
+                }
+            });
+          
+       
+
+      }
+
+
+      function formatHour(hour24) {
+        const hour = parseInt(hour24);
+        const suffix = hour >= 12 ? 'PM' : 'AM';
+        const hour12 = hour % 12 === 0 ? 12 : hour % 12;
+        return `${hour12}:00 ${suffix}`;
+    }
+
+
+    async function downloadPDF() {
+    const { jsPDF } = window.jspdf;
+
+    const elements = [
+        document.getElementById("hourly_by_day"),
+        document.getElementById("utilization"),
+        document.getElementById("peak_graph")
+    ];
+
+    const pdf = new jsPDF({
+        orientation: 'portrait',
+        unit: 'mm',
+        format: 'a4'
+    });
+
+    const pageWidth = pdf.internal.pageSize.getWidth();
+    const pageHeight = pdf.internal.pageSize.getHeight();
+
+    for (let i = 0; i < elements.length; i++) {
+        const canvas = await html2canvas(elements[i], {
+            scale: 2,
+            useCORS: true
+        });
+
+        const imgData = canvas.toDataURL("image/png");
+        const imgProps = pdf.getImageProperties(imgData);
+        const pdfWidth = pageWidth - 20; 
+        const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+
+        if (i > 0) pdf.addPage();
+
+        pdf.addImage(imgData, "PNG", 10, 10, pdfWidth, pdfHeight);
+    }
+
+    pdf.save("report.pdf");
+}
 
     </script>
 

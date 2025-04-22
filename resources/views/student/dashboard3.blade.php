@@ -47,13 +47,13 @@
 
                     <nav class="max-[800px]:hidden h-full flex flex-nowrap items-center w-[25%] max-w-[400px] min-w-[250px] justify-center p-[10px]">
                         <ul class="flex flex-wrap grow flex-row justify-center">
-                            <li class="text-white flex grow flex-shrink px-2 justify-center montserrat-medium" v-for="link in links" :key="link">
+                            <li class="text-white flex grow shrink px-2 justify-center montserrat-medium" v-for="link in links" :key="link">
                                 <a href="/" aria-current="page">Home</a>
                             </li>
-                            <li class="text-white flex grow flex-shrink px-2 justify-center montserrat-medium" v-for="link in links" :key="link">
+                            <li class="text-white flex grow shrink px-2 justify-center montserrat-medium" v-for="link in links" :key="link">
                                 <a href="/" aria-current="page">Home</a>
                             </li>
-                            <li class="text-white flex grow flex-shrink px-2 justify-center montserrat-medium" v-for="link in links" :key="link">
+                            <li class="text-white flex grow shrink px-2 justify-center montserrat-medium" v-for="link in links" :key="link">
                                 <a href="/" aria-current="page">Home</a>
                             </li>
                         </ul>

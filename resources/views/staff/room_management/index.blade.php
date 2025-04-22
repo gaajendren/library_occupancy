@@ -66,19 +66,19 @@
 
                             <td class="px-6 py-4  border border-gray-300 ">
                                 <div class="flex flex-row justify-center items-center gap-2">
-                                    <a href="{{route('staff.show.room', $room->id)}}" class="block text-white bg-blue-500 hover:bg-blue-800 focus:ring-2 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-3 py-2 text-center " type="button">
+                                    <a href="{{route('staff.show.room', $room->id)}}" class="block text-white bg-blue-500 hover:bg-blue-800 focus:ring-2 focus:outline-hidden focus:ring-gray-300 font-medium rounded-lg text-sm px-3 py-2 text-center " type="button">
                                         <i class="fa-solid fa-eye fa-sm"></i>
                                     </a>
-                                    <a  data-modal-target="edit-room" id="editRoom" onclick="load_roomNames({{$room->id}})" data-id="{{$room->id}}" data-modal-toggle="edit-room" class="block text-white bg-yellow-500 hover:bg-yellow-800 focus:ring-2 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-3 py-2 text-center cursor-pointer" type="button">
+                                    <a  data-modal-target="edit-room" id="editRoom" onclick="load_roomNames({{$room->id}})" data-id="{{$room->id}}" data-modal-toggle="edit-room" class="block text-white bg-yellow-500 hover:bg-yellow-800 focus:ring-2 focus:outline-hidden focus:ring-gray-300 font-medium rounded-lg text-sm px-3 py-2 text-center cursor-pointer" type="button">
                                         <i class="fa-solid fa-file-contract fa-sm"></i>
                                     </a>
-                                    <a href="{{route('staff.edit.room', $room->id)}}"   class="block text-white bg-green-500 hover:bg-green-800 focus:ring-2 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-3 py-2 text-center " type="button">
+                                    <a href="{{route('staff.edit.room', $room->id)}}"   class="block text-white bg-green-500 hover:bg-green-800 focus:ring-2 focus:outline-hidden focus:ring-gray-300 font-medium rounded-lg text-sm px-3 py-2 text-center " type="button">
                                         <i class="fa-solid fa-pen-to-square fa-sm"></i>
                                     </a>
                                     <form method="POST" action="{{route('staff.delete.room', $room->id)}}" accept-charset="UTF-8" >
                                         {{ method_field('DELETE') }}
                                         {{ csrf_field() }}
-                                        <button type="submit" class="block text-white bg-red-500 hover:bg-red-800 focus:ring-2 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-3 py-2 text-center " onclick="return confirm(&quot;Confirm delete?&quot;)">
+                                        <button type="submit" class="block text-white bg-red-500 hover:bg-red-800 focus:ring-2 focus:outline-hidden focus:ring-gray-300 font-medium rounded-lg text-sm px-3 py-2 text-center " onclick="return confirm(&quot;Confirm delete?&quot;)">
                                            <i class="fa-solid fa-trash-can fa-sm"></i>
                                         </button>
                                     </form>

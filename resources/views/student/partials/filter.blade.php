@@ -5,8 +5,8 @@
     }
 </style>
 <div class="w-full flex  justify-center items-center">
-    <div class="max-w-screen-xl w-full mx-auto md:gap-10 sm:gap-6 gap-4 md:m-[2rem] sm:m-[1rem] m-[1rem] md:p-[2rem] sm:p-[1rem] p-[1rem] dark">
-        <div class="w-full mx-auto rounded-2xl shadow-lg max-w-screen-xl bg-gray-800 flex flex-col items-center justify-center border-teal-200">
+    <div class="max-w-(--breakpoint-xl) w-full mx-auto md:gap-10 sm:gap-6 gap-4 md:m-[2rem] sm:m-[1rem] m-[1rem] md:p-[2rem] sm:p-[1rem] p-[1rem] dark">
+        <div class="w-full mx-auto rounded-2xl shadow-lg max-w-(--breakpoint-xl) bg-gray-800 flex flex-col items-center justify-center border-teal-200">
 
             <div class="flex flex-row justify-center items-sketch w-full p-2 mx-3 mt-2 gap-3">
                 <div class="w-full relative">

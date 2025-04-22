@@ -75,16 +75,16 @@
                     
                         <td class="px-6 py-4  border border-gray-300 ">
                             <div class="flex flex-row justify-center items-center gap-2">
-                                <button  data-modal-target="view-modal" data-action='view' data-id='{{$user->id}}'  data-modal-toggle="view-modal" class="block text-white bg-blue-500 hover:bg-blue-800 focus:ring-2 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-3 py-2 text-center " type="button">
+                                <button  data-modal-target="view-modal" data-action='view' data-id='{{$user->id}}'  data-modal-toggle="view-modal" class="block text-white bg-blue-500 hover:bg-blue-800 focus:ring-2 focus:outline-hidden focus:ring-gray-300 font-medium rounded-lg text-sm px-3 py-2 text-center " type="button">
                                     <i class="fa-solid fa-eye fa-sm"></i>
                                 </button>
-                                <button  data-modal-target="default-modal" data-action='edit' data-id='{{$user->id}}'  data-modal-toggle="default-modal" class="block text-white bg-green-500 hover:bg-green-800 focus:ring-2 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-3 py-2 text-center " type="button">
+                                <button  data-modal-target="default-modal" data-action='edit' data-id='{{$user->id}}'  data-modal-toggle="default-modal" class="block text-white bg-green-500 hover:bg-green-800 focus:ring-2 focus:outline-hidden focus:ring-gray-300 font-medium rounded-lg text-sm px-3 py-2 text-center " type="button">
                                     <i class="fa-solid fa-pen-to-square fa-sm"></i>
                                 </button>
                                 <form method="POST" action="{{ route('staff.delete.account', $user->id) }}" accept-charset="UTF-8" >
                                     {{ method_field('DELETE') }}
                                     {{ csrf_field() }}
-                                    <button type="submit" class="block text-white bg-red-500 hover:bg-red-800 focus:ring-2 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-3 py-2 text-center " onclick="return confirm(&quot;Confirm delete?&quot;)">
+                                    <button type="submit" class="block text-white bg-red-500 hover:bg-red-800 focus:ring-2 focus:outline-hidden focus:ring-gray-300 font-medium rounded-lg text-sm px-3 py-2 text-center " onclick="return confirm(&quot;Confirm delete?&quot;)">
                                 <i class="fa-solid fa-trash-can fa-sm"></i>
                                     </button>
                                 </form>

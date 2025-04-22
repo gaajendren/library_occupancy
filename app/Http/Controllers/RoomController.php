@@ -221,7 +221,6 @@ class RoomController extends Controller
 
         $reservations = Reservation::where('roomTypeId', $id)->with('get_room')->with('get_roomType')->whereYear('date', $currentYear)->whereMonth('date', $selectedMonth)->whereDate('date', '>=', Carbon::today()->toDateString())->get();
 
-        $holidays = Holiday::whereYear('date', $currentYear)->whereMonth('date', $selectedMonth)->whereDate('date', '>=', Carbon::today()->toDateString())->pluck('date')->toArray();
 
         $groupedReservations = $reservations->groupBy(function($reservation) {
             return Carbon::parse($reservation->date)->format('Y-m-d');
@@ -248,11 +247,7 @@ class RoomController extends Controller
     
         foreach ($daysInMonth as $key => $day) {
 
-            if($holidays->contains($day)){
-                $availableRoomsByDate[] = ['available' => false, 'date' => $day];
-                continue;
-            }
-
+          
             if($bookedDays->contains($day)){
                 $availableRoomsByDate[] = ['available' => false, 'date' => $day];
                 continue;
@@ -282,10 +277,13 @@ class RoomController extends Controller
       
         return response()->json($availableRoomsByDate);
 
-        }catch(Exception $e){
+        }catch(\Exception $e){
             return response()->json($e->getMessage());
         }
     }
+
+
+    
 
 
 }

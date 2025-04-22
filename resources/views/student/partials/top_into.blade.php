@@ -1,6 +1,6 @@
 
 <main class="pt-[98px] w-full flex justify-center items-center">
-    <div class="container h-[80%] max-[500px]:mt-[30px] mt-[50px] flex items-center justify-center mx-auto p-10 pt-2 min-[1300px]:p-5 max-w-screen-xl">
+    <div class="container h-[80%] max-[500px]:mt-[30px] mt-[50px] flex items-center justify-center mx-auto p-10 pt-2 min-[1300px]:p-5 max-w-(--breakpoint-xl)">
         <div class="text-center flex-1 content flex flex-col justify-center box-border max-w-[700px]">
             <h1 class="max-[500px]:text-xl text-slate-300 montserrat-medium text-3xl tracking-widest mb-10">
                 <span class="text-teal-200 block">{{$setting->title}}</span> Room Reservation

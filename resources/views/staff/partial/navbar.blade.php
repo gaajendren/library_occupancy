@@ -11,7 +11,7 @@
             </button>
           </div>
           <div class="hidden" id="dropdown-user">
-            <div class=" mr-5 text-base list-none bg-white divide-y divide-gray-100 rounded shadow dark:bg-gray-700 dark:divide-gray-600" >
+            <div class=" mr-5 text-base list-none bg-white divide-y divide-gray-100 rounded-sm shadow-sm dark:bg-gray-700 dark:divide-gray-600" >
                <div class="px-4  py-3" role="none">
                   <p class="text-sm text-gray-900 dark:text-white" role="none">
                   {{auth()->user()->name}}
@@ -45,7 +45,7 @@
 
 
 <script>
-    const mediaQuery = window.matchMedia('(max-width: 640px)');
+    const mediaQuery = window.matchMedia('(max-width: 740px)');
 
     const sidebar = document.getElementById('sidebar')
     const navbar = document.getElementById('navbar')
@@ -68,21 +68,23 @@
 
 
     function adjustLayoutBasedOnViewport() {
-    const mediaQuery = window.matchMedia('(max-width: 640px)');
+   
     
-    if (mediaQuery.matches) {
+      if (mediaQuery.matches) {
 
-        sidebar.classList.add('-translate-x-full');
-        navbar.classList.remove('ml-56');
-        content.classList.remove('ml-56');
-    } else {
-        
-        
-        sidebar.classList.remove('-translate-x-full');
-        navbar.classList.add('ml-56');
-        content.classList.add('ml-56');
-    }
+          sidebar.classList.add('-translate-x-full');
+          navbar.classList.remove('ml-56');
+          content.classList.remove('ml-56');
+      } else {
+          
+          
+          sidebar.classList.remove('-translate-x-full');
+          navbar.classList.add('ml-56');
+          content.classList.add('ml-56');
+      }
 }
+
+window.addEventListener('load', adjustLayoutBasedOnViewport);
 
 // Run on resize
 window.addEventListener('resize', adjustLayoutBasedOnViewport);

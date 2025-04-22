@@ -99,7 +99,7 @@
 </style>
     </style>
 
-<div class="w-full min-h-screen bg-[#0c0f16] relative overflow-hidden">
+<div class="w-full min-h-screen bg-[#121212] relative overflow-hidden">
 
     <div class="wave-wrapper">
         <div class="wave wave-1"></div>
@@ -122,7 +122,7 @@
    @include('student.partials.filter')
 
 
-   <main class="max-w-screen-xl mx-auto  dark md:p-[2rem] sm:p-[1rem] p-[1rem] pt-[10px]">    
+   <main class="max-w-(--breakpoint-xl) mx-auto  dark md:p-[2rem] sm:p-[1rem] p-[1rem] pt-[10px]">    
         <div class="grid xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-3 grid-cols-2 md:gap-10 sm:gap-6 gap-4 " id='room_catalog'>
            
         </div>

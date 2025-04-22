@@ -46,7 +46,7 @@
             <div class="flex flex-row w-full items-center  gap-3">
                     <p class="w-[40%] max-w-[250px] text-sm font-semibold text-black inter">Logo</p>
                     <div class="relative w-[60%]">
-                        <div onclick="logo_input()" class="w-[150px] aspect-square rounded-md shadow-sm bg-white cursor-pointer hover:bg-gray-100"><img id="img" src="{{url($setting->logo)}}" alt="">
+                        <div onclick="logo_input()" class="w-[150px] aspect-square rounded-md shadow-xs bg-white cursor-pointer hover:bg-gray-100"><img id="img" src="{{url($setting->logo)}}" alt="">
                         <input type="file" accept="image/*" id="logo_input" class="w-full h-full" name="logo" hidden></div>
                     </div>
             </div>
@@ -61,7 +61,7 @@
             <div class="flex flex-row w-full items-center gap-3">
                 <p class="w-[40%] max-w-[250px] text-sm font-semibold text-black  inter">Title</p>
                 <div class=" w-[60%]">
-                    <input type="text" value="{{$setting->title}}" class="text-sm w-full max-w-[300px] text-slate-700 border-none shadow-sm rounded-md" name="title" id="">
+                    <input type="text" value="{{$setting->title}}" class="text-sm w-full max-w-[300px] text-slate-700 border-none shadow-xs rounded-md" name="title" id="">
                 </div>
             </div>
 
@@ -70,7 +70,7 @@
             <div class="flex flex-row w-full items-center gap-3">
                 <p class="w-[40%] max-w-[250px] text-sm font-semibold text-black  inter">Description</p>
                 <div class=" w-[60%]">
-                    <div id="editor" class="bg-white text-sm shadow-sm text-slate-700">{!! $setting->description !!}</div>
+                    <div id="editor" class="bg-white text-sm shadow-xs text-slate-700">{!! $setting->description !!}</div>
                     <input type="hidden" name="description" id="description">
                 </div>
             </div>
@@ -120,7 +120,7 @@
 
                             @if(isset($banners['slider_image']))
                                 @foreach($banners['slider_image'] as $key => $image)
-                                    <div class=" relative max-w-[250px] min-w-[100px] w-[25%] aspect-[2] bg-white rounded-lg shadow-sm">
+                                    <div class=" relative max-w-[250px] min-w-[100px] w-[25%] aspect-[2] bg-white rounded-lg shadow-xs">
                                         <button type="button" class="absolute top-3 right-4 text-red-500 hover:text-red-700">
                                             <i onclick="confirmDelete('{{ $key }}')" class="fa-solid fa-trash"></i>
                                         </button>
@@ -236,7 +236,7 @@
                         </div>
 
                         <div class="flex items-center justify-center ml-4">
-                            <input  id="manual" name="manual" {{$setting->is_manual == 1 ? 'checked' : '' }} type="checkbox"  class="w-4 h-4 text-gray-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-0 dark:focus:ring-0 dark:ring-offset-gray-800 focus:ring-0 dark:bg-gray-700 dark:border-gray-600">
+                            <input  id="manual" name="manual" {{$setting->is_manual == 1 ? 'checked' : '' }} type="checkbox"  class="w-4 h-4 text-gray-600 bg-gray-100 border-gray-300 rounded-xs focus:ring-0 dark:focus:ring-0 dark:ring-offset-gray-800 focus:ring-0 dark:bg-gray-700 dark:border-gray-600">
                             <label for="default-checkbox" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Auto</label>
                         </div>
                       
@@ -248,8 +248,8 @@
             <br>
             
             <div class="flex flex-row items-center justify-end mt-6  gap-4 px-10">
-                <button type="button"  class="border-none p-3 text-sm text-black bg-white rounded-lg shadow-sm cursor-pointer hover:bg-gray-300">Cancel</button>
-                <button type="button" onclick="form_submit(event)" class="border-none p-3 text-sm text-white bg-blue-500 rounded-lg shadow-sm cursor-pointer hover:bg-blue-700">Save Changes</button>
+                <button type="button"  class="border-none p-3 text-sm text-black bg-white rounded-lg shadow-xs cursor-pointer hover:bg-gray-300">Cancel</button>
+                <button type="button" onclick="form_submit(event)" class="border-none p-3 text-sm text-white bg-blue-500 rounded-lg shadow-xs cursor-pointer hover:bg-blue-700">Save Changes</button>
             </div>
 
             </form>
@@ -435,7 +435,7 @@ function form_submit(e) {
                     reader.onload = (e) => {
 
                         const divElement = document.createElement('div');
-                        divElement.className = "imageHolder relative max-w-[250px] min-w-[100px] w-[25%] aspect-[2] bg-white rounded-lg shadow-sm";
+                        divElement.className = "imageHolder relative max-w-[250px] min-w-[100px] w-[25%] aspect-[2] bg-white rounded-lg shadow-xs";
                         
                         const deleteIcon = document.createElement('i');
                         deleteIcon.className = "fa-solid fa-trash absolute top-3 rounded-full p-2 cursor-pointer text-red-500 hover:text-red-700 bg-slate-300 bg-opacity-[30%] hover:bg-opacity-[60%] right-4 flex items-center justify-center text-md";

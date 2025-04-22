@@ -9,7 +9,42 @@
         input[type="time"]{
             color-scheme: dark;
 }
-    </style>
+
+    /* Left column (dates) */
+    .fc-resource-timeline th[data-resource-id] {
+        width: 120px; /* Fixed width for dates */
+        background: #f8f9fa;
+    }
+
+    .date-label {
+        padding: 8px;
+        text-align: center;
+    }
+
+    .day-name {
+        font-weight: bold;
+        color: #2c3e50;
+    }
+
+    .date {
+        color: #7f8c8d;
+    }
+
+  
+    .ec-title, .ec-time, .ec-resource, .ec-days {
+        color: #f8f9fa;
+    }
+
+    .ec-main {
+            overflow: auto;
+            white-space: nowrap;
+            scrollbar-width: thin;
+            scrollbar-color: gray transparent;
+        }
+  
+
+</style>
+
 
 <div class='dark bg-[#0c0f16] pt-[98px] w-full min-h-screen flex justify-center items-center flex-col'>
 
@@ -26,7 +61,7 @@
     </div>
     @endif
     
-    <div class="max-w-screen-xl w-full flex justify-center items-start gap-20">
+    <div class="max-w-(--breakpoint-xl) w-full flex justify-center items-start gap-20">
         <div class="flex justify-center item-center flex-col w-1/2 gap-4" id='imageContainer'>
             <div class="w-full group overflow-hidden">
                 @php $imgs =  json_decode($room->img); @endphp
@@ -39,7 +74,7 @@
             </div>
             <div class="flex flex-row mt-[20px] justify-between items-center w-full">
                 <h1 class="leading-loose  text-[32px] text-white text-regular self-start">{{$room->title}}</h1>
-                <button class="bg-teal-200 rounded-sm text-bg-[#0c0f16] text-md text-semibold py-2 px-3 hover:bg-teal-600 cabin">Reserve Now</button>
+                <button class="bg-teal-200 rounded-xs text-bg-[#0c0f16] text-md text-semibold py-2 px-3 hover:bg-teal-600 cabin">Reserve Now</button>
             </div>
 
             <div class="mt-[20px] w-[40%] flex flex-row justify-center items-center">
@@ -88,7 +123,7 @@
                 @enderror
 
                 
-                 <button type="button" id="slot_open" data-modal-target="slot-modal" data-modal-toggle="slot-modal" class='bg-teal-200 rounded-sm text-bg-[#0c0f16] text-md text-semibold py-2 px-3 hover:bg-teal-600 cabin w-[70%] my-4'>Choose Date & Time</button> 
+                 <button type="button" id="slot_open" data-modal-target="slot-modal" data-modal-toggle="slot-modal" class='bg-teal-200 rounded-xs text-bg-[#0c0f16] text-md text-semibold py-2 px-3 hover:bg-teal-600 cabin w-[70%] my-4'>Choose Date & Time</button> 
                 
 
                  @if ($room->slot == 'hour' || $room->slot == 'day')
@@ -157,7 +192,7 @@
                 <div class="text-red-400 hidden my-4" id='full_error'></div>
 
                 <div class="flex w-[70%] justify-center items-center">
-                    <button type="submit" onclick="validator(event)" id="form_submit" class="bg-teal-200 w-full rounded-sm text-bg-[#0c0f16] text-md text-semibold py-2 px-3 hover:bg-teal-600 cabin">Reserve Now</button>
+                    <button type="submit" onclick="validator(event)" id="form_submit" class="bg-teal-200 w-full rounded-xs text-bg-[#0c0f16] text-md text-semibold py-2 px-3 hover:bg-teal-600 cabin">Reserve Now</button>
                 </div>
                
             </div>
@@ -328,7 +363,9 @@ const current_tImage = document.getElementById('uploaded_img');
           
 
            form.submit();
-            
+           
+           document.getElementById('main_loader').classList.remove('hidden')
+         
         }
     }
 </script>
@@ -348,7 +385,7 @@ const current_tImage = document.getElementById('uploaded_img');
     
 @endif
 
-
+@include('components.loader')
 
 
 </x-app-layout>

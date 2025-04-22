@@ -105,6 +105,9 @@ Route::prefix('staff')->name('staff.')->middleware(['auth', 'verified', 'role:1'
      
      Route::get('/utilize/{type}', [OccupancyController::class, 'room_utilize']);
 
+     Route::get('/api/reservation/sort', [ReservationController::class, 'sort'])->name('sort');
+
+     Route::get('/api/reservation/filter', [ReservationController::class, 'filter'])->name('filter');
      
 });
 
@@ -130,6 +133,8 @@ Route::prefix('student')->name('student.')->middleware(['auth', 'verified', 'rol
 
 
     Route::get('/api/reservation_slot/{id}/{date}', [ReservationController::class, 'api_slot'])->name('slot');
+
+    Route::get('/api/reservation_calender_slot/{id}/{date}', [ReservationController::class, 'api_CalenderSlot'])->name('calender_slot');
     
 
     Route::get('/api/reservation_slot/year/{id}/{year}', [ReservationController::class, 'api_slot_year'])->name('slot.year');
@@ -150,13 +155,17 @@ Route::prefix('student')->name('student.')->middleware(['auth', 'verified', 'rol
 
      Route::get('/print/{ticket_no}', [ReservationController::class, 'print'])->name('print');
 
-    
+    Route::delete('/reservation/delete/{id}', [ReservationController::class, 'destroy'])->name('delete.reservation');
 
-    
+ 
+  
 });
    
     Route::get('/upcoming_current_booking', [ReservationController::class, 'upcoming_current_booking']);
 
+    Route::get('/loader', function () {
+        return view('components.loader');
+    })->name('loader'); 
 
 Route::middleware(['auth','verified'])->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

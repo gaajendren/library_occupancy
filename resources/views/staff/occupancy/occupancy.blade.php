@@ -1,5 +1,4 @@
 <x-staff-app-layout>
-    <link href="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.css" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
     <div class="h-full w-full flex items-start justify-center contains">
@@ -14,7 +13,7 @@
                 </div>
             </div>
 
-            <div class="p-4 rounded-lg mx-4 shadow-sm bg-white h-fit my-4 ">
+            <div class="p-4 rounded-lg mx-4 shadow-xs bg-white h-fit my-4 ">
                 <div class="flex w-full justify-start gap-5  items-center">
                     <div class="form-group group ">
                         <div class='p-2.5 py-0  flex flex-row items-center rounded-lg justify-start border border-1 border-gray-300'>
@@ -64,13 +63,13 @@
                        
                     </div>
                     <div class="form-group group flex ">
-                        <button type="button" class="text-white bg-gray-600 hover:bg-gray-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5   dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" onclick='filter()'>Apply</button>
+                        <button type="button" class="text-white bg-gray-600 hover:bg-gray-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5   dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-hidden dark:focus:ring-blue-800" onclick='filter()'>Apply</button>
                     </div>
                 
                 </div>
             </div>
 
-            <div class="mx-4 rounded-lg border border-gray-300 shadow-sm bg-white my-4 flex flex-wrap flex-col  h-fit">
+            <div class="mx-4 rounded-lg border border-gray-300 shadow-xs bg-white my-4 flex flex-wrap flex-col  h-fit">
                 <div class="self-end rounded-t-lg p-2 text-gray-600 content-end w-full bg-gray-100 border-b border-gray-300">Person count</div>
                 <div class="flex flex-row p-4 max-h-[110px]">
                     <div class= "border-l-4 p-2 m-2 w-1/4 h-fit border-emerald-500 ">
@@ -111,12 +110,12 @@
                     <div id="img_holder" name='' class="flex flex-row flex-wrap sm:gap-2 md:gap-5 gap-5 justify-start items-center w-full">
                         @foreach ($person as $item)
                             
-                            <div  class="img-item w-[17%] max-w-[120px] min-w-[90px] h-[220px] bg-white rounded-xl shadow-sm aspect-auto overflow-hidden cursor-pointer " onclick="checker(event)" >
+                            <div  class="img-item w-[17%] max-w-[120px] min-w-[90px] h-[220px] bg-white rounded-xl shadow-xs aspect-auto overflow-hidden cursor-pointer " onclick="checker(event)" >
                                 <img src="http://127.0.0.1:5000/person_img/{{$item->img}}" alt="img" class=" w-full h-full  object-fill object-center">
                                 <div aria-hidden="true"  class="absolute inset-0 top-0  flex justify-center items-center w-full h-full  aspect-auto overflow-hidden hidden modalView z-20">
                                 
                                     @if ($item->personExit)
-                                    <div class="rounded-xl shadow-sm bg-white w-[190px] aspect-auto p-3 flex flex-col items-center justify-center">
+                                    <div class="rounded-xl shadow-xs bg-white w-[190px] aspect-auto p-3 flex flex-col items-center justify-center">
                                         <img src="http://127.0.0.1:5000/person_img/{{$item->personExit->img}}" alt="img" class=" w-full max-w-[140px] min-w-[90px] h-[250px]  object-fill object-center"> 
                                         <button class="rounded-xl bg-blue-400 hover:bg-blue-700 p-1 px-2 mt-3 " >No</button>
                                     </div>
@@ -138,19 +137,19 @@
     </div>
 
     <script>
-        const template = (item, opposite_item) => `<div class="img-item w-[17%] max-w-[120px] min-w-[90px] h-[220px] bg-white rounded-xl shadow-sm aspect-auto overflow-hidden  cursor-pointer " onclick="checker(event)" >
+        const template = (item, opposite_item) => `<div class="img-item w-[17%] max-w-[120px] min-w-[90px] h-[220px] bg-white rounded-xl shadow-xs aspect-auto overflow-hidden  cursor-pointer " onclick="checker(event)" >
                             <img src="http://127.0.0.1:5000/person_img/${item["img"]}" alt="img" class=" w-full h-full  object-fill object-center">
         
                             <div aria-hidden="true"  class="absolute inset-0 top-0  flex justify-center items-center w-full h-full  aspect-auto overflow-hidden hidden modalView z-20">                       
                         
-                            <div class="rounded-xl shadow-sm bg-white w-[190px] aspect-auto p-3 flex flex-col items-center justify-center">
+                            <div class="rounded-xl shadow-xs bg-white w-[190px] aspect-auto p-3 flex flex-col items-center justify-center">
                                 <img src="http://127.0.0.1:5000/person_img/${opposite_item['img']}" alt="img" class=" w-full max-w-[140px] min-w-[90px] h-[250px]  object-fill object-center"> 
                                 <button class="rounded-xl bg-blue-400 hover:bg-blue-700 p-1 px-2 mt-3 " >No</button>
                             </div>
                                                         
                          </div></div>`
 
-        const no_detect_template = (item , isSecondWindow) => `<div class="img-item w-[17%] max-w-[120px] min-w-[90px] h-[220px] bg-white rounded-xl shadow-sm aspect-auto overflow-hidden cursor-pointer " onclick="checker(event)" >
+        const no_detect_template = (item , isSecondWindow) => `<div class="img-item w-[17%] max-w-[120px] min-w-[90px] h-[220px] bg-white rounded-xl shadow-xs aspect-auto overflow-hidden cursor-pointer " onclick="checker(event)" >
                                                 <img src="${isSecondWindow ? '/img/person_sign.png' : `http://127.0.0.1:5000/person_img/${item['img']}`}" alt="img" class=" w-full h-full  object-fill object-center">
                                                 <div aria-hidden="true"  class="absolute inset-0 top-0  flex justify-center items-center w-full h-full  aspect-auto overflow-hidden hidden modalView z-20">
                                                     <p class="text-white">Sorry that person not exited yet or not detected</p>

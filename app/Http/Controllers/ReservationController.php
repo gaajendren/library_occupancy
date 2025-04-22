@@ -6,6 +6,7 @@ use App\Models\Reservation;
 use App\Models;
 use App\Models\Room_name;
 use App\Models\Room;
+
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\ReservationFilteration;
@@ -33,9 +34,78 @@ class ReservationController extends Controller
     public function index()
     {
         $reservations = Reservation::orderBy('created_at', 'desc')->get();
+        $room_types = Room::all();
 
-        return view('staff.reservation_management.index')->with('reservations', $reservations);
+        return view('staff.reservation_management.index')->with('reservations', $reservations)->with('room_types', $room_types);
     }
+
+    public function sort(Request $request)
+    {
+        $validated = $request->validate([
+            'sort_by' => 'required|in:date,time,status,studentCount', 
+            'sort_dir' => 'required|in:asc,desc'
+        ]);
+
+        $query = Reservation::query();
+
+        if ($validated['sort_by'] === 'time') {
+
+            $query->orderByRaw("CAST(JSON_UNQUOTE(JSON_EXTRACT(time, '$[0]')) AS TIME) {$validated['sort_dir']}");
+        }
+        
+        else {
+            
+            $query->orderBy($validated['sort_by'], $validated['sort_dir']);
+        }
+
+      
+        return response()->json([
+            'reservations' => $query->get()->map(function($reservation) {
+                return [
+                    ...$reservation->toArray(),
+                    'get_room' => $reservation->get_room,
+                    'get_student' => $reservation->get_student
+                ];
+            })
+        ]);
+    }
+
+
+    public function filter(Request $request){
+
+        $date = $request->query('date');
+        $room_type = $request->query('room_type');
+        $status = $request->query('status');
+
+        $query = Reservation::query();
+
+        if($date != 'all'){
+            $formattedDate = Carbon::createFromFormat('m/d/Y', $date)->format('Y-m-d');
+            $query->where('date', $formattedDate);
+        }
+        if ($room_type !== 'all') {
+            $query->where('roomTypeId', $room_type);
+        }
+
+        if ($status !== 'all') {
+            $query->where('status', $status);
+        }
+
+        
+        return response()->json([
+            'reservations' => $query->get()->map(function($reservation) {
+                return [
+                    ...$reservation->toArray(),
+                    'get_room' => $reservation->get_room,
+                    'get_student' => $reservation->get_student
+                ];
+            })
+        ]);
+
+    }
+
+
+    
 
 
     public function store_day(Request $request, $id ){
@@ -225,15 +295,9 @@ class ReservationController extends Controller
     public function store(Request $request, $id )
     {
 
-    
-
         $input = $request->all();
-
         $input['room_id'] = json_decode($input['room_id'] , true);
        
-       
-        
-
         $rules =[
             'img' => 'required', 
             'img.*' => 'mimes:png,jpg,jpeg,gif,svg|max:2048',
@@ -265,9 +329,7 @@ class ReservationController extends Controller
                 return $carry;
             }, []);
             
-         
-
-
+        
             $date = $input['date'];
             
     
@@ -363,7 +425,7 @@ class ReservationController extends Controller
             }
 
             
-            $reservation = Reservation::create($input);
+            $reservation = Reservation::create($input)->fresh();
 
             event(new ReservationNotification($reservation));
            
@@ -459,6 +521,68 @@ class ReservationController extends Controller
     }
 }
 
+
+public function api_CalenderSlot($id, $date)
+{
+    try {
+        $reservations = Reservation::where('roomTypeId', $id)->where('date', $date)->get();
+        $totalSlot = Room::find($id);
+
+        if (!$reservations) {
+            return response()->json(['resources' => [], 'events' => []]);
+        }
+
+        $roomNames = Room_name::where('room_id', $id)->get();
+        $resources = $roomNames->map(function ($room) {
+            return [
+                'id' =>  $room->id,
+                'title' => $room->name,
+            ];
+        });
+
+        $timeSlots = [8,9,10,11,12,13,14,15,16,17];
+        $events = [];
+
+        foreach ($roomNames as $room) {
+            foreach ($timeSlots as $hour) {
+                $reservationsForRoom = $room->get_reservations->where('date', $date);
+
+                $isBooked = $reservationsForRoom->map(function ($reservation) use ($hour) {
+                    $times = collect(json_decode(json_decode($reservation->time), true));
+                    return $times->contains(function ($t) use ($hour) {
+                        return Carbon::createFromFormat('H:i', $t)->hour == $hour;
+                    });
+                })->contains(true);
+
+                if ($isBooked) {
+                    $start = Carbon::parse($date)->setHour($hour)->format('Y-m-d\TH:i:s');
+                    $end = Carbon::parse($date)->setHour($hour + 1)->format('Y-m-d\TH:i:s');
+
+                    $events[] = [
+                        'title' => 'Unavailable',
+                        'start' => $start,
+                        'end' => $end,
+                        'resourceId' =>  $room->id,
+                        'display' => 'background',
+                        'overlap' => false,
+                        'color' => 'red', 
+                       
+                    ];
+                }
+            }
+        }
+
+        return response()->json(data: [
+            'resources' => $resources,
+            'events' => $events,
+            'max_slot' => $totalSlot->max_slot
+        ]);
+
+    } catch (\Exception $e) {
+        return response()->json(['error' => $e->getMessage()], 500);
+    }
+}
+
     
     public function update(Request $request, $id)
     {
@@ -507,7 +631,7 @@ class ReservationController extends Controller
         }, function ($query) use ($today) {
             return $query->where('date', '<=', $today);
         })
-        ->with('get_room')->with('get_roomType')
+        ->with('get_roomType')->with('get_room')
         ->get();
    
     
@@ -522,14 +646,14 @@ class ReservationController extends Controller
         $columns = ['time', 'date', 'status']; 
 
         $reservations = Reservation::where('studentId', $studentId)->where(function ($query) use ($text, $columns) {
-            $query->whereHas('get_room', function ($subQuery) use ($text) {
+            $query->whereHas('get_roomType', function ($subQuery) use ($text) {
                 $subQuery->where('title', 'LIKE', "%$text%");
             });
     
             foreach ($columns as $column) {
                 $query->orWhere($column, 'LIKE', "%$text%");
             }
-        })->with('get_room')->get();
+        })->with('get_roomType')->get();
     
 
          return response()->json($reservations);
@@ -625,5 +749,11 @@ class ReservationController extends Controller
     }   
 
 
+    public function destroy($id){
+        $reservation = Reservation::find($id);
+        $reservation->delete();
+
+        return response()->json(['success' => 'Deleted successfully']);
+    }
    
 }

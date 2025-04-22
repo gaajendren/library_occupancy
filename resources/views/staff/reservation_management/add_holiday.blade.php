@@ -7,7 +7,7 @@
       <div  class="absolute inset-0 w-full min-h-screen z-0 bg-black/100 opacity-60"></div>
       <div class="relative p-4 w-full max-w-xl max-h-full">
           <!-- Modal content -->
-          <div class="relative bg-white rounded-lg shadow-sm dark:bg-gray-700">
+          <div class="relative bg-white rounded-lg shadow-xs dark:bg-gray-700">
               <!-- Modal header -->
               <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600 border-gray-200">
                   <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
@@ -33,7 +33,7 @@
                       </div>
                   </div>
                  
-                  <button type="button" onclick="submit(event)" class="text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">    
+                  <button type="button" onclick="submit(event)" class="text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-hidden focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">    
                       Add 
                   </button>
                 </div>

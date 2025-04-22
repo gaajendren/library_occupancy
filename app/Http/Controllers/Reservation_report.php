@@ -80,11 +80,11 @@ class Reservation_report extends Controller
                 'utilization_percent' => round($utilization, 2)
             ];
         }
-
         
         return $results;
 
     }
+
 
 
     public function utilize_by_day(){
@@ -104,12 +104,24 @@ class Reservation_report extends Controller
     
             $total_possible_slots = $this->days * $rooms;
             $utilization = $total_possible_slots > 0 ? ($reserved_slots / $total_possible_slots) * 100 : 0;
+
+            $reservationByDate = $reservations->groupBy('date')->map(function ($dayReservations) {
+                return count($dayReservations);
+            });
+    
+            $topDays = $reservationByDate->sortDesc()->take(5)->map(function ($count, $date) {
+                return [
+                    'date' => $date,
+                    'reservations' => $count
+                ];
+            })->values(); 
     
             $results[] = [
                 'room_type' => $roomType->title,
                 'reserved_slots' => $reserved_slots,
                 'total_slots' => $total_possible_slots,
-                'utilization_percent' => round($utilization, 2)
+                'utilization_percent' => round($utilization, 2),
+                'top_peak_days' => $topDays
             ];
         }
     
@@ -124,15 +136,19 @@ class Reservation_report extends Controller
         $roomTypes = Room::where('slot', 'month')->get();
         $results = [];
 
+        $startMonth = $startDate->format('Y-m');
+        $endMonth = $endDate->format('Y-m');
+
         foreach ($roomTypes as $roomType) {
             $rooms = Room_name::where('room_id', $roomType->id)->count();
 
             $reservations = Reservation::whereHas('get_roomType', function($query) use ($roomType) {
                 $query->where('id', $roomType->id);
-            })->whereBetween('date', [$startDate, $endDate])->get();
+            })->whereBetween('date', [$startMonth, $endMonth])->get();
 
-          
+
             $monthly_data = [];
+            $monthly_counts = [];
 
             $period = new DatePeriod($startDate, new DateInterval('P1M'), (clone $endDate)->addMonth());
             $months = iterator_to_array($period);
@@ -148,6 +164,9 @@ class Reservation_report extends Controller
                 $reserved_slots = $monthly_reservations->count();
                 $total_slots = $rooms * $daysInMonth;
 
+                $monthly_counts[$monthKey] = $reserved_slots;
+
+               
                 $monthly_data[] = [
                     'month' => Carbon::parse($monthKey)->format('F Y'),
                     'reserved_slots' => $reserved_slots,
@@ -156,9 +175,20 @@ class Reservation_report extends Controller
                 ];
             }
 
+            $topMonths = collect($monthly_counts)
+                        ->sortDesc()
+                        ->take(3)
+                        ->map(function ($count, $monthKey) {
+                            return [
+                                'month' => Carbon::parse($monthKey . '-01')->format('F Y'),
+                                'reservations' => $count
+                            ];
+                        })->values();
+
             $results[] = [
                 'room_type' => $roomType->title,
-                'monthly_utilization' => $monthly_data
+                'monthly_utilization' => $monthly_data,
+                'top_peak_months' => $topMonths
             ];
         }
 

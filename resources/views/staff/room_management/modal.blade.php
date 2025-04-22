@@ -2,7 +2,7 @@
     <div class="absolute top-0 left-0 bg-gray-700 w-full min-h-[110%] h-full opacity-60" style="bottom: auto;"></div>
     <div class="relative p-4 w-2/3  max-h-full my-10">
         <!-- Modal content -->
-        <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+        <div class="relative bg-white rounded-lg shadow-sm dark:bg-gray-700">
             <!-- Modal header -->
             <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
                 <h3 class="title text-xl font-semibold text-gray-900 dark:text-white">
@@ -20,9 +20,9 @@
 
                 <div class="flex flex-row justify-between">
 
-                    <button type="button" data-modal-target="add-room"  data-modal-toggle="add-room" class="text-white bg-gray-700 hover:bg-gray-500  rounded-xl shadow-sm border-2 border-gray-200 p-2 px-2.5 text-sm mr-4">Add+</button>
+                    <button type="button" data-modal-target="add-room"  data-modal-toggle="add-room" class="text-white bg-gray-700 hover:bg-gray-500  rounded-xl shadow-xs border-2 border-gray-200 p-2 px-2.5 text-sm mr-4">Add+</button>
                     
-                    <button type="button" onclick="update_data()"  class="text-white bg-blue-700 hover:bg-blue-500  rounded-xl shadow-sm  border-none p-2 px-2.5 text-sm ml-4">Save</button>
+                    <button type="button" onclick="update_data()"  class="text-white bg-blue-700 hover:bg-blue-500  rounded-xl shadow-xs  border-none p-2 px-2.5 text-sm ml-4">Save</button>
                    
                 </div>
               
@@ -44,7 +44,7 @@
     <div class="absolute top-0 left-0 bg-gray-700 w-full min-h-[110%] h-full opacity-60" style="bottom: auto;"></div>
     <div class="relative p-4 w-1/3  max-h-full my-10">
         <!-- Modal content -->
-        <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+        <div class="relative bg-white rounded-lg shadow-sm dark:bg-gray-700">
             <!-- Modal header -->
             <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
                 <h3 class="title text-xl font-semibold text-gray-900 dark:text-white">
@@ -70,7 +70,7 @@
                     <input type="text" name='location' id="location"  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"  required />
                 </div>
 
-                <button type="button" onclick="add_room(this)"   class="text-white bg-gray-700 hover:bg-gray-500  rounded-xl shadow-sm border-2 border-gray-200 p-2 px-2.5 text-sm mr-4">Submit</button>
+                <button type="button" onclick="add_room(this)"   class="text-white bg-gray-700 hover:bg-gray-500  rounded-xl shadow-xs border-2 border-gray-200 p-2 px-2.5 text-sm mr-4">Submit</button>
 
    
             </div>
@@ -181,13 +181,13 @@
                 tr.innerHTML = `
                     <td class="px-4 py-2">
                         <input id="room_${index + 1}" name="${room.id}" type="text" value="${room.name}"
-                            class="bg-transparent text-slate-800 h-9 text-sm px-3 w-full focus:outline-none"
+                            class="bg-transparent text-slate-800 h-9 text-sm px-3 w-full focus:outline-hidden"
                             placeholder="Room Name">
                     </td>
 
                     <td class="px-4 py-2">
                         <input id="location_${index + 1}" name="${room.id}" type="text" value="${room.location || ''}"
-                            class="bg-transparent text-slate-800 h-9 text-sm px-3 w-full focus:outline-none"
+                            class="bg-transparent text-slate-800 h-9 text-sm px-3 w-full focus:outline-hidden"
                             placeholder="Room Location">
                     </td>
 

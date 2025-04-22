@@ -1,7 +1,7 @@
 <div id="slot-modal" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full dark">
     <div class="absolute top-0 left-0 w-full h-screen bg-gray-500 opacity-60"></div>
     <div class="relative p-4 w-full max-w-xl max-h-full">
-        <div class="relative bg-white rounded-lg shadow dark:bg-[#11151f]">
+        <div class="relative bg-white rounded-lg shadow-sm dark:bg-[#11151f]">
             <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
                 <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
                     Select Year & Month
@@ -19,11 +19,11 @@
                         <div class="flex flex-col">
                             <label for="" class='text-white text-md mb-4'>Select Year: </label>  
                             <div class="flex justify-center items-center text-lg font-semibold text-gray-800 mb-4">
-                                <button id="prevYearBtn" class="px-2 py-0 bg-gray-300 text-gray-500 rounded cursor-not-allowed" disabled>
+                                <button id="prevYearBtn" class="px-2 py-0 bg-gray-300 text-gray-500 rounded-sm cursor-not-allowed" disabled>
                                     <i class="fa-solid fa-arrow-left fa-sm"></i>
                                 </button>
                                 <span class="text-white mx-4" id="yearDisplay"></span>
-                                <button id="nextYearBtn" class="px-2 py-0 bg-blue-500 text-white rounded hover:bg-blue-700">
+                                <button id="nextYearBtn" class="px-2 py-0 bg-blue-500 text-white rounded-sm hover:bg-blue-700">
                                     <i class="fa-solid fa-arrow-right fa-sm"></i>
                                 </button>
                             </div>
@@ -33,7 +33,7 @@
                         </div>
                     </div>
                 </div>
-                <button type="button" onclick="data_store()" class="text-slate-700 inline-flex items-center mt-6 bg-teal-200 hover:bg-teal-700 focus:outline-none font-medium rounded-lg text-sm px-5 py-2 text-center dark:bg-teal-200 dark:hover:bg-teal-700">
+                <button type="button" onclick="data_store()" class="text-slate-700 inline-flex items-center mt-6 bg-teal-200 hover:bg-teal-700 focus:outline-hidden font-medium rounded-lg text-sm px-5 py-2 text-center dark:bg-teal-200 dark:hover:bg-teal-700">
                     Save
                 </button>
             </div>
@@ -68,7 +68,7 @@
         monthNames.forEach((month, index) => {
             let monthBtn = document.createElement("button");
             monthBtn.textContent = month;
-            monthBtn.className = "p-2 w-full max-w-12 bg-blue-500 text-white rounded cursor-pointer hover:bg-blue-700";
+            monthBtn.className = "p-2 w-full max-w-12 bg-blue-500 text-white rounded-sm cursor-pointer hover:bg-blue-700";
             monthBtn.setAttribute("data-room-id", '');
             monthBtn.setAttribute("data-month", index + 1);
             monthBtn.onclick = () => selectMonth(index + 1);
@@ -78,14 +78,14 @@
        
         prevYearBtn.disabled = selectedYear === currentYear;
         prevYearBtn.className = selectedYear === currentYear
-            ? "px-2 py-0 bg-gray-300 text-gray-500 rounded cursor-not-allowed"
-            : "px-2 py-0 bg-blue-500 text-white rounded hover:bg-blue-700";
+            ? "px-2 py-0 bg-gray-300 text-gray-500 rounded-sm cursor-not-allowed"
+            : "px-2 py-0 bg-blue-500 text-white rounded-sm hover:bg-blue-700";
 
       
         nextYearBtn.disabled = selectedYear === currentYear + 1;
         nextYearBtn.className = selectedYear === currentYear + 1
-            ? "px-2 py-0 bg-gray-300 text-gray-500 rounded cursor-not-allowed"
-            : "px-2 py-0 bg-blue-500 text-white rounded hover:bg-blue-700";
+            ? "px-2 py-0 bg-gray-300 text-gray-500 rounded-sm cursor-not-allowed"
+            : "px-2 py-0 bg-blue-500 text-white rounded-sm hover:bg-blue-700";
     }
 
     document.getElementById("prevYearBtn").addEventListener("click", () => {

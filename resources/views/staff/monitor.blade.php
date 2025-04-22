@@ -12,7 +12,7 @@
             </button>
         </div>
 
-        <div class="mx-auto flex flex-col my-6 bg-white shadow-sm border  border-slate-300 rounded-lg w-96">      
+        <div class="mx-auto flex flex-col my-6 bg-white shadow-xs border  border-slate-300 rounded-lg w-96">      
             <div class="p-4 border-none">
                 <div class=" border-l-2 border-l-red-600 pl-2">
                     <p class="mb-2 text-slate-800">

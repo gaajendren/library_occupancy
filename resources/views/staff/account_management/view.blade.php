@@ -2,7 +2,7 @@
     <div class="absolute top-0 left-0 bg-gray-700 w-full min-h-[110%] h-full opacity-60" style="bottom: auto;"></div>
     <div class="relative p-4 w-full sm:max-w-md md:max-w-lg  max-w-md  max-h-full my-10">
         <!-- Modal content -->
-        <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+        <div class="relative bg-white rounded-lg shadow-sm dark:bg-gray-700">
             <!-- Modal header -->
             <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
                 <h3 class="title text-xl font-semibold text-gray-900 dark:text-white">

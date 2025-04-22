@@ -93,7 +93,7 @@
                                 @enderror
                             </div>
                             <div class="flex items-center relative self-center">
-                                <input onclick="auto_name()"  id="checked-checkbox" type="checkbox" value="" class="w-4 h-4 text-slate-600  bg-gray-200 border-none rounded-sm focus:ring-0 focus:outline-none peer">
+                                <input onclick="auto_name()"  id="checked-checkbox" type="checkbox" value="" class="w-4 h-4 text-slate-600  bg-gray-200 border-none rounded-xs focus:ring-0 focus:outline-hidden peer">
                                 <label for="checked-checkbox" class="ms-2 text-sm font-medium text-slate-600">Auto Naming</label>
                                 <div class="absolute left-0 bottom-full mb-2 hidden w-max bg-gray-700 text-white text-sm px-2 py-1 rounded-md peer-hover:block">
                                     This will auto-generate a name for the room.
@@ -103,11 +103,11 @@
 
 
                         <div id="roomNameContainer" class="flex flex-col text-slate-600 mb-8"> 
-                            <div  onclick="card_expand(this)" id="card_header" class="rounded-md cursor-pointer shadow-sm w-full border-[1px] border-gray-300 bg-gray-300 p-4 flex flex-row justify-center items-center gap-2">
+                            <div  onclick="card_expand(this)" id="card_header" class="rounded-md cursor-pointer shadow-xs w-full border-[1px] border-gray-300 bg-gray-300 p-4 flex flex-row justify-center items-center gap-2">
                                 <p class="font-medium text-slate-600">All Room Specific Name</p>
                                 <i id="expand" class="fa-solid fa-chevron-down"></i>
                             </div>
-                            <div id="sub_child" class="hidden rounded-b-md shadow-sm w-full border-[1px] border-none bg-gray-200 p-4 h-18">
+                            <div id="sub_child" class="hidden rounded-b-md shadow-xs w-full border-[1px] border-none bg-gray-200 p-4 h-18">
 
                             </div>
                         </div>
@@ -168,7 +168,7 @@
                     reader.onload = (e) => {
 
                         const divElement = document.createElement('div');
-                        divElement.className = "imageHolder relative max-w-[150px] min-w-[100px] w-[17%] p-1 bg-white rounded-lg shadow-sm";
+                        divElement.className = "imageHolder relative max-w-[150px] min-w-[100px] w-[17%] p-1 bg-white rounded-lg shadow-xs";
                         
                         const deleteIcon = document.createElement('i');
                         deleteIcon.className = "fa-solid fa-trash absolute top-3 rounded-full p-2 cursor-pointer text-red-500 hover:text-red-700 bg-slate-300 bg-opacity-[30%] hover:bg-opacity-[60%] right-4 flex items-center justify-center text-md";

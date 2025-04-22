@@ -3,7 +3,7 @@
         <div class="mx-auto  montserrat-regular text-2xl tracking-wider text-slate-700" >
             <h1 class="text-center pt-[50px]">Update Room</h1>
         </div>
-        <div class="max-w-screen-xl w-3/4 mx-auto">
+        <div class="max-w-(--breakpoint-xl) w-3/4 mx-auto">
             <div class=" mx-auto md:gap-10 sm:gap-6 gap-4 md:m-[3rem] sm:m-[2rem] m-[1rem]">
                 <div class="w-full">
                     <form action="{{route('staff.update.room', $room->id)}}" class="flex flex-col bg-white rounded-xl shadow-lg p-5 max-sm:rounded-none max-sm:shadow-none " enctype="multipart/form-data" method="POST">

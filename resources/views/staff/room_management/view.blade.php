@@ -3,7 +3,7 @@
         <div class="mx-auto  montserrat-regular text-2xl tracking-wider text-slate-700" >
             <h1 class="text-center pt-[50px]">Show Room</h1>
         </div>
-        <div class="max-w-screen-lg w-3/4 mx-auto">
+        <div class="max-w-(--breakpoint-lg) w-3/4 mx-auto">
             <div class=" mx-auto md:gap-10 sm:gap-6 gap-4 md:m-[3rem] sm:m-[2rem] m-[1rem]">
                 <div class="w-full bg-white rounded-xl mx-auto shadow-lg p-5">
                         
@@ -43,7 +43,7 @@
 
                         <label  class="mb-3 text-slate-600">Room Names:</label>
 
-                        <div class="rounded-b-md shadow-sm w-full border-[1px] border-none bg-gray-100 p-4 h-18 mb-6">
+                        <div class="rounded-b-md shadow-xs w-full border-[1px] border-none bg-gray-100 p-4 h-18 mb-6">
                             <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 w-full ">
                                 @php 
                                 $roomNames = json_decode($room->room_names, true) ?? []; 

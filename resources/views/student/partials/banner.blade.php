@@ -1,4 +1,4 @@
-<main class="max-w-screen-xl mx-auto dark:bg-gray-800 p-4 md:p-8 mt-[3.5rem]">
+<main class="max-w-(--breakpoint-xl) mx-auto dark:bg-gray-800 p-4 md:p-8 mt-[3.5rem]">
    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
    
    <div class="banner w-full flex flex-col md:flex-row gap-4 h-[300px] md:h-[300px]">
@@ -26,19 +26,19 @@
                </div>
 
                <!-- Dark Navigation Buttons -->
-               <div class="swiper-button-next !w-10 !h-10 bg-gray-800/30 hover:bg-gray-800/50 rounded-full backdrop-blur-sm">
+               <div class="swiper-button-next w-10! h-10! bg-gray-800/30 hover:bg-gray-800/50 rounded-full backdrop-blur-xs">
                    <svg class="w-5 h-5 text-gray-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M9 5l7 7-7 7"/>
                    </svg>
                </div>
-               <div class="swiper-button-prev !w-10 !h-10 bg-gray-800/30 hover:bg-gray-800/50 rounded-full backdrop-blur-sm">
+               <div class="swiper-button-prev w-10! h-10! bg-gray-800/30 hover:bg-gray-800/50 rounded-full backdrop-blur-xs">
                    <svg class="w-5 h-5 text-gray-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M15 19l-7-7 7-7"/>
                    </svg>
                </div>
 
                <!-- Dark Pagination -->
-               <div class="swiper-pagination !bottom-4"></div>
+               <div class="swiper-pagination bottom-4!"></div>
            </div>
        </div>
 
