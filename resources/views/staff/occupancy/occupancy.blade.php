@@ -111,12 +111,12 @@
                         @foreach ($person as $item)
                             
                             <div  class="img-item w-[17%] max-w-[120px] min-w-[90px] h-[220px] bg-white rounded-xl shadow-xs aspect-auto overflow-hidden cursor-pointer " onclick="checker(event)" >
-                                <img src="http://127.0.0.1:5000/person_img/{{$item->img}}" alt="img" class=" w-full h-full  object-fill object-center">
+                                <img src="https://sad-parrots-help.loca.lt/person_img/{{$item->img}}" alt="img" class=" w-full h-full  object-fill object-center">
                                 <div aria-hidden="true"  class="absolute inset-0 top-0  flex justify-center items-center w-full h-full  aspect-auto overflow-hidden hidden modalView z-20">
                                 
                                     @if ($item->personExit)
                                     <div class="rounded-xl shadow-xs bg-white w-[190px] aspect-auto p-3 flex flex-col items-center justify-center">
-                                        <img src="http://127.0.0.1:5000/person_img/{{$item->personExit->img}}" alt="img" class=" w-full max-w-[140px] min-w-[90px] h-[250px]  object-fill object-center"> 
+                                        <img src="https://sad-parrots-help.loca.lt/person_img/{{$item->personExit->img}}" alt="img" class=" w-full max-w-[140px] min-w-[90px] h-[250px]  object-fill object-center"> 
                                         <button class="rounded-xl bg-blue-400 hover:bg-blue-700 p-1 px-2 mt-3 " >No</button>
                                     </div>
                                     @else
@@ -138,19 +138,19 @@
 
     <script>
         const template = (item, opposite_item) => `<div class="img-item w-[17%] max-w-[120px] min-w-[90px] h-[220px] bg-white rounded-xl shadow-xs aspect-auto overflow-hidden  cursor-pointer " onclick="checker(event)" >
-                            <img src="http://127.0.0.1:5000/person_img/${item["img"]}" alt="img" class=" w-full h-full  object-fill object-center">
+                            <img src="hhttps://sad-parrots-help.loca.lt/person_img/${item["img"]}" alt="img" class=" w-full h-full  object-fill object-center">
         
                             <div aria-hidden="true"  class="absolute inset-0 top-0  flex justify-center items-center w-full h-full  aspect-auto overflow-hidden hidden modalView z-20">                       
                         
                             <div class="rounded-xl shadow-xs bg-white w-[190px] aspect-auto p-3 flex flex-col items-center justify-center">
-                                <img src="http://127.0.0.1:5000/person_img/${opposite_item['img']}" alt="img" class=" w-full max-w-[140px] min-w-[90px] h-[250px]  object-fill object-center"> 
+                                <img src="https://sad-parrots-help.loca.lt/person_img/${opposite_item['img']}" alt="img" class=" w-full max-w-[140px] min-w-[90px] h-[250px]  object-fill object-center"> 
                                 <button class="rounded-xl bg-blue-400 hover:bg-blue-700 p-1 px-2 mt-3 " >No</button>
                             </div>
                                                         
                          </div></div>`
 
         const no_detect_template = (item , isSecondWindow) => `<div class="img-item w-[17%] max-w-[120px] min-w-[90px] h-[220px] bg-white rounded-xl shadow-xs aspect-auto overflow-hidden cursor-pointer " onclick="checker(event)" >
-                                                <img src="${isSecondWindow ? '/img/person_sign.png' : `http://127.0.0.1:5000/person_img/${item['img']}`}" alt="img" class=" w-full h-full  object-fill object-center">
+                                                <img src="${isSecondWindow ? '/img/person_sign.png' : `https://sad-parrots-help.loca.lt/person_img/${item['img']}`}" alt="img" class=" w-full h-full  object-fill object-center">
                                                 <div aria-hidden="true"  class="absolute inset-0 top-0  flex justify-center items-center w-full h-full  aspect-auto overflow-hidden hidden modalView z-20">
                                                     <p class="text-white">Sorry that person not exited yet or not detected</p>
                                                     </div>

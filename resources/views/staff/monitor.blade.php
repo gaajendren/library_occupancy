@@ -33,7 +33,7 @@
 
     <script>
         
-        const socket = io('http://127.0.0.1:5000', {transports: ['websocket', 'polling', 'flashsocket']});
+        const socket = io('https://sad-parrots-help.loca.lt', {transports: ['websocket', 'polling', 'flashsocket']});
 
         
         socket.on('person_count', function(data) {
@@ -64,7 +64,7 @@
         socket.emit('request_video_feeds', {ways: ['enter', 'exit']});
        
         function load_status(){
-            axios.get('http://127.0.0.1:5000/current_status')
+            axios.get('https://sad-parrots-help.loca.lt/current_status')
                 .then(function (response) {
 
                     if(response.data == 'success'){

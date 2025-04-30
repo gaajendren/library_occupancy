@@ -305,7 +305,7 @@ function form_submit(e) {
  async function update_frame(){
 
   try {
-    const response = await axios.get('http://127.0.0.1:5000/frame_update');
+    const response = await axios.get('https://1908-121-121-204-225.ngrok-free.app/frame_update');
 
     let [enterFrame, exitFrame] = response.data.frame;
 
@@ -588,7 +588,7 @@ function form_submit(e) {
 
                 if(response.data.message == 'Succesfully Updated'){
 
-                  const res =  await axios.get('http://127.0.0.1:5000/setting_update')
+                  const res =  await axios.get('https://sad-parrots-help.loca.lt/setting_update')
 
                 }
 
