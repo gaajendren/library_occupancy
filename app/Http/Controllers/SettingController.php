@@ -85,7 +85,7 @@ class SettingController extends Controller
             $setting->save();
 
             try {
-                Http::timeout(5)->get('https://sad-parrots-help.loca.lt/setting_update');
+                Http::timeout(5)->get('http://127.0.0.1:5000/setting_update');
                 \Log::info('✅ Flask setting update triggered');
             }catch(\Exception $e) {
                 \Log::error('❌ Failed to call Flask: ' . $e->getMessage());
