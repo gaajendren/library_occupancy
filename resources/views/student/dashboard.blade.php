@@ -122,7 +122,7 @@
    @include('student.partials.filter')
 
 
-   <main class="max-w-(--breakpoint-xl) mx-auto  dark md:p-[2rem] sm:p-[1rem] p-[1rem] pt-[10px]">    
+   <main class="max-w-(--breakpoint-xl) mx-auto  dark md:p-[2rem] sm:p-[1rem] p-[1rem] pt-[5px]">    
         <div class="grid xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-3 grid-cols-2 md:gap-10 sm:gap-6 gap-4 " id='room_catalog'>
            
         </div>
@@ -188,6 +188,7 @@
                         <div  class="opacity-0 translate-y-0 transition-transform duration-300 ease-out text-teal-200 max-sm:text-xs max-md:text-sm text-md viewDetail " >View Details</div>
                        <h4 class="opacity-100 transition-opacity duration-400 ease-out w-fit max-sm:text-xs max-md:text-sm text-md text-slate-300 leading-relaxed font-semibold room_desc">${room.title}</h4>
                        <p class="opacity-100 transition-opacity duration-400 ease-out w-fit  text-xs text-slate-300 font-reqular room_desc">Seat : ${room.min_seat} - ${room.max_seat}</p>
+                       <p class="opacity-100 transition-opacity duration-400 ease-out w-fit  text-xs text-slate-300 font-reqular room_desc">Duration : ${room.slot.charAt(0).toUpperCase() + room.slot.slice(1).toLowerCase()}</p>
                 
                    </div>    
                `;

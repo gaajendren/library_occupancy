@@ -24,6 +24,10 @@ class Room extends Model
         'qty'
     ];
 
+        public function rooms()
+    {
+        return $this->hasMany(Room_name::class, 'room_id', 'id');
+    }
   
     
 }

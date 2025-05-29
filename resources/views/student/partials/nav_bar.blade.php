@@ -12,14 +12,12 @@
              <span class="self-center text-l font-[400] whitespace-nowrap dark:text-white">Tun Aminah</span>
            </div>
        </a>
-       <div class="md:absolute md:inset-0 z-0 items-center justify-between hidden w-full md:flex md:w-auto md:order-1" id="navbar-user">
+       <div class="md:absolute md:inset-0 z-0 items-center justify-between  w-full md:flex md:w-auto md:order-1" id="navbar-user">
         <ul class="flex flex-col m-auto font-medium p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-transparent dark:bg-transparent dark:border-gray-700">
           <li>
             <a href="{{route('student.dashboard')}}" class="block py-2 px-3 text-white bg-blue-700 rounded-sm md:bg-transparent md:text-blue-700 md:p-0 md:dark:text-white" aria-current="page">Home</a>
           </li>
-          <li>
-            <a href="{{route('student.dashboard')}}" class="block py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700 ">Room</a>
-          </li>
+          
           <li>
             <a href="{{route('student.history')}}" class="block py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700 ">History</a>
           </li>

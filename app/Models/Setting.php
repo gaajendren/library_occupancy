@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Setting extends Model
 {
     
-    protected $fillable  = ['title', 'logo', 'banner', 'description', 'roi', 'exit_roi', 'frame', 'start_time' ,'end_time', 'is_manual']; 
+    protected $fillable  = ['title', 'logo', 'banner', 'description', 'roi', 'exit_roi', 'frame', 'start_time' ,'end_time', 'is_manual', 'contact']; 
 
     protected $casts = [
         'roi' => 'array', 

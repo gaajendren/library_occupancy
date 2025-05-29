@@ -38,9 +38,16 @@ class ProfileController extends Controller
             $request->user()->email_verified_at = null;
         }
 
+
+        if($request->has('ic')){
+           $request->user()->ic = $request->ic;
+           $request->user()->address = $request->address;
+           $request->user()->contact = $request->contact;
+        }
+
         $request->user()->save();
 
-        return Redirect::route($path.'.profile.edit')->with('status', 'profile-updated');
+        return Redirect::route($path.'.profile.edit')->with('status', 'profile-updated')->with('success', 'Profile Updated Successfully');
     }
 
     /**

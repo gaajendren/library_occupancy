@@ -44,7 +44,8 @@
                                    $img_array = json_decode($room->img, true); 
 
                                    if($img_array) {                            
-                                       echo  '<img class="max-w-[200px]   mx-auto object-cover border-none" src="' . asset('storage/room_image/' . $img_array[0]) . '" alt="Room Image">';
+                                       echo  '<img class="max-w-[200px] aspect-video
+                                        mx-auto object-cover border-none" src="' . asset('storage/room_image/' . $img_array[0]) . '" alt="Room Image">';
                                    }
                                 @endphp
                             </td>

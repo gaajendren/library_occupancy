@@ -11,7 +11,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\ReservationFilteration;
 use App\Events\ReservationNotification;
-
+use App\Models\Setting;
 
 class ReservationController extends Controller
 {
@@ -22,6 +22,8 @@ class ReservationController extends Controller
     {
         $this->reservationFilter = $reservationFilter;
     }
+
+
 
 
     public function print($ticket){
@@ -37,6 +39,13 @@ class ReservationController extends Controller
         $room_types = Room::all();
 
         return view('staff.reservation_management.index')->with('reservations', $reservations)->with('room_types', $room_types);
+    }
+
+    public function show($id){
+        
+        $reservation = Reservation::find($id);
+
+        return view('staff.reservation_management.view')->with('reservation', $reservation);
     }
 
     public function sort(Request $request)
@@ -64,6 +73,7 @@ class ReservationController extends Controller
                 return [
                     ...$reservation->toArray(),
                     'get_room' => $reservation->get_room,
+                    'get_roomType' => $reservation->get_roomType,
                     'get_student' => $reservation->get_student
                 ];
             })
@@ -76,6 +86,7 @@ class ReservationController extends Controller
         $date = $request->query('date');
         $room_type = $request->query('room_type');
         $status = $request->query('status');
+       
 
         $query = Reservation::query();
 
@@ -97,6 +108,7 @@ class ReservationController extends Controller
                 return [
                     ...$reservation->toArray(),
                     'get_room' => $reservation->get_room,
+                    'get_roomType' => $reservation->get_roomType,
                     'get_student' => $reservation->get_student
                 ];
             })
@@ -204,6 +216,8 @@ class ReservationController extends Controller
     public function store_month(Request $request, $id ){
         $input = $request->all();
 
+       
+        
         $rules =[
             'img' => 'required', 
             'img.*' => 'mimes:png,jpg,jpeg,gif,svg|max:2048',
@@ -298,6 +312,8 @@ class ReservationController extends Controller
         $input = $request->all();
         $input['room_id'] = json_decode($input['room_id'] , true);
        
+        dd($request->all());
+
         $rules =[
             'img' => 'required', 
             'img.*' => 'mimes:png,jpg,jpeg,gif,svg|max:2048',
@@ -614,7 +630,9 @@ public function api_CalenderSlot($id, $date)
     }
 
     public function student_index(Request $request){
-        return view('student.history.reservation_history');
+        $setting = Setting::first();
+
+        return view('student.history.reservation_history')->with('setting', $setting);
     }
 
     public function api_student_index(Request $request){
@@ -627,9 +645,9 @@ public function api_CalenderSlot($id, $date)
       
         $reservations = Reservation::where('studentId', $studentId)
         ->when($type === 'upcoming', function ($query) use ($today) {
-            return $query->where('date', '>', $today);
+            return $query->where('date', '>=', $today);
         }, function ($query) use ($today) {
-            return $query->where('date', '<=', $today);
+            return $query->where('date', '<', $today);
         })
         ->with('get_roomType')->with('get_room')
         ->get();
@@ -675,14 +693,14 @@ public function api_CalenderSlot($id, $date)
                     $reservations_month = $this->reservationFilter->reservation_montly();
                     $reservation_daily = $this->reservationFilter->reservation_daily();
 
+
                 return response()->json([
-                    'current' => $currentReservations,
-                    'current_day' => $currentReservations_day,
-                    'current_month' => $currentReservations_month,
-                    'upcoming' => $upcomingReservation->toArray(),
-                    'upcoming_month' => $reservations_month,
-                    'upcoming_day' => $reservation_daily->toArray()
-                    
+                    'current' => $currentReservations ?? [],
+                    'current_day' => $currentReservations_day ?? [],
+                    'current_month' => $currentReservations_month ?? [],
+                    'upcoming' => $upcomingReservation ? $upcomingReservation->toArray() : [],
+                    'upcoming_month' => $reservations_month ?? [],
+                    'upcoming_day' => $reservation_daily ? $reservation_daily->toArray() : [],
                 ]);
                    
     

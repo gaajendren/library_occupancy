@@ -125,13 +125,14 @@
                 
                  <button type="button" id="slot_open" data-modal-target="slot-modal" data-modal-toggle="slot-modal" class='bg-teal-200 rounded-xs text-bg-[#0c0f16] text-md text-semibold py-2 px-3 hover:bg-teal-600 cabin w-[70%] my-4'>Choose Date & Time</button> 
                 
+                 <input type="hidden" name="room_id" id="roomID" >
 
                  @if ($room->slot == 'hour' || $room->slot == 'day')
 
                     <label  class='text-white text-sm '>Date: <span id='date'></span></label>
                 
                     <input type="date" name="date" class="hidden">
-                    <input type="hidden" name="room_id" id="roomID" >
+                    
                     @error('date')
                  
                     <div class="text-red-400" >{{ $message ?? '' }}</div>
@@ -156,17 +157,17 @@
                 <label  class='text-white text-sm '>Month: <span id='month'></span></label>
             
                 <input type="text" name="date" class="hidden">
-                <input type="hidden" name="room_id" id="roomID" >
+              
                 @error('date')
                
                 <div class="text-red-400" >{{ $message ?? ''}}</div>
                 @enderror
             
-            @endif
+                @endif
 
                 
                 
-                <label for="" class='text-white text-sm '>Matrix card screenshot: <sup class='text-teal-200 text-xs'> * front side only</sup> </label>
+                <label for="" class='text-white text-sm '>Matrix card screenshot: <sup class='text-teal-200 text-xs'> * front side only ( jpeg,png )</sup> </label>
                 <div class="flex flex-col w-[70%] text-slate-300 mb-3">
                     <div class="flex flex-row flex-wrap gap-3 p-3 pl-0 " id="image_container">
                         <label class=" border-dashed border-[1px] border-slate-400 max-w-[150px] min-w-[100px] w-[15%] aspect-square p-2 cursor-pointer">

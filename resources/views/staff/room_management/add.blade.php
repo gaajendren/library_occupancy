@@ -122,7 +122,7 @@
                         </div>
     
                         <div class="mt-2 mx-auto">
-                            <button type="submit" class="text-white bg-gray-700 hover:bg-gray-500 min-w-20 rounded-xl shadow-lg border-2 border-gray-200 p-3 px-5">Submit</button>
+                            <button type="submit" class="text-white bg-gray-700 hover:bg-gray-500 min-w-20 rounded-xl shadow-lg border-2 border-gray-200 p-3 px-5 cursor-pointer">Submit</button>
                         </div>
 
                     </form>

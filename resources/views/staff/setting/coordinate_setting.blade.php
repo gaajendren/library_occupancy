@@ -34,7 +34,7 @@
                                 
                                 <polygon id="polygon" fill="none" stroke="purple" stroke-width="2" />
                             </svg>
-                            <p id="coordinates" class="absolute top-0 left-0 bg-black bg-opacity-50 px-2 py-1 text-sm rounded-md">
+                            <p id="coordinates" class="absolute top-0 left-0 bg-black/70 px-2 py-1 text-sm text-white rounded-md">
                                 X: 0, Y: 0
                             </p>
                         </div>

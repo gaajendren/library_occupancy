@@ -23,7 +23,7 @@ class ReservationFilteration extends Controller
     
  
     public function reservation_daily(){
-
+       
         $reservations = Reservation::with('get_room', 'get_student', 'get_roomType')
         ->whereHas('get_roomType', function ($query) {
             $query->where('slot', 'day');
@@ -31,7 +31,9 @@ class ReservationFilteration extends Controller
             return $reservation->date > $this->now->format('Y-m-d'); 
         })->sortBy('date')->values();
 
-        return $reservations->first();
+       
+       
+        return $reservations;
         
     }
 
@@ -54,7 +56,7 @@ class ReservationFilteration extends Controller
             return strcmp($a['date'], $b['date']); 
         });
 
-        $reservations_month = $reservationsArray[0];
+        $reservations_month = $reservationsArray ?? [];
 
         return $reservations_month;
 
@@ -64,6 +66,7 @@ class ReservationFilteration extends Controller
     public function reservation_hourly(){
 
         $oneHourLater = $this->now->copy()->addHour();
+      
         $now = $this->now;
 
         $reservations = Reservation::with('get_room', 'get_student', 'get_roomType')
@@ -89,7 +92,7 @@ class ReservationFilteration extends Controller
                                     'parsed' => Carbon::parse(trim($time), 'Asia/Kuala_Lumpur')
                                 ])
                                 ->sortBy('parsed') 
-                                ->first(fn($t) => $t['parsed']->greaterThanOrEqualTo($oneHourLater)); 
+                                ->first(fn($t) => $t['parsed']->greaterThanOrEqualTo($now)); 
                         
                     if($selectedTime){
                         $reservation->selected_time = $selectedTime['original'];
@@ -106,6 +109,7 @@ class ReservationFilteration extends Controller
             })
             ->values();
 
+            
             $upcomingReservation->each(function ($reservation) use ($upcomingReservation) {
                 $reservation->same_time_count = $upcomingReservation
                     ->where('date', $reservation->date)
@@ -113,8 +117,13 @@ class ReservationFilteration extends Controller
                     ->count();
             });
 
+            $upcomingReservation = $upcomingReservation->filter(function ($reservation) {
+                return $reservation->same_time_count > 1;
+            })->values();
 
-            return $upcomingReservation->first();
+            
+            
+            return $upcomingReservation;
 
     }
 
@@ -144,19 +153,26 @@ class ReservationFilteration extends Controller
                 $time = Carbon::createFromFormat('H:i', $item)->format('H:i');
                 return $time >= $currentHourStart && $time <= $currentHourEnd;
             });
+
+          
         
             if ($matchingTimes->isNotEmpty()) {
                 $reservation->selected_time = $matchingTimes->first(); 
-                $reservation->same_time_count = $matchingTimes->count();
                 return true;
             }
         
             return false;
         });
 
+       
+        $currentReservations->each(function ($reservation) use ($currentReservations) {
+                $reservation->same_time_count = $currentReservations
+                    ->where('date', $reservation->date)
+                    ->where('selected_time', $reservation->selected_time)
+                    ->count();
+            });
         
-
-        return $currentReservations->first();
+        return $currentReservations;
     
     }
 
@@ -177,7 +193,7 @@ class ReservationFilteration extends Controller
             $reservation->same_time_count = $current_reservations->count();
         });
 
-        return $current_reservations->first();
+        return $current_reservations;
 
     }
 
@@ -197,7 +213,7 @@ class ReservationFilteration extends Controller
             $reservation->same_time_count = $reservations_month->count();
         });
 
-        return $reservations_month->first();
+        return $reservations_month;
 
     }
 
@@ -205,12 +221,13 @@ class ReservationFilteration extends Controller
     public function search(Request $request)
     {
         $query = Reservation::query();
+        $room_types = Room::all();
 
         if ($request->has('search') && $request->filled('search')) {
             $searchTerm = $request->input('search');
             
            
-            $searchableColumns = ['time', 'date', 'status', 'studentCount', 'matric_pic'];
+            $searchableColumns = ['time', 'date', 'status', 'studentCount', 'matric_pic', 'ticket_no'];
 
             $query->where(function ($q) use ($searchTerm, $searchableColumns) {
                 foreach ($searchableColumns as $column) {
@@ -234,7 +251,7 @@ class ReservationFilteration extends Controller
         $reservations = $query->get();
 
        
-        return view('staff.reservation_management.index')->with('reservations', $reservations);
+        return view('staff.reservation_management.index')->with('reservations', $reservations)->with('room_types', $room_types);
     }
 
 

@@ -30,8 +30,8 @@
         
         
     </head>
-    @if (request()->routeIs('staff.occupancy') || request()->routeIs('staff.report'))
-    <body class="relative bg-slate-100">
+    @if (request()->routeIs('staff.occupancy') || request()->routeIs('staff.report') || request()->routeIs('staff.setting'))
+    <body class="relative bg-gradient-to-br from-gray-50 to-indigo-50">
     @else
     <body>
     @endif

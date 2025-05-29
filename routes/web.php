@@ -9,6 +9,7 @@ use App\Http\Controllers\RoomController;
 use App\Http\Controllers\RoomNameController;
 use App\Http\Controllers\ReservationFilteration;
 use App\Http\Controllers\HolidayController;
+use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 use App\Models\Setting;
 
@@ -20,7 +21,7 @@ Route::middleware(['auth','verified'])->get('/', function () {
    $role = auth()->user()->role;
    if( $role == 1){
   
-     return view('staff.dashboard');
+     return redirect()->route('staff.dashboard');
    }else if($role == 0){
         $setting = Setting::first();
         return view('student.dashboard')->with('setting', $setting);
@@ -30,9 +31,7 @@ Route::middleware(['auth','verified'])->get('/', function () {
 
 Route::prefix('staff')->name('staff.')->middleware(['auth', 'verified', 'role:1'])->group(function () {
 
-    Route::get('/dashboard', function () {
-        return view('staff.dashboard');
-    })->name('dashboard');
+    Route::get('/dashboard', [HomeController::class, 'index'])->name('dashboard');
 
     Route::get('/monitor', function () {
         return view('staff.monitor');
@@ -71,6 +70,8 @@ Route::prefix('staff')->name('staff.')->middleware(['auth', 'verified', 'role:1'
 
     Route::patch('/reservation/update/{id}', [ReservationController::class, 'update'])->name('update.reservation');
 
+    Route::get('/reservation/show/{id}', [ReservationController::class, 'show'])->name('show.reservation');
+
     Route::get('/setting', [SettingController::class, 'index'])->name('setting');
 
     Route::patch('/update/setting', [SettingController::class, 'update'])->name('update.setting');
@@ -108,9 +109,12 @@ Route::prefix('staff')->name('staff.')->middleware(['auth', 'verified', 'role:1'
      Route::get('/api/reservation/sort', [ReservationController::class, 'sort'])->name('sort');
 
      Route::get('/api/reservation/filter', [ReservationController::class, 'filter'])->name('filter');
+
+     Route::get('/recent_reservation', [HomeController::class, 'fetch_recent_rservation']);
      
 });
 
+Route::get('/live_occupancy', [HomeController::class, 'last6HoursAverages']);
 
 Route::get('/api/occupancy/{date?}/{sort?}', [OccupancyController::class, 'occupancy_api'])->name('occupancy');
 

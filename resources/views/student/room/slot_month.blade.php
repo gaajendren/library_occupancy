@@ -65,13 +65,22 @@
     
         const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
+        const currentMonth = new Date().getMonth();
+
         monthNames.forEach((month, index) => {
             let monthBtn = document.createElement("button");
             monthBtn.textContent = month;
-            monthBtn.className = "p-2 w-full max-w-12 bg-blue-500 text-white rounded-sm cursor-pointer hover:bg-blue-700";
+                    if (index <= currentMonth) {
+                monthBtn.className = "p-2 w-full max-w-12 bg-gray-300 text-gray-600 rounded-sm cursor-not-allowed";
+                monthBtn.disabled = true;
+            } else {
+                monthBtn.className = "p-2 w-full max-w-12 bg-blue-500 text-white rounded-sm cursor-pointer hover:bg-blue-700";
+                monthBtn.onclick = () => selectMonth(index + 1);
+            }
+
             monthBtn.setAttribute("data-room-id", '');
             monthBtn.setAttribute("data-month", index + 1);
-            monthBtn.onclick = () => selectMonth(index + 1);
+
             monthSelector.appendChild(monthBtn);
         });
 
@@ -119,6 +128,7 @@
         
         selected_room_id = selectedBtn.getAttribute('data-room-id');
 
+        console.log(selected_room_id)
         selectedMonth = month;
     
         formattedMonth = `${selectedYear}-${String(selectedMonth).padStart(2, "0")}`;
@@ -138,6 +148,7 @@
                     monthBtn.disabled = true;
                 }else{
                     monthBtn.setAttribute('data-room-id', item.id);
+                   
                 }
             });
         } catch (error) {

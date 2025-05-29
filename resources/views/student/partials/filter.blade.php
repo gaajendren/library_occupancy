@@ -5,7 +5,7 @@
     }
 </style>
 <div class="w-full flex  justify-center items-center">
-    <div class="max-w-(--breakpoint-xl) w-full mx-auto md:gap-10 sm:gap-6 gap-4 md:m-[2rem] sm:m-[1rem] m-[1rem] md:p-[2rem] sm:p-[1rem] p-[1rem] dark">
+    <div class="max-w-(--breakpoint-xl) w-full mx-auto md:gap-5 sm:gap-3 gap-3 md:m-[2rem] sm:m-[1rem] m-[1rem] md:p-[2rem] sm:p-[1rem] p-[1rem] dark">
         <div class="w-full mx-auto rounded-2xl shadow-lg max-w-(--breakpoint-xl) bg-gray-800 flex flex-col items-center justify-center border-teal-200">
 
             <div class="flex flex-row justify-center items-sketch w-full p-2 mx-3 mt-2 gap-3">
@@ -20,31 +20,26 @@
             
 
         
-                <input type="date" onchange='filter(this)' class="rounded-xl text-gray-200 dark:bg-gray-900  shadow-lg border-none p-3 px-4" name="date" id="date">
                 <select oninput='filter(this)' class="rounded-xl  text-gray-200  dark:bg-gray-900 border-none  shadow-lg p-3 px-4" name="seat" id="seat">
                     <option selected disabled>Total Student:  &nbsp; &nbsp;&nbsp;&nbsp;</option>
                     <option value="all">All</option>
                     <option value="1">1</option>
                     <option value="2">2</option>
                     <option value="3">More than 3</option>
-                    <option value="10">More than 10</option>
+                    <option value="6">More than 6</option>
                 </select>
             </div>
 
-            <div class="flex flex-row self-start flex-wrap gap-2 p-3">
-                <div  class="rounded-xl shadow-lg montserrat-regular  hover:bg-gray-700 bg-gray-900 p-2 px-3 ">
-                    <p  class="cursor-pointer  text-slate-200 text-semibold text-sm">Hikmah</p>
+            <div class="flex flex-row self-center flex-wrap gap-2 p-3">
+                <div  class="rounded-xl shadow-lg montserrat-regular btn hover:bg-gray-700 bg-gray-900 p-2 px-3 ">
+                    <p onclick="by_slot('hour', this)" class="cursor-pointer  text-slate-200 text-semibold text-sm">Hour</p>
                 </div>
-                <div  class="rounded-xl shadow-lg montserrat-regular  hover:bg-gray-700 bg-gray-900 p-2 px-3 ">
-                    <p  class="cursor-pointer  text-slate-200 text-semibold text-sm">Iqra</p>
+                <div  class="rounded-xl shadow-lg montserrat-regular btn hover:bg-gray-700 bg-gray-900 p-2 px-3 ">
+                    <p onclick="by_slot('day', this)" class="cursor-pointer   text-slate-200 text-semibold text-sm">Day</p>
                 </div>
-                <div  class="rounded-xl shadow-lg montserrat-regular  hover:bg-gray-700 bg-gray-900 p-2 px-3 ">
-                    <p  class="cursor-pointer  text-slate-200 text-semibold text-sm">Journal</p>
+                <div  class="rounded-xl shadow-lg montserrat-regular btn hover:bg-gray-700 bg-gray-900 p-2 px-3 ">
+                    <p onclick="by_slot('month', this)" class="cursor-pointer  text-slate-200 text-semibold text-sm">Month</p>
                 </div>
-                <div  class="rounded-xl shadow-lg montserrat-regular  hover:bg-gray-700 bg-gray-900 p-2 px-3 ">
-                    <p  class="cursor-pointer  text-slate-200 text-semibold text-sm">Exsplorasi</p>
-                </div>
-                
             </div>
 
         </div>
@@ -52,6 +47,28 @@
 </div>
 
 <script>
+
+function by_slot(slot, e){
+     
+     document.querySelectorAll('.btn').forEach((btn)=>{
+        btn.classList.remove('bg-gray-500')
+         btn.classList.add('bg-gray-900')
+        e.closest('.btn').classList.remove('bg-gray-900')
+        e.closest('.btn').classList.add('bg-gray-500')
+
+     })
+
+     const roomContainer = document.getElementById("room_catalog");
+     roomContainer.innerHTML = ' ';
+
+    let rooms = JSON.parse(JSON.stringify(room_list));
+
+    rooms = rooms.filter((v,i)=>{
+        return v.slot == slot  
+    })
+
+    room_catalog(rooms, roomContainer)
+}
 
 
 function filter(b){
@@ -65,7 +82,7 @@ function filter(b){
 
 
     if(b.name == 'search'){
-        console.log('search')
+       
         let rooms = JSON.parse(JSON.stringify(room_list));
 
         rooms = seat_filter(seat, rooms)

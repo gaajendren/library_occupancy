@@ -144,6 +144,9 @@
             </div>
         </div>
 
+       
+
+
         <!-- Main Reservations Table -->
         <div class="mx-8 bg-white rounded-lg shadow-lg border border-gray-300 ">
             <!-- Card Header -->
@@ -159,7 +162,11 @@
                     <table class="w-full ">
                         <thead class="bg-gray-100 border-b border-gray-300">
                             <tr>
+                                <th class="px-5 py-3 text-sm font-semibold text-gray-800 text-center border-r border-gray-300 cursor-pointer">Ticket No</th>
+
                                 <th class="px-5 py-3 text-sm font-semibold text-gray-800 text-center border-r border-gray-300 cursor-pointer">Room</th>
+                                <th class="px-5 py-3 text-sm font-semibold text-gray-800 text-center border-r border-gray-300 cursor-pointer">Room Type</th>
+
                                 <th
                                     class="px-5 py-3 text-sm font-semibold text-gray-800 text-center border-r border-gray-300 cursor-pointer">
                                     Student</th>
@@ -187,9 +194,16 @@
                         <tbody id="table-body" class="divide-y divide-gray-300">
                             @forelse ($reservations as $reservation)
                                 <tr class="hover:bg-gray-100 transition-colors">
+                                      <td class="px-5 py-4 text-sm text-gray-700 text-center font-medium border-r border-gray-200">
+                                        {{ $reservation->ticket_no}}
+                                    </td>
                                     <td
                                         class="px-5 py-4 text-sm text-gray-700 text-center font-medium border-r border-gray-200">
                                         {{ $reservation->get_room?->name }}
+                                    </td>
+                                     <td
+                                        class="px-5 py-4 text-sm text-gray-700 text-center font-medium border-r border-gray-200">
+                                        {{ $reservation->get_roomType?->title }}
                                     </td>
                                     <td
                                         class="px-5 py-4 text-sm text-gray-700 text-center font-medium border-r border-gray-200">
@@ -230,17 +244,20 @@
                                     </td>
                                     <td class="px-5 py-4 text-center">
                                         <div class="flex justify-center gap-2">
+                                          <form method="get" action="{{route('staff.show.reservation', $reservation->id)}}" >
+                                            @csrf
+                                                <button type="submit"
+                                                    class="p-2 text-gray-700 hover:text-gray-900 rounded-md hover:bg-gray-200 transition-colors cursor-pointer">
+                                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                                            d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                                            d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7z" />
+                                                    </svg>
+                                                </button>
+                                            </form>
                                             <button
-                                                class="p-2 text-gray-700 hover:text-gray-900 rounded-md hover:bg-gray-200 transition-colors cursor-pointer">
-                                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
-                                                        d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
-                                                        d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7z" />
-                                                </svg>
-                                            </button>
-                                            <button
-                                                class="p-2 text-blue-700 hover:text-blue-900 rounded-md hover:bg-blue-100 transition-colors cursor-pointer" data-modal-target="reservation-modal" data-modal-toggle="reservation-modal"> 
+                                                class="p-2 text-blue-700 hover:text-blue-900 rounded-md hover:bg-blue-100 transition-colors cursor-pointer" data-modal-target="reservation-modal" data-modal-toggle="reservation-modal" onclick="data_set(this)" data-id="{{ $reservation->id }}" data-status="{{ $reservation->status }}"> 
                                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
                                                         d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
@@ -335,12 +352,12 @@
         </div>
     </main>
 
+    
 
+     <button id="btn_modal" data-modal-target="crud-modal" data-modal-toggle="crud-modal" class="hidden" type="button"></button>
 
-    <div id="reservation-modal" tabindex="-1" aria-hidden="true"
-        class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 min-h-[100%] ">
-        <div class="absolute top-0 left-0 bg-gray-700 w-full min-h-[120%] h-full opacity-60" style="bottom: auto;">
-        </div>
+    <div id="reservation-modal" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 min-h-[100%] ">
+       
         <div class="relative p-4 w-full sm:max-w-md md:max-w-lg  max-w-md  max-h-full my-10">
             <!-- Modal content -->
             <div class="relative bg-white rounded-lg shadow-sm dark:bg-gray-700">
@@ -389,7 +406,11 @@
             </div>
         </div>
     </div>
+  
+    @include('staff.reservation_management.modal')
+
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>
     <script>
         document.getElementById('room_typeSelection').addEventListener('change', function () {
             const selectedOption = this.options[this.selectedIndex];
@@ -456,27 +477,29 @@
                 let current_container = document.getElementById('current');
                 let container = document.getElementById('upcoming');
 
+                
+
+                create_body('bg-blue-50', 'Within Next Hour', response.upcoming[0], container, 'hour',  response.upcoming)
+              
+                create_body('bg-green-50', 'Next Month (By Month)', response.upcoming_month[0], container, 'month' ,response.upcoming_month)
+
+                create_body('bg-orange-50', 'By Day', response.upcoming_day[0], container, 'day' ,response.upcoming_day)
+
+                create_body('bg-blue-50', 'Current On Going Hour', response.current[0], current_container, 'hour' ,  response.current)
 
 
-                create_body('bg-blue-50', 'Within Next Hour', response.upcoming, container, 'hour')
+                create_body('bg-green-50', 'Current Day Booking', response.current_day[0], current_container, 'day' , response.current_day)
 
-                create_body('bg-green-50', 'Next Month (By Month)', response.upcoming_month, container, 'month')
-
-                create_body('bg-orange-50', 'By Day', response.upcoming_day, container, 'day')
-
-                create_body('bg-blue-50', 'Current On Going Hour', response.current, current_container, 'hour')
-
-                create_body('bg-green-50', 'Current Day Booking', response.current_day, current_container, 'day')
-
-                create_body('bg-orange-50', 'Current Month Booking', response.current_month, current_container, 'month')
+                create_body('bg-orange-50', 'Current Month Booking', response.current_month[0], current_container, 'month' , response.current_month)
             }
 
         }
 
 
-        function create_body(bg, header_text, e, container, category) {
+        function create_body(bg, header_text, e, container, category, reservation) {
 
-            if (!e) {
+
+            if (!e || e.length < 1) {
                 return;
             }
 
@@ -501,7 +524,7 @@
 
             const userSpan = document.createElement("span");
             userSpan.classList.add('text-sm', 'text-gray-600', 'ml-2');
-            userSpan.textContent = e.get_student.name.substring(0, 5);
+            userSpan.textContent = e.get_student.name.substring(0, 10);
 
             infoDiv.appendChild(roomSpan);
             infoDiv.appendChild(userSpan);
@@ -534,9 +557,13 @@
             statusDiv.appendChild(statusBadge);
 
             if (e.same_time_count > 1) {
-                const countBadge = document.createElement("span");
-                countBadge.classList.add('text-xs', 'font-medium', 'px-2', 'py-1', 'rounded-full', 'border', 'border-red-100', 'bg-red-100', 'animate-pulse-wave', 'cursor-pointer');
+                const countBadge = document.createElement("button");
+                countBadge.classList.add('text-xs', 'font-medium', 'cursor-pointer' ,'px-2', 'py-1', 'rounded-full', 'border', 'border-red-100', 'bg-red-100', 'animate-pulse-wave', 'cursor-pointer');
                 countBadge.textContent = e.same_time_count;
+                countBadge.addEventListener('click', ()=>{
+                    document.getElementById('btn_modal').click();
+                    modal_dataUpdate(reservation,category,header_text, bg);
+                });
                 statusDiv.appendChild(countBadge);
             }
 
@@ -559,6 +586,53 @@
             parent_container.appendChild(main_container);
 
             container.appendChild(parent_container)
+        }
+
+        function modal_dataUpdate(reservation, category ,header_text, bg){
+
+           document.getElementById('modal_container').innerHTML = '';
+
+            reservation.forEach((e)=>{
+                    
+
+                    let html = '<div class="category-group">';
+
+                    if (!document.querySelector(`#next-${category}-header`)) {
+                        html += `<h4 id="next-${category}-header" class="text-xs font-semibold text-gray-500 uppercase mb-2">${header_text}</h4>`;
+                    }
+
+                    html += `
+                        <div class="space-y-2">
+                            <div class="p-3 ${bg} rounded-lg mb-2">
+                                <div class="flex justify-between items-center">
+                                    <div>
+                                        <span class="text-sm font-medium text-gray-900">${e.get_room.name}</span>
+                                        <span class="text-sm text-gray-600 ml-2">${e.get_student.name.substring(0, 10)}</span>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <span class="text-xs font-medium px-2 py-1 bg-white text-blue-600 rounded-full">${formatDate(e.date)}</span>
+                    `;
+
+                    if (category === 'hour') {
+                        html += `<span class="text-xs font-medium px-2 py-1 bg-white text-orange-600 rounded-full">${formatTime(e.selected_time)}</span>`;
+                    }
+
+                    html += `<span class="text-xs font-medium px-2 py-1 bg-yellow-100 text-yellow-800 rounded-full">${e.status}</span>`;
+
+                    html += `
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    `;
+
+                   
+                    document.getElementById('modal_container').innerHTML  += html;
+
+            })
+            
+           
         }
 
         function formatTime(timeString) {
@@ -636,6 +710,7 @@
             }
         }
 
+        
 
         function renderTableBody(reservations) {
             const tbody = document.getElementById('table-body');
@@ -654,7 +729,13 @@
             tbody.innerHTML = reservations.map(reservation => `
                 <tr class="hover:bg-gray-100 transition-colors">
                     <td class="px-5 py-4 text-sm text-gray-700 text-center font-medium border-r border-gray-200">
+                        ${reservation.ticket_no || ''}
+                    </td>
+                    <td class="px-5 py-4 text-sm text-gray-700 text-center font-medium border-r border-gray-200">
                         ${reservation.get_room?.name || ''}
+                    </td>
+                     <td class="px-5 py-4 text-sm text-gray-700 text-center font-medium border-r border-gray-200">
+                        ${reservation.get_roomType?.title || ''}
                     </td>
                     <td class="px-5 py-4 text-sm text-gray-700 text-center font-medium border-r border-gray-200">
                         ${reservation.get_student?.name || ''}
@@ -675,15 +756,18 @@
                     </td>
                     <td class="px-5 py-4 text-center">
                         <div class="flex justify-center gap-2">
-                            <button class="p-2 text-gray-700 hover:text-gray-900 rounded-md hover:bg-gray-200 transition-colors">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
-                                        d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
-                                        d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7z" />
-                                </svg>
-                            </button>
-                            <button class="p-2 text-blue-700 hover:text-blue-900 rounded-md hover:bg-blue-100 transition-colors">
+                            <form method="get" action="/reservation/show/${reservation.id}" >
+                                @csrf
+                                <button class="p-2 text-gray-700 hover:text-gray-900 rounded-md hover:bg-gray-200 transition-colors">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                            d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                            d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7z" />
+                                    </svg>
+                                </button>
+                            </form>
+                            <button class="p-2 text-blue-700 hover:text-blue-900 rounded-md hover:bg-blue-100 transition-colors" data-modal-target="reservation-modal" data-modal-toggle="reservation-modal" onclick="data_set(this)" data-id="${reservation.id}" data-status="${reservation.status}">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
                                         d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />

@@ -37,6 +37,7 @@
 
     <div class="absolute top-[35%] left-[80%]  rounded-full blur-[80px] opacity-40 bg-teal-300 w-[10%] h-[60px]"></div>
 
+     
     <script>
 
         let currentPage;
@@ -96,7 +97,7 @@
 
                 const reservations = response.data;
 
-                makeCard(reservations);
+                makeCard(reservations, status);
 
             } catch (error) {
                 console.error("Error fetching reservations:", error);
@@ -104,7 +105,7 @@
         }
 
 
-        function makeCard(reservations) {
+        function makeCard(reservations, type) {
 
             const container = document.getElementById('reservations-container');
 
@@ -155,11 +156,13 @@
                 const statusColor = statusColors[reservation.status] || 'text-gray-500';
 
 
-                const cancelBtnClass = reservation.status !== 'pending' ? 'hidden' : '';
+                const cancelBtnClass = reservation.status !== 'pending' || type == 'history' ? 'hidden' : '';
 
 
-                const rebookBtnClass = (reservation.status !== 'complete' && reservation.status !== 'rejected') ? 'hidden' : '';
+                const rebookBtnClass = (reservation.status !== 'complete' && reservation.status !== 'rejected' && type != 'history' )   ? 'hidden' : '';
 
+                const contact = {{$setting->contact}}
+                const userName = `{{ auth()->user()->name }}`
 
                 const reservationHTML = `
                 <div class="relative my-3 pt-3 rounded-md bg-gray-800 pr-6 shadow-white-xl py-2 px-2 flex flex-row justify-center items-start gap-4 w-[90%] max-w-[700px]">
@@ -171,22 +174,23 @@
                         <p class="mt-2 text-white text-sm leading-none">${formattedDate}</p>
                         <p class="mt-2 text-white text-sm leading-none">Time: ${formattedTime}</p>
 
-                        <button onclick="print('${reservation.ticket_no}')" class="absolute w-[83px] top-4 right-[120px] border-2 rounded-md shadow-md border-teal-400 text-teal-300 bg-transparent hover:bg-teal-400 hover:text-white text-sm p-2 ">
+                        <button onclick="print('${reservation.ticket_no}')" class="absolute w-[83px] top-4 right-[120px] border-2 cursor-pointer rounded-md shadow-md border-teal-400 text-teal-300 bg-transparent hover:bg-teal-400 hover:text-white text-sm p-2 ">
                             <i class="fa-solid fa-print fa-sm mr-1"></i>Print
                         </button>
 
-                        <button onclick="cancel(this)" value="${reservation.id}" data-status="${reservation.status}"  class="absolute w-[83px] top-4 right-6 border-2 rounded-md shadow-md border-red-400 text-red-300 bg-transparent hover:bg-red-400 hover:text-white text-sm p-2 ${cancelBtnClass}">
+                        <button onclick="cancel(this)" value="${reservation.id}" data-status="${reservation.status}"  class="absolute cursor-pointer w-[83px] top-4 right-6 border-2 rounded-md shadow-md border-red-400 text-red-300 bg-transparent hover:bg-red-400 hover:text-white text-sm p-2 ${cancelBtnClass}">
                             <i class="fa-solid fa-ban fa-sm mr-1"></i>Cancel
                         </button>
-                        <button id="rebook" data-id="${reservation.get_room_type.id}" class="absolute w-[90px] top-4 right-6 shadow-md rounded-md border-yellow-300 border-2 bg-transparent text-yellow-300 p-2 text-sm hover:bg-yellow-500 hover:text-white ${rebookBtnClass}">
+                        <button id="rebook" data-id="${reservation.get_room_type.id}" class="absolute cursor-pointer w-[90px] top-4 right-6 shadow-md rounded-md border-yellow-300 border-2 bg-transparent text-yellow-300 p-2 text-sm hover:bg-yellow-500 hover:text-white ${rebookBtnClass}">
                             <i class="fa-solid fa-arrow-rotate-right fa-sm"></i> Rebook
                         </button>
 
                         <hr class="h-[1px] w-full bg-gray-200 my-2"></hr>
 
-                        <div class="flex flex-row justify-between w-full">
+                        <div class="flex flex-row justify-between items-center w-full">
                             <p class="${statusColor} font-bold">${reservation.status.charAt(0).toUpperCase() + reservation.status.slice(1)}</p>
-                         
+                            <a target="_blank" href="https://wa.me/${contact}?text=Ticket No. ${encodeURIComponent(`Name :${userName}\nTicket No. ${reservation.ticket_no} \nYour Enquiry: `)}" class="fa-brands fa-whatsapp fa-xl text-teal-200 cursor-pointer"></a>
+                             
                         </div>
                     </div>
                 </div>

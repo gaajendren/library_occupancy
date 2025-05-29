@@ -8,7 +8,7 @@
                 <h3 class="title text-xl font-semibold text-gray-900 dark:text-white">
                   Room Name Management
                 </h3>
-                <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="edit-room">
+                <button type="button" class="text-gray-400 bg-transparent cursor-pointer hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="edit-room">
                     <svg class="w-3 h-3"  xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
                     </svg>
@@ -20,9 +20,9 @@
 
                 <div class="flex flex-row justify-between">
 
-                    <button type="button" data-modal-target="add-room"  data-modal-toggle="add-room" class="text-white bg-gray-700 hover:bg-gray-500  rounded-xl shadow-xs border-2 border-gray-200 p-2 px-2.5 text-sm mr-4">Add+</button>
+                    <button type="button" data-modal-target="add-room"  data-modal-toggle="add-room" class="text-white bg-gray-700 hover:bg-gray-500  rounded-xl shadow-xs border-2 border-gray-200 p-2 px-2.5 text-sm mr-4 cursor-pointer">Add+</button>
                     
-                    <button type="button" onclick="update_data()"  class="text-white bg-blue-700 hover:bg-blue-500  rounded-xl shadow-xs  border-none p-2 px-2.5 text-sm ml-4">Save</button>
+                    <button type="button" onclick="update_data()"  class="text-white bg-blue-700 hover:bg-blue-500  rounded-xl shadow-xs cursor-pointer  border-none p-2 px-2.5 text-sm ml-4">Save</button>
                    
                 </div>
               
@@ -47,10 +47,10 @@
         <div class="relative bg-white rounded-lg shadow-sm dark:bg-gray-700">
             <!-- Modal header -->
             <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
-                <h3 class="title text-xl font-semibold text-gray-900 dark:text-white">
+                <h3 class="title text-xl  font-semibold text-gray-900 dark:text-white">
                   Add Room
                 </h3>
-                <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="add-room">
+                <button type="button" class="text-gray-400 bg-transparent cursor-pointer hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="add-room">
                     <svg class="w-3 h-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
                     </svg>
@@ -70,7 +70,7 @@
                     <input type="text" name='location' id="location"  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"  required />
                 </div>
 
-                <button type="button" onclick="add_room(this)"   class="text-white bg-gray-700 hover:bg-gray-500  rounded-xl shadow-xs border-2 border-gray-200 p-2 px-2.5 text-sm mr-4">Submit</button>
+                <button type="button" onclick="add_room(this)"   class="text-white bg-gray-700 hover:bg-gray-500  rounded-xl shadow-xs border-2 border-gray-200 p-2 px-2.5 text-sm mr-4 cursor-pointer">Submit</button>
 
    
             </div>
@@ -192,7 +192,7 @@
                     </td>
 
                     <td class="px-4 py-2">
-                        <button type="button" class="bg-red-500 text-white px-3 py-1 rounded-lg text-sm hover:bg-red-600"
+                        <button type="button" class="bg-red-500 cursor-pointer text-white px-3 py-1 rounded-lg text-sm hover:bg-red-600"
                             onclick="removeRow(${room.id})">
                             Remove
                         </button>

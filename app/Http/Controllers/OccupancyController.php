@@ -57,7 +57,7 @@ class OccupancyController extends Controller
                     return Carbon::parse($item['Time'])->format('H:00');
                 })
                 ->map(function($items){
-                    return $items->sum('Count')/60; 
+                    return round($items->avg('Count'), 2);
                 });
 
         $hours = $hour_count->keys()->toArray();
@@ -78,22 +78,25 @@ class OccupancyController extends Controller
         $date = [];
         $counts = [];
 
-    foreach ($records as $record) {
-      
-        $countData = json_decode($record->Count, true);
-
-       
-        $totalCount = 0;
+        foreach ($records as $record) {
+        
+            $countData = json_decode($record->Count, true);
 
         
-        foreach ($countData as $entry) {
-            $totalCount += $entry['Count'];  
-        }
+            $totalCount = 0;
+            $entryCount = count($countData);
 
-        $counts[] = $totalCount;
-        $date[] = $record->Date;
-       
-    }
+            
+            foreach ($countData as $entry) {
+                $totalCount += $entry['Count'];  
+            }
+
+            $averageCount = $entryCount > 0 ? round($totalCount / $entryCount, 2) : 0;
+
+            $counts[] = $averageCount;
+            $date[] = $record->Date;
+        
+        }
 
         return [$date,$counts];
 
@@ -122,17 +125,60 @@ class OccupancyController extends Controller
         foreach ($groupedByMonth as $month => $items) {
             $months[] = Carbon::createFromFormat('m', $month)->format('F'); 
 
-            $totalCount = $items->reduce(function($carry, $item) {
-                $countJson = json_decode($item['Count'], true); 
-                $dailyCount = array_sum(array_column($countJson, 'Count'));
-                return $carry + $dailyCount;
-            }, 0);
-    
-            $counts[] = $totalCount; 
+            $totalCount = 0;
+            $totalEntries = 0;
+
+                foreach ($items as $item) {
+                    $countJson = json_decode($item['Count'], true); 
+                    $dailyCounts = array_column($countJson, 'Count');
+
+                    $totalCount += array_sum($dailyCounts);
+                    $totalEntries += count($dailyCounts);
+                }
+
+            $average = $totalEntries > 0 ? round($totalCount / $totalEntries, 2) : 0;
+            $counts[] = $average;
         }
 
         return [$months,$counts];
 
+    }
+
+    public function peakHoursLast30Days()
+    {
+        $startDate = Carbon::now('Asia/Kuala_Lumpur')->subDays(30)->toDateString();
+
+        $records = Occupancy::where('Date', '>=', $startDate)->get();
+
+        $allCounts = [];
+
+        foreach ($records as $record) {
+            $count_json = json_decode($record['Count'], true);
+
+            foreach ($count_json as $entry) {
+                $hour = Carbon::parse($entry['Time'])->format('H:00');
+                $allCounts[$hour][] = $entry['Count'];
+            }
+        }
+
+        $hourlyAverages = collect($allCounts)->map(function($counts) {
+            return round(array_sum($counts) / count($counts), 2);
+        });
+
+        $hours = $hourlyAverages->keys()->toArray();
+        $averages = $hourlyAverages->values()->toArray();
+
+        // Optionally: Get the peak hour(s)
+        $peakValue = max($averages);
+        $peakHours = array_keys($averages, $peakValue);
+
+        return response()->json([
+            'hours' => $hours,
+            'averages' => $averages,
+            'peak_hours' => array_map(fn($i) => $hours[$i], $peakHours),
+            'peak_value' => $peakValue
+        ]);
+       
     }
 
 
@@ -188,6 +234,8 @@ class OccupancyController extends Controller
     
         return response()->json(['error' => 'Invalid range'], 400);
     }
+
+    
 
    
     public function occupancy(){
