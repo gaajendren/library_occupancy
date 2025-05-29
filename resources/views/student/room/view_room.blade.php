@@ -46,7 +46,7 @@
 </style>
 
 
-<div class='dark bg-[#0c0f16] pt-[98px] w-full min-h-screen flex justify-center items-center flex-col'>
+<div class='dark bg-[#0c0f16] pt-[98px] w-full min-h-screen flex justify-center items-center flex-col px-6'>
 
     <div class="py-[30px] mb-[40px] flex justify-center w-full items-center">
         <h1 class="lora text-white leading-loose text-[48px]">Room Detail</h1>
