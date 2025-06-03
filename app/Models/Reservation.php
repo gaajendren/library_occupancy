@@ -1,11 +1,13 @@
 <?php
 
 namespace App\Models;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 use Illuminate\Database\Eloquent\Model;
 
 class Reservation extends Model
 {
+    use HasFactory;
     protected $fillable = ['studentId', 'roomId', 'roomTypeId', 'time', 'date', 'status', 'studentCount', 'matric_pic','ticket_no'];
 
     public function get_room()

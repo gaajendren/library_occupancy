@@ -35,7 +35,7 @@ class ReservationController extends Controller
   
     public function index()
     {
-        $reservations = Reservation::orderBy('created_at', 'desc')->get();
+        $reservations = Reservation::orderBy('created_at', 'desc')->paginate(15);
         $room_types = Room::all();
 
         return view('staff.reservation_management.index')->with('reservations', $reservations)->with('room_types', $room_types);

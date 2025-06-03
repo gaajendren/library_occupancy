@@ -365,7 +365,7 @@
                       <canvas id="peakHourOverallChart"></canvas>
                   </div>
                   <div class="mt-4 text-center text-indigo-200">
-                      <p class="text-xl font-bold">3:00 PM - 5:00 PM</p>
+                      <p id="peak_hour" class="text-xl font-bold">3:00 PM - 5:00 PM</p>
                       <p class="mt-1">Peak hours with highest occupancy</p>
                   </div>
               </div>
@@ -459,6 +459,32 @@
     }
 
 
+            
+         indigo = {
+                        light: '#818cf8',
+                        main: '#4f46e5',
+                        dark: '#3730a3'
+                    };
+                    
+             amber = {
+                light: '#fcd34d',
+                main: '#f59e0b',
+                dark: '#d97706'
+            };
+
+             emerald = {
+                light: '#6ee7b7',
+                main: '#10b981',
+                dark: '#059669'
+            };
+
+             rose = {
+                light: '#fda4af',
+                main: '#f43f5e',
+                dark: '#e11d48'
+            };
+
+
       const date = document.getElementById('date')
      
       const month = document.getElementById('month')
@@ -511,6 +537,7 @@
             document.getElementById('hour_error').innerHTML = 'No Data Available'; 
             document.getElementById('hour_error').classList.remove('hidden')
             destroyAllCharts()
+            get_data('hour')
             return
           }
 
@@ -587,11 +614,10 @@
 
       
       
-
       function graph(x,counts, label,chart_type ){
 
-        console.log('hi');
         destroyAllCharts()
+        get_data('hour')
 
         const ctx = document.getElementById('hourly_by_day').getContext('2d')
 
@@ -675,6 +701,7 @@
 
       document.addEventListener('DOMContentLoaded', ()=>{    
          get_data('hour')
+         peakHourOverallChart();
       })
 
       document.getElementById('p_type').addEventListener('input', ()=>{
@@ -858,8 +885,7 @@
         
             
           
-       
-
+    
       }
 
 
@@ -908,27 +934,39 @@
     pdf.save("report.pdf");
 }
 
-    </script>
+
+    function convertTo12Hour(time24, bl) {
+        const [hour, minute] = time24.split(':');
+        let h = parseInt(hour);
+        if(bl == 'add'){
+           h = h + 1
+        }
+        const suffix = h >= 12 ? 'PM' : 'AM';
+        const hour12 = h % 12 === 0 ? 12 : h % 12;
+        return `${hour12} ${suffix}`;
+    }
 
 
+    function peakHourOverallChart(){
+        axios.get('/peak_occupancy').then((res)=>{
 
+            const formattedTimes = [];
 
+            res.data.hours.forEach(hour => {
+                formattedTimes.push(convertTo12Hour(hour, 'no_add'));
+                
+            });
 
-<script>
-    // Utilization Chart
-         
-            // Peak Count Chart
-          
-            
-            // Peak Hour Overall Chart
+            document.getElementById('peak_hour').textContent = convertTo12Hour(res.data.peak_hours.toString(), 'no_add') + ' - ' + convertTo12Hour(res.data.peak_hours.toString(), 'add')
+
             const peakHourOverallCtx = document.getElementById('peakHourOverallChart').getContext('2d');
             new Chart(peakHourOverallCtx, {
                 type: 'radar',
                 data: {
-                    labels: ['8AM', '10AM', '12PM', '2PM', '4PM', '6PM', '8PM'],
+                    labels: formattedTimes,
                     datasets: [{
                         label: 'Average Occupancy',
-                        data: [45, 85, 120, 190, 210, 175, 95],
+                        data: res.data.averages,
                         backgroundColor: 'rgba(99, 102, 241, 0.2)',
                         borderColor: '#6366f1',
                         borderWidth: 2,
@@ -956,10 +994,9 @@
                             },
                             ticks: {
                                 display: false,
-                                stepSize: 50
+                                stepSize: 20
                             },
-                            suggestedMin: 0,
-                            suggestedMax: 250
+                          
                         }
                     },
                     plugins: {
@@ -969,7 +1006,15 @@
                     }
                 }
             });
-       
+
+            console.log(res.data)
+
+        }).catch((e)=> console.log(e))
+    }
+
+   
+    
+
 </script>
 
 

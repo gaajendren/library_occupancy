@@ -59,7 +59,7 @@ class Reservation_report extends Controller
                 }
             }
 
-            foreach ($this->times as $time) {
+            foreach ($this->formatted_times as $time) {
     
                 $count = $reservations->filter(function ($reservation) use ($time) {
                     $time_array = json_decode(json_decode($reservation->time, true),true);

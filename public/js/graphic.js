@@ -1,24 +1,24 @@
 
 
-  const indigo = {
+  let indigo = {
                 light: '#818cf8',
                 main: '#4f46e5',
                 dark: '#3730a3'
             };
             
-    const amber = {
+    let amber = {
         light: '#fcd34d',
         main: '#f59e0b',
         dark: '#d97706'
     };
 
-    const emerald = {
+    let emerald = {
         light: '#6ee7b7',
         main: '#10b981',
         dark: '#059669'
     };
 
-    const rose = {
+    let rose = {
         light: '#fda4af',
         main: '#f43f5e',
         dark: '#e11d48'

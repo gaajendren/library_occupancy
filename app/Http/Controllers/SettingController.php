@@ -15,8 +15,6 @@ class SettingController extends Controller
         return view('staff.setting.setting' , compact('setting'));
     }
 
-
-    
     public function update(Request $request)
     {
 

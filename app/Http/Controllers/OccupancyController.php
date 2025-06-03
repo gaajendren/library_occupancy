@@ -152,12 +152,18 @@ class OccupancyController extends Controller
 
         $allCounts = [];
 
+        $times = ['08:00', '09:00','10:00','11:00','12:00','13:00', '14:00', '15:00', '16:00', '17:00'];
+
+
         foreach ($records as $record) {
             $count_json = json_decode($record['Count'], true);
 
             foreach ($count_json as $entry) {
                 $hour = Carbon::parse($entry['Time'])->format('H:00');
-                $allCounts[$hour][] = $entry['Count'];
+                if(in_array($hour, $times)){
+                    $allCounts[$hour][] = $entry['Count'];
+                }
+                
             }
         }
 

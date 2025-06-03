@@ -115,6 +115,8 @@ Route::prefix('staff')->name('staff.')->middleware(['auth', 'verified', 'role:1'
 });
 
 Route::get('/live_occupancy', [HomeController::class, 'last6HoursAverages']);
+Route::get('/peak_occupancy', [OccupancyController::class, 'peakHoursLast30Days']);
+
 
 Route::get('/api/occupancy/{date?}/{sort?}', [OccupancyController::class, 'occupancy_api'])->name('occupancy');
 

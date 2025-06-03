@@ -83,7 +83,7 @@
         <div class="flex items-center justify-between">
           <div>
             <p class="text-gray-500 text-sm">Room Utilization</p>
-            <p class="text-3xl font-bold text-gray-800 mt-2">{{ number_format($utilization, 2) }}%</p>
+            <p class="text-3xl font-bold text-gray-800 mt-2">{{ number_format($utilization, 0) }}%</p>
           </div>
           <div class="bg-teal-100 p-3 rounded-lg">
             <svg class="w-8 h-8 text-teal-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
