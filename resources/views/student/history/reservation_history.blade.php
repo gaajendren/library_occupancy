@@ -147,9 +147,10 @@
 
                 const statusColors = {
                     'complete': 'text-teal-300',
-                    'check-out': 'text-teal-300',
+                    'check_out': 'text-teal-300',
                     'pending': 'text-yellow-300',
-                    'check-in': 'text-yellow-500',
+                    'approved': 'text-green-400',
+                    'check_in': 'text-yellow-500',
                     'cancelled': 'text-red-500',
                     'rejected': 'text-red-500'
                 };
@@ -159,7 +160,7 @@
                 const cancelBtnClass = reservation.status !== 'pending' || type == 'history' ? 'hidden' : '';
 
 
-                const rebookBtnClass = (reservation.status !== 'complete' && reservation.status !== 'rejected' && type != 'history' )   ? 'hidden' : '';
+                const rebookBtnClass = (reservation.status !== 'complete' && reservation.status !== 'cancelled' && reservation.status !== 'rejected' && type != 'history' )   ? 'hidden' : '';
 
                 const contact = {{$setting->contact}}
                 const userName = `{{ auth()->user()->name }}`
@@ -219,9 +220,10 @@
 
             if (ans) {
 
-                const response = await axios.delete(`/student/reservation/delete/${e.value}`);
+                const response = await axios.patch(`/student/reservation/update/${e.value}`);
 
                 if(response.data.success){
+                    alert('Successfully Cancelled the reservation. Thank You!')
                     getHistory(currentPage);
                 }
             }

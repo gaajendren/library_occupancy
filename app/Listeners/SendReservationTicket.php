@@ -14,9 +14,7 @@ class SendReservationTicket
     public function handle(ReservationNotification $event): void
     {
         Log::info('SendReservationTicket Listener Triggered for Reservation ID: ' . $event->reservation->id);
-        Mail::to($event->reservation->get_student->email)->send(new ReservationTicket($event->reservation));
-
-        
+        Mail::to($event->reservation->get_student->email)->send(new ReservationTicket($event->reservation));      
     }
 
 }

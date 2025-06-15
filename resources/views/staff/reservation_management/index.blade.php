@@ -95,7 +95,7 @@
                     <span class="text-sm font-semibold text-gray-800">Status</span>
                     <select id="status_selection" class="bg-transparent border-none focus:ring-0 text-sm text-gray-700">
                         @php
-                            $status_config = ['pending','check_out' ,'complete','cancelled','rejected'];
+                            $status_config = ['pending','approved','check_in' ,'check_out' ,'complete','cancelled','rejected'];
                         @endphp
                         <option value="all" selected >All</option>
                         @foreach ($status_config as $status)
@@ -193,9 +193,15 @@
 
                         <tbody id="table-body" class="divide-y divide-gray-300">
                             @forelse ($reservations as $reservation)
-                                <tr class="hover:bg-gray-100 transition-colors">
-                                      <td class="px-5 py-4 text-sm text-gray-700 text-center font-medium border-r border-gray-200">
-                                        {{ $reservation->ticket_no}}
+                                <tr class="hover:bg-gray-100 transition-colors ">
+                                      <td class="px-5 py-4 text-sm text-gray-700 text-center font-medium border-r border-gray-200 flex justify-center items-center gap-2">
+                                         @if($reservation->status === 'pending')
+                                            <div class="relative flex justify-center items-center">
+                                                <span class="absolute animate-ping inline-flex h-6 w-6 rounded-full bg-red-400 opacity-75"></span>
+                                                <span class="relative inline-flex rounded-full h-2 w-2 bg-red-500"></span>
+                                            </div>
+                                         @endif
+                                         {{ $reservation->ticket_no}}
                                     </td>
                                     <td
                                         class="px-5 py-4 text-sm text-gray-700 text-center font-medium border-r border-gray-200">
@@ -225,12 +231,14 @@
                                     </td>
                                     <td class="px-5 py-4 text-center border-r border-gray-200">
                                         @php
-                                            $statusConfig = [
+                                         $statusConfig = [
                                                 'pending' => 'bg-yellow-100 text-yellow-900 border-yellow-300',
+                                                'check_in' => 'bg-blue-100 text-blue-900 border-blue-300',
                                                 'check_out' => 'bg-purple-100 text-purple-900 border-purple-300',
+                                                'approved' => 'bg-indigo-100 text-indigo-900 border-indigo-300',
                                                 'complete' => 'bg-green-100 text-green-900 border-green-300',
                                                 'cancelled' => 'bg-red-100 text-red-900 border-red-300',
-                                                'rejected' => 'bg-gray-100 text-gray-900 border-gray-300'
+                                                'rejected' => 'bg-gray-100 text-gray-900 border-gray-300',
                                             ];
                                         @endphp
                                         <span
@@ -524,10 +532,16 @@
 
             const userSpan = document.createElement("span");
             userSpan.classList.add('text-sm', 'text-gray-600', 'ml-2');
+
+            const ticketSpan = document.createElement("span");
+            ticketSpan.classList.add('text-sm', 'text-gray-600', 'ml-2');
+
             userSpan.textContent = e.get_student.name.substring(0, 10);
+            ticketSpan.textContent = e.ticket_no;
 
             infoDiv.appendChild(roomSpan);
             infoDiv.appendChild(userSpan);
+            infoDiv.appendChild(ticketSpan);
 
 
             const statusDiv = document.createElement("div");
@@ -608,6 +622,7 @@
                                     <div>
                                         <span class="text-sm font-medium text-gray-900">${e.get_room.name}</span>
                                         <span class="text-sm text-gray-600 ml-2">${e.get_student.name.substring(0, 10)}</span>
+                                         <span class="text-sm text-gray-600 ml-2">${e.ticket_no}</span>
                                     </div>
                                     <div class="flex items-center gap-2">
                                         <span class="text-xs font-medium px-2 py-1 bg-white text-blue-600 rounded-full">${formatDate(e.date)}</span>

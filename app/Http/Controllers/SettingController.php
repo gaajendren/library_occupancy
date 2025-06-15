@@ -30,7 +30,6 @@ class SettingController extends Controller
 
         $setting->title = $request->title;
         $setting->description = $request->description;
-
         $setting->start_time = $request->start_time;
         $setting->end_time = $request->end_time;
         $setting->is_manual = $request->is_manual;
@@ -43,14 +42,10 @@ class SettingController extends Controller
         }
 
         try{ 
-
             $filenames = [];
-            
             $banner = json_decode($setting->banner, true);
-
             $filenames = $banner['slider_image'];
 
-           
             if ($request->hasFile('img') ) {
     
                 foreach ($request->file('img') as $image) {
@@ -79,7 +74,6 @@ class SettingController extends Controller
 
 
             $setting->banner = json_encode(['slider_image' => $filenames, 'banner_2' => $BannerName_2, 'banner_3' => $BannerName_3]);
-            
             $setting->save();
 
             try {

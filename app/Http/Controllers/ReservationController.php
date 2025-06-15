@@ -38,8 +38,33 @@ class ReservationController extends Controller
         $reservations = Reservation::orderBy('created_at', 'desc')->paginate(15);
         $room_types = Room::all();
 
-        return view('staff.reservation_management.index')->with('reservations', $reservations)->with('room_types', $room_types);
+        return view('staff.reservation_management.index')->with('reservations', $reservations)
+        ->with('room_types', $room_types);
     }
+
+    public function update(Request $request, $id)
+    {
+        $input = $request->all();
+
+        $rules =[ 'status' => 'required'];
+        $messages = ['status.required' => 'Status is required.',];
+
+        $request->validate($rules, $messages);
+
+        try{
+
+          $reservation =  Reservation::find($id);
+          $reservation->update($input);
+         
+          return redirect()->route('staff.reservation')
+          ->with('success', 'Status has successfully updated!!!');
+
+        }catch(\Exception $e){
+            return redirect()->route('staff.reservation')->with('error', 'Try again later');
+        }
+
+    }
+
 
     public function show($id){
         
@@ -312,7 +337,7 @@ class ReservationController extends Controller
         $input = $request->all();
         $input['room_id'] = json_decode($input['room_id'] , true);
        
-        dd($request->all());
+       
 
         $rules =[
             'img' => 'required', 
@@ -478,7 +503,6 @@ class ReservationController extends Controller
             })->flatten()->toArray();
 
             $timeSlots = [8,9,10,11,12,13,14,15,16,17];
-
             $availability = [];
 
             foreach ($timeSlots as $hour) {
@@ -492,7 +516,6 @@ class ReservationController extends Controller
                     ->filter(function ($room) use ($date, $hour) {
                     
                         $reservations = $room->get_reservations->where('date', $date);
-                
                       
                         $isBooked = $reservations->map(function ($reservation) use ($hour) {
                             $times = collect(json_decode(json_decode($reservation->time), true));
@@ -507,8 +530,6 @@ class ReservationController extends Controller
                     ->pluck('id') 
                     ->toArray();
 
-                    
-                   
                     $availability[] = [
                         'hour' => $hour,
                         'available' => true,
@@ -600,34 +621,6 @@ public function api_CalenderSlot($id, $date)
 }
 
     
-    public function update(Request $request, $id)
-    {
-        $input = $request->all();
-
-        $rules =[       
-            'status' => 'required',     
-           ];
-    
-        $messages = [
-            'status.required' => 'Status is required.',
-        ];
-
-        $request->validate($rules, $messages);
-
-        try{
-
-          $reservation =  Reservation::find($id);
-
-          $reservation->update($input);
-         
-
-          return redirect()->route('staff.reservation')->with('success', 'Status has successfully updated!!!');
-
-        }catch(\Exception $e){
-            return redirect()->route('staff.reservation')->with('error', 'Try again later');
-        }
-
-    }
 
     public function student_index(Request $request){
         $setting = Setting::first();
@@ -636,13 +629,11 @@ public function api_CalenderSlot($id, $date)
     }
 
     public function api_student_index(Request $request){
-      
-    
+
         $type = $request->query('type'); 
         $studentId = auth()->user()->id;
         $today = Carbon::today();
     
-      
         $reservations = Reservation::where('studentId', $studentId)
         ->when($type === 'upcoming', function ($query) use ($today) {
             return $query->where('date', '>=', $today);
@@ -650,6 +641,7 @@ public function api_CalenderSlot($id, $date)
             return $query->where('date', '<', $today);
         })
         ->with('get_roomType')->with('get_room')
+        ->orderBy('created_at', 'desc')
         ->get();
    
     
@@ -661,7 +653,7 @@ public function api_CalenderSlot($id, $date)
         $text = $request->query('text');
         $studentId = auth()->user()->id;
 
-        $columns = ['time', 'date', 'status']; 
+        $columns = ['ticket_no','time', 'date', 'status']; 
 
         $reservations = Reservation::where('studentId', $studentId)->where(function ($query) use ($text, $columns) {
             $query->whereHas('get_roomType', function ($subQuery) use ($text) {
@@ -672,6 +664,8 @@ public function api_CalenderSlot($id, $date)
                 $query->orWhere($column, 'LIKE', "%$text%");
             }
         })->with('get_roomType')->get();
+
+        
     
 
          return response()->json($reservations);
@@ -766,6 +760,14 @@ public function api_CalenderSlot($id, $date)
         return response()->json($availableRoomsByMonth);
     }   
 
+    public function update_status($id){
+        $reservation = Reservation::find($id);
+        $reservation->status = 'cancelled';
+
+        $reservation->save();
+
+        return response()->json(['success' => 'Deleted successfully']);
+    }
 
     public function destroy($id){
         $reservation = Reservation::find($id);

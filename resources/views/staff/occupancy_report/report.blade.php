@@ -1,6 +1,8 @@
 <x-staff-app-layout>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.6/dist/chart.umd.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-chart-matrix"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/html2canvas-pro@1.5.8/dist/html2canvas-pro.min.js"></script>
     
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vanillajs-datepicker@1.3.4/dist/css/datepicker.min.css">
     <script src="https://cdn.jsdelivr.net/npm/vanillajs-datepicker@1.3.4/dist/js/datepicker-full.min.js"></script>
@@ -8,6 +10,10 @@
         .datepicker-footer{
             background-color: white;
             border: none;
+        }
+        .datepicker-picker{
+            position: relative;
+            z-index: 100;
         }
         .today-btn{
             padding: 1rem !important;
@@ -54,8 +60,18 @@
             border-radius: 16px;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
             transition: all 0.3s ease;
-            overflow: hidden;
+        
             border: 1px solid #e2e8f0;
+        }
+
+        .card_filter{
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            border: 1px solid #e2e8f0;
+            position: relative;
+            z-index: 50;
         }
 
         .card{
@@ -63,8 +79,9 @@
             border-radius: 16px;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
             transition: all 0.3s ease;
-            overflow: hidden;
             border: 1px solid #e2e8f0;
+            position: relative;
+            z-index: 0;
         }
         
         .dashboard-card:hover {
@@ -264,7 +281,7 @@
 
 
 
-        <div class="filter-section card p-6 mb-8">
+        <div class="filter-section card_filter p-6 mb-8">
             <div class="flex flex-col md:flex-row gap-4 md:items-center">
                 <div class="flex w-full justify-start gap-5  items-center">
                   <div class="form-group group ">
@@ -295,7 +312,7 @@
                           <path d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z"/>
                         </svg>
                       </div>
-                      <input id="monthpicker" autocomplete="off" type="text" class="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Select month">
+                      <input  id="monthpicker" autocomplete="off" type="text" class="bg-white  border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Select month">
                     </div>
 
                     <div id='year' class="hidden relative max-w-sm">
@@ -537,6 +554,7 @@
             document.getElementById('hour_error').innerHTML = 'No Data Available'; 
             document.getElementById('hour_error').classList.remove('hidden')
             destroyAllCharts()
+            peakHourOverallChart()
             get_data('hour')
             return
           }
@@ -617,6 +635,7 @@
       function graph(x,counts, label,chart_type ){
 
         destroyAllCharts()
+        peakHourOverallChart()
         get_data('hour')
 
         const ctx = document.getElementById('hourly_by_day').getContext('2d')
@@ -667,7 +686,7 @@
                   x: {
                      title: {
                         display: true,
-                        text: 'Hour of the Day'
+                        text: 'Date'
                     },
                       grid: {
                           display: false
@@ -897,41 +916,100 @@
     }
 
 
-    async function downloadPDF() {
+
+async function downloadPDF() {
     const { jsPDF } = window.jspdf;
 
-    const elements = [
-        document.getElementById("hourly_by_day"),
-        document.getElementById("utilization"),
-        document.getElementById("peak_graph")
-    ];
-
-    const pdf = new jsPDF({
-        orientation: 'portrait',
-        unit: 'mm',
-        format: 'a4'
+    // Get the main container of your dashboard
+    const dashboardContainer = document.querySelector('.contains');
+    
+    // Create a temporary container to capture the entire dashboard
+    const tempContainer = document.createElement('div');
+    tempContainer.style.position = 'fixed';
+    tempContainer.style.top = '-10000px';
+    tempContainer.style.left = '-10000px';
+    tempContainer.style.width = dashboardContainer.offsetWidth + 'px';
+    tempContainer.style.backgroundColor = 'white';
+    tempContainer.style.zIndex = '10000';
+    
+    // Clone the dashboard content
+    const clone = dashboardContainer.cloneNode(true);
+    
+    // Remove the filter section
+    const filterSection = clone.querySelector('.filter-section');
+    if (filterSection) {
+        filterSection.remove();
+    }
+    
+    // Create a canvas copier to transfer chart images
+    const copyCanvasToClone = (original, clone) => {
+        const canvas = clone.querySelector(`#${original.id}`);
+        if (!canvas) return;
+        
+        const ctx = canvas.getContext('2d');
+        canvas.width = original.width;
+        canvas.height = original.height;
+        ctx.drawImage(original, 0, 0);
+    };
+    
+    // Copy canvas contents from original to clone
+    document.querySelectorAll('canvas').forEach(originalCanvas => {
+        copyCanvasToClone(originalCanvas, clone);
     });
-
-    const pageWidth = pdf.internal.pageSize.getWidth();
-    const pageHeight = pdf.internal.pageSize.getHeight();
-
-    for (let i = 0; i < elements.length; i++) {
-        const canvas = await html2canvas(elements[i], {
-            scale: 2,
-            useCORS: true
+    
+    tempContainer.appendChild(clone);
+    document.body.appendChild(tempContainer);
+    
+    try {
+        // Add a small delay to ensure canvas copying completes
+        await new Promise(resolve => setTimeout(resolve, 300));
+        
+        // Capture the entire dashboard
+        const canvas = await html2canvas(tempContainer, {
+            scale: 1.5,
+            useCORS: true,
+            backgroundColor: 'white',
+            logging: false
         });
-
+        
+        // Create PDF
+        const pdf = new jsPDF({
+            orientation: 'landscape',
+            unit: 'mm',
+            format: 'a4'
+        });
+        
         const imgData = canvas.toDataURL("image/png");
         const imgProps = pdf.getImageProperties(imgData);
-        const pdfWidth = pageWidth - 20; 
-        const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
-
-        if (i > 0) pdf.addPage();
-
-        pdf.addImage(imgData, "PNG", 10, 10, pdfWidth, pdfHeight);
+        
+        // Calculate dimensions to fit page
+        const pageWidth = pdf.internal.pageSize.getWidth();
+        const pageHeight = pdf.internal.pageSize.getHeight();
+        
+        // Maintain aspect ratio
+        const ratio = imgProps.width / imgProps.height;
+        let pdfWidth = pageWidth - 20; // Margin
+        let pdfHeight = pdfWidth / ratio;
+        
+        // Center on page
+        const x = (pageWidth - pdfWidth) / 2;
+        const y = (pageHeight - pdfHeight) / 2;
+        
+        pdf.addImage(imgData, "PNG", x, y, pdfWidth, pdfHeight);
+        
+        // Add footer
+        pdf.setFontSize(10);
+        pdf.setTextColor(100);
+        pdf.text('Generated on: ' + new Date().toLocaleString(), 15, pageHeight - 10);
+        
+        pdf.save("library-dashboard-report.pdf");
+    } catch (error) {
+        console.error("Error generating PDF:", error);
+        alert('Error generating PDF: ' + error.message);
+    } finally {
+        // Clean up
+        document.body.removeChild(tempContainer);
     }
-
-    pdf.save("report.pdf");
 }
 
 

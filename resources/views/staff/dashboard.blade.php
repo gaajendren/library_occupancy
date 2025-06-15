@@ -1,6 +1,7 @@
 <x-staff-app-layout>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.6/dist/chart.umd.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-chart-matrix"></script>
+    <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
   <style>
     @keyframes pulseWave {
       0% {
@@ -44,8 +45,8 @@
         <div class="flex items-center justify-between">
           <div>
             <p class="text-gray-500 text-sm">Current Occupancy</p>
-            <p class="text-4xl font-bolder text-black mt-2"><button
-                class="px-2.5 py-1 bg-teal-100 animate-pulse-wave rounded-full">142</button></p>
+            <p class="text-4xl font-bolder text-black mt-2"><button id="person-count"
+                class="px-2.5 py-1 bg-teal-100 animate-pulse-wave rounded-full">0</button></p>
           </div>
           <div class="bg-blue-100 p-3 rounded-lg">
             <svg class="w-8 h-8 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -151,6 +152,12 @@
 
   <script>
 
+      const socket = io('http://127.0.0.1:5000', {transports: ['websocket', 'polling', 'flashsocket']});
+      
+      socket.on('person_count', function(data) {
+          document.getElementById('person-count').innerText = data.count;
+      });
+
     document.addEventListener('DOMContentLoaded', () => {
       update_recent_reservation()
       live_occupancy()
@@ -175,7 +182,7 @@
                 </div>
                <div class="flex flex-row items-center justify-center gap-3">
                 <p class=" px-2 py-1 text-sm bg-green-100 text-green-800 rounded-full">${element.ticket_no}</p>
-                <p>${getTimeSlotsHtml(element.time)}</p>
+                <p class="">${getTimeSlotsHtml(element.time)}</p>
                 <span class="">${getStatusHtml(element.status)}</span>
                </div>
               </div>
@@ -202,7 +209,7 @@
         const timeArray = Array.isArray(decodedTimes) ? decodedTimes : ['Full'];
 
         return timeArray.map(t => `
-                    <span class="px-2 py-1 text-xs font-medium bg-blue-100 text-blue-900 rounded-md ">
+                    <span class="px-2 py-1 text-xs font-medium bg-blue-100 text-blue-900 rounded-md mr-1">
                         ${t}
                     </span>
                 `).join('');

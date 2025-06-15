@@ -130,7 +130,8 @@ class HomeController extends Controller
         $now = Carbon::now('Asia/Kuala_Lumpur')->startOfHour();
         $startTime = $now->copy()->subHours(6);
 
-        $records = Occupancy::where('Date', '>=', $startTime->copy()->subDays(1)->toDateString())->get();
+        
+        $records = Occupancy::where('Date', '>=', $startTime->copy()->toDateString())->get();
 
         $hourlyBuckets = [];
 

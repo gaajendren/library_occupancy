@@ -35,6 +35,7 @@
         
         const socket = io('http://127.0.0.1:5000', {transports: ['websocket', 'polling', 'flashsocket']});
 
+        socket.binaryType = 'arraybuffer';
         
         socket.on('person_count', function(data) {
             console.log(data)
@@ -43,21 +44,29 @@
 
         function setupStream(way) {
             const container = document.getElementById(`video-${way}`);
-            const img = new Image();
-            container.appendChild(img);
-            
-            let lastUpdate = 0;
-            const targetFps = 60;
-            
-            socket.on(`video_frame_${way}`, (data) => {
-                const now = performance.now();
-                if (now - lastUpdate >= 1000/targetFps) {
-                    img.src = `data:image/jpeg;base64,${data.frame}`;
-                    lastUpdate = now;
-                }
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            container.appendChild(canvas);
+
+            let canvasInitialized = false;
+
+            socket.on(`video_frame_${way}`, async (data) => {
+                    try {
+                        const blob = new Blob([data], { type: 'image/jpeg' });
+                        const bitmap = await createImageBitmap(blob);
+
+                        if (!canvasInitialized) {
+                            canvas.width = bitmap.width;
+                            canvas.height = bitmap.height;
+                            canvasInitialized = true;
+                        }
+
+                        ctx.drawImage(bitmap, 0, 0);
+                    } catch (err) {
+                        console.error(`Failed to decode ${way} frame`, err);
+                    }
             });
         }
-
       
         setupStream('enter');
         setupStream('exit');

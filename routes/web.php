@@ -161,7 +161,7 @@ Route::prefix('student')->name('student.')->middleware(['auth', 'verified', 'rol
 
      Route::get('/print/{ticket_no}', [ReservationController::class, 'print'])->name('print');
 
-    Route::delete('/reservation/delete/{id}', [ReservationController::class, 'destroy'])->name('delete.reservation');
+    Route::patch('/reservation/update/{id}', [ReservationController::class, 'update_status'])->name('status.reservation');
 
  
   

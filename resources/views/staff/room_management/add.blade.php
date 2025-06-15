@@ -278,11 +278,9 @@
 
               for (let index = 1; index < quantity+ 1; index++) {
                 
-                document.getElementById(`room_${index}`).value = `${title_text}_${index}`
-                
+                document.getElementById(`room_${index}`).value = `${title_text}_${index}`    
               }
             }
-
         }
 
         function toCamelCase(title) {

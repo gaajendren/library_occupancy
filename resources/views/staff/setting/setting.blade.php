@@ -197,7 +197,7 @@
                             <label class="block text-sm font-medium text-gray-700 mb-4">Detection Zones</label>
                             <div class="grid grid-cols-2 gap-4">
                                 <div class="relative w-[320px] aspect-[2] rounded-xl overflow-hidden shadow-sm">
-                                    <img src="{{ asset($frames['enter_frame']) }}" class="w-full h-auto">
+                                    <img id="enter_frame" src="{{ asset($frames['enter_frame']) }}" class="w-full h-auto">
                                     <div class="absolute bottom-0 left-0 right-0 bg-black/50 text-white p-2 text-sm">
                                         Entry Detection Zone
                                     </div>
@@ -209,7 +209,7 @@
                                     </div>
                                 </div>
                                 <div class="relative w-[320px] aspect-[2] rounded-xl overflow-hidden shadow-sm">
-                                    <img src="{{ asset($frames['exit_frame']) }}" class="w-full h-auto">
+                                    <img id="exit_frame" src="{{ asset($frames['exit_frame']) }}" class="w-full h-auto">
                                     <div class="absolute bottom-0 left-0 right-0 bg-black/50 text-white p-2 text-sm">
                                         Exit Detection Zone
                                     </div>

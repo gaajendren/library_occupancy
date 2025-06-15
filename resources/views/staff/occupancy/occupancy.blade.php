@@ -117,7 +117,7 @@
                                     @if ($item->personExit)
                                     <div class="rounded-xl shadow-xs bg-white w-[190px] aspect-auto p-3 flex flex-col items-center justify-center">
                                         <img src="http://127.0.0.1:5000/person_img/{{$item->personExit->img}}" alt="img" class=" w-full max-w-[140px] min-w-[90px] h-[250px]  object-fill object-center"> 
-                                        <button class="rounded-xl bg-blue-400 hover:bg-blue-700 p-1 px-2 mt-3 " >No</button>
+                                      
                                     </div>
                                     @else
                                     <p class="text-white">Sorry that person not exited yet or not detected</p>
